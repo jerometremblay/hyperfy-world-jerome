@@ -1,31 +1,31 @@
 {
-  "schemaVersion": 1,
-  "key": "apps/tree-03",
-  "mode": "files",
   "blueprint": {
-    "name": "Tree",
+    "author": "Hyperfy",
     "desc": "A procedural oak tree with wind-swaying leaves.",
-    "model": "script-only",
-    "script": "file:./script.js",
+    "disabled": false,
+    "frozen": false,
     "image": {
-      "type": "texture",
       "name": "tree-icon.svg",
+      "type": "texture",
       "url": "file:./assets/image.svg"
     },
-    "author": "Hyperfy",
-    "url": null,
-    "props": {
-      "preset": "Oak Small",
-      "seed": "",
-      "advanced": false,
-      "advancedOptions": "{}"
-    },
-    "preload": false,
-    "public": false,
     "locked": false,
+    "model": "script-only",
+    "name": "Tree",
+    "preload": false,
+    "props": {
+      "advanced": false,
+      "advancedOptions": "{}",
+      "preset": "Oak Small",
+      "seed": ""
+    },
+    "public": false,
+    "script": "file:./script.js",
     "unique": false,
-    "frozen": false,
-    "disabled": false
+    "url": null
   },
-  "extraAssets": []
+  "extraAssets": [],
+  "key": "apps/tree-03",
+  "mode": "files",
+  "schemaVersion": 1
 }

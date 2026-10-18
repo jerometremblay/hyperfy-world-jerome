@@ -1,22 +1,22 @@
 {
-  "schemaVersion": 1,
-  "key": "apps/classic-8-ft-pool-table",
-  "mode": "files",
   "blueprint": {
-    "name": "Classic 8 ft Pool Table",
+    "disabled": false,
+    "frozen": false,
+    "locked": false,
     "model": "script-only",
-    "script": "file:./script.js",
+    "name": "Classic 8 ft Pool Table",
+    "preload": false,
     "props": {
+      "castShadows": true,
       "promptBoxRequestId": "vbfGQmNv0x",
       "promptBoxTargetEntityId": "PMPL83pUPI",
-      "castShadows": true,
       "receiveShadows": true
     },
-    "preload": false,
-    "locked": false,
-    "unique": true,
-    "frozen": false,
-    "disabled": false
+    "script": "file:./script.js",
+    "unique": true
   },
-  "extraAssets": []
+  "extraAssets": [],
+  "key": "apps/classic-8-ft-pool-table",
+  "mode": "files",
+  "schemaVersion": 1
 }

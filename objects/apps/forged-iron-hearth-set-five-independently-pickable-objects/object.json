@@ -1,23 +1,23 @@
 {
-  "schemaVersion": 1,
-  "key": "apps/forged-iron-hearth-set-five-independently-pickable-objects",
-  "mode": "files",
   "blueprint": {
-    "name": "Forged-Iron Hearth Set — Five Independently Pickable Objects",
-    "desc": "Independently interactive forged steel fireplace implements. Press E to pick up and X to return.",
-    "model": "script-only",
-    "script": "file:./script.js",
-    "image": null,
     "author": "OpenAI",
+    "desc": "Independently interactive forged steel fireplace implements. Press E to pick up and X to return.",
+    "disabled": false,
+    "image": null,
+    "locked": false,
+    "model": "script-only",
+    "name": "Forged-Iron Hearth Set — Five Independently Pickable Objects",
+    "preload": false,
     "props": {
       "promptBoxRequestId": "91LLMH6FXV",
       "promptBoxTargetEntityId": "uqHvrEL9iS"
     },
-    "preload": false,
     "public": false,
-    "locked": false,
-    "unique": true,
-    "disabled": false
+    "script": "file:./script.js",
+    "unique": true
   },
-  "extraAssets": []
+  "extraAssets": [],
+  "key": "apps/forged-iron-hearth-set-five-independently-pickable-objects",
+  "mode": "files",
+  "schemaVersion": 1
 }

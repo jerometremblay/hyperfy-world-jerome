@@ -1,32 +1,32 @@
 {
-  "schemaVersion": 1,
-  "key": "apps/world-portal-01",
-  "mode": "files",
   "blueprint": {
-    "name": "World Portal",
-    "desc": "Cross a linked portal; preview same-world destinations in live 3D.",
-    "model": "file:./model.glb",
-    "script": null,
-    "image": null,
     "author": "Custom",
-    "url": null,
+    "desc": "Cross a linked portal; preview same-world destinations in live 3D.",
+    "disabled": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "World Portal",
+    "preload": false,
     "props": {
+      "arrivalImage_PBETNgBqKt": {
+        "name": "arrival-preview.jpg",
+        "type": "image",
+        "url": "file:./assets/properties/property-002.jpg"
+      },
       "destination": "",
       "destinationPortalId": "uPOFtrqbln",
-      "resolution": "1024",
-      "updateRate": "30",
       "doubleside": "false",
-      "arrivalImage_PBETNgBqKt": {
-        "type": "image",
-        "name": "arrival-preview.jpg",
-        "url": "file:./assets/properties/property-002.jpg"
-      }
+      "resolution": "1024",
+      "updateRate": "30"
     },
-    "preload": false,
     "public": false,
-    "locked": false,
+    "script": null,
     "unique": false,
-    "disabled": false
+    "url": null
   },
-  "extraAssets": []
+  "extraAssets": [],
+  "key": "apps/world-portal-01",
+  "mode": "files",
+  "schemaVersion": 1
 }

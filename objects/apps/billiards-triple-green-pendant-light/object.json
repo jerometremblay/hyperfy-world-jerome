@@ -1,32 +1,32 @@
 {
-  "schemaVersion": 1,
+  "blueprint": {
+    "author": "OpenAI",
+    "desc": "Three warm point lights, two auto-ceiling suspension cables, and linked wall-switch control",
+    "disabled": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Billiards - Triple Green Pendant Light",
+    "preload": false,
+    "props": {
+      "brightness": 6.5,
+      "castLightShadows": true,
+      "channel": "billiards-main",
+      "fallbackLength": 3,
+      "initialOn": true,
+      "lightColor": "#ffe8ba",
+      "lightRange": 3,
+      "maxReach": 18,
+      "mountHeight": 0.61,
+      "shadeColor": "#125943"
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": null
+  },
+  "extraAssets": [],
   "key": "apps/billiards-triple-green-pendant-light",
   "mode": "files",
-  "blueprint": {
-    "name": "Billiards - Triple Green Pendant Light",
-    "desc": "Three warm point lights, two auto-ceiling suspension cables, and linked wall-switch control",
-    "model": "file:./model.glb",
-    "script": "file:./script.js",
-    "image": null,
-    "author": "OpenAI",
-    "url": null,
-    "props": {
-      "channel": "billiards-main",
-      "initialOn": true,
-      "mountHeight": 0.61,
-      "fallbackLength": 3,
-      "maxReach": 18,
-      "brightness": 6.5,
-      "lightRange": 3,
-      "lightColor": "#ffe8ba",
-      "shadeColor": "#125943",
-      "castLightShadows": true
-    },
-    "preload": false,
-    "public": false,
-    "locked": false,
-    "unique": false,
-    "disabled": false
-  },
-  "extraAssets": []
+  "schemaVersion": 1
 }

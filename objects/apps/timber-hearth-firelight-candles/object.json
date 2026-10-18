@@ -1,34 +1,38 @@
 {
-  "schemaVersion": 1,
-  "key": "apps/timber-hearth-firelight-candles",
-  "mode": "files",
   "blueprint": {
-    "name": "Timber Hearth — Firelight & Candles",
-    "desc": "Timber Hearth cabin with real flickering point lighting from fireplace, individual lanterns, and clustered candlelit chandeliers, plus preserved door, seating, and collision behavior.",
-    "model": "file:./model.glb",
-    "script": "file:./script.js",
-    "image": null,
     "author": "OpenAI",
-    "url": null,
-    "props": {
-      "sittingEmote": {
-        "type": "emote",
-        "name": "Cabin seated pose",
-        "url": "asset://88506687fb069c946049e1ba6f1bac97f52b01851ad83dca7f2516d9d7e44f74.glb"
-      },
-      "promptBoxRequestId": "GbGGjBPJrX",
-      "promptBoxTargetEntityId": "ivDchkpaXB"
-    },
-    "preload": true,
-    "public": false,
+    "desc": "Timber Hearth cabin with real flickering point lighting from fireplace, individual lanterns, and clustered candlelit chandeliers, plus preserved door, seating, and collision behavior.",
+    "disabled": true,
+    "image": null,
     "locked": false,
+    "model": "file:./model.glb",
+    "name": "Timber Hearth — Firelight & Candles",
+    "preload": true,
+    "props": {
+      "promptBoxRequestId": "GbGGjBPJrX",
+      "promptBoxTargetEntityId": "ivDchkpaXB",
+      "sittingEmote": {
+        "name": "Cabin seated pose",
+        "type": "emote",
+        "url": "asset://88506687fb069c946049e1ba6f1bac97f52b01851ad83dca7f2516d9d7e44f74.glb"
+      }
+    },
+    "public": false,
+    "script": "file:./script.js",
     "unique": true,
-    "disabled": true
+    "url": null
   },
   "extraAssets": [
     {
-      "file": "./assets/dependencies/asset-003.glb",
+      "file": "file:./assets/dependencies/asset-003.glb",
+      "type": "emote"
+    },
+    {
+      "file": "file:./assets/dependencies/asset-003.glb",
       "type": "model"
     }
-  ]
+  ],
+  "key": "apps/timber-hearth-firelight-candles",
+  "mode": "files",
+  "schemaVersion": 1
 }

@@ -1,47 +1,51 @@
 {
-  "schemaVersion": 1,
-  "key": "environment/the-meadow",
-  "mode": "files",
-  "role": "environment",
   "blueprint": {
-    "name": "The Meadow",
-    "desc": null,
-    "model": "file:./model.glb",
-    "script": "file:./script.js",
-    "image": null,
     "author": null,
-    "url": null,
+    "desc": null,
+    "disabled": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "The Meadow",
+    "preload": true,
     "props": {
-      "hour": 4,
-      "period": "pm",
-      "intensity": 1,
-      "sky": {
-        "type": "texture",
-        "name": "Clear_08_4pm_LDR.2048.webp",
-        "url": "file:./assets/properties/property-003.webp"
-      },
+      "fogColor": "",
+      "fogFar": 1000,
+      "fogNear": 450,
       "hdr": {
-        "type": "hdr",
         "name": "Clear_08_4pm_LDR.hdr",
+        "type": "hdr",
         "url": "asset://62db0ffbcea86b5e9ba23fb5da739b160e8abfd3b390235fed5ac436750e1e2e.hdr"
       },
-      "verticalRotation": 20,
       "horizontalRotation": 160,
+      "hour": 4,
+      "intensity": 1,
+      "period": "pm",
       "rotationY": 0,
-      "fogNear": 450,
-      "fogFar": 1000,
-      "fogColor": ""
+      "sky": {
+        "name": "Clear_08_4pm_LDR.2048.webp",
+        "type": "texture",
+        "url": "file:./assets/properties/property-003.webp"
+      },
+      "verticalRotation": 20
     },
-    "preload": true,
     "public": false,
-    "locked": false,
+    "script": "file:./script.js",
     "unique": false,
-    "disabled": false
+    "url": null
   },
   "extraAssets": [
     {
-      "file": "./assets/dependencies/asset-004.hdr",
+      "file": "file:./assets/dependencies/asset-004.hdr",
+      "type": "hdr"
+    },
+    {
+      "file": "file:./assets/dependencies/asset-004.hdr",
       "type": "texture"
     }
-  ]
+  ],
+  "key": "environment/the-meadow",
+  "mode": "files",
+  "role": "environment",
+  "schemaVersion": 1
 }

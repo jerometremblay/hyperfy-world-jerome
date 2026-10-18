@@ -1,21 +1,21 @@
 {
-  "schemaVersion": 1,
+  "blueprint": {
+    "author": "OpenAI",
+    "desc": "Physical old biplane with native primitives and extrusions",
+    "disabled": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Old Biplane",
+    "preload": false,
+    "props": {},
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": null
+  },
+  "extraAssets": [],
   "key": "apps/old-biplane",
   "mode": "files",
-  "blueprint": {
-    "name": "Old Biplane",
-    "desc": "Physical old biplane with native primitives and extrusions",
-    "model": "file:./model.glb",
-    "script": "file:./script.js",
-    "image": null,
-    "author": "OpenAI",
-    "url": null,
-    "props": {},
-    "preload": false,
-    "public": false,
-    "locked": false,
-    "unique": false,
-    "disabled": false
-  },
-  "extraAssets": []
+  "schemaVersion": 1
 }

@@ -1,11 +1,10 @@
 {
-  "schemaVersion": 1,
-  "key": "apps/weathered-adirondack-chair",
-  "mode": "files",
   "blueprint": {
-    "name": "Weathered Adirondack Chair",
+    "disabled": false,
+    "frozen": false,
+    "locked": false,
     "model": "script-only",
-    "script": "file:./script.js",
+    "name": "Weathered Adirondack Chair",
     "props": {
       "promptBoxRequestId": "5CZe5k3cz7",
       "promptBoxTargetEntityId": "au0RlsPSOd",
@@ -14,15 +13,20 @@
         "url": "asset://440bbd2e231ddefbe36f380d6fb0b6b322791a3d79459e649b3f063cf745c7ec.glb"
       }
     },
-    "locked": false,
-    "unique": true,
-    "frozen": false,
-    "disabled": false
+    "script": "file:./script.js",
+    "unique": true
   },
   "extraAssets": [
     {
-      "file": "./assets/dependencies/asset-002.glb",
+      "file": "file:./assets/dependencies/asset-002.glb",
+      "type": "emote"
+    },
+    {
+      "file": "file:./assets/dependencies/asset-002.glb",
       "type": "model"
     }
-  ]
+  ],
+  "key": "apps/weathered-adirondack-chair",
+  "mode": "files",
+  "schemaVersion": 1
 }

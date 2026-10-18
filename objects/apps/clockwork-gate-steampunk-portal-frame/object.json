@@ -1,24 +1,24 @@
 {
-  "schemaVersion": 1,
-  "key": "apps/clockwork-gate-steampunk-portal-frame",
-  "mode": "files",
   "blueprint": {
-    "name": "Clockwork Gate — Steampunk Portal Frame",
-    "desc": "Standalone ornate clockwork metal arch, designed as a decorative object separate from the native World Portal.",
-    "model": "file:./model.glb",
-    "script": "file:./script.js",
-    "image": null,
     "author": "Custom",
-    "url": null,
+    "desc": "Standalone ornate clockwork metal arch, designed as a decorative object separate from the native World Portal.",
+    "disabled": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Clockwork Gate — Steampunk Portal Frame",
+    "preload": true,
     "props": {
       "promptBoxRequestId": "gmqMOF54pq",
       "promptBoxTargetEntityId": "eJ51nsqOWG"
     },
-    "preload": true,
     "public": false,
-    "locked": false,
+    "script": "file:./script.js",
     "unique": true,
-    "disabled": false
+    "url": null
   },
-  "extraAssets": []
+  "extraAssets": [],
+  "key": "apps/clockwork-gate-steampunk-portal-frame",
+  "mode": "files",
+  "schemaVersion": 1
 }

@@ -1,20 +1,20 @@
 {
-  "schemaVersion": 1,
+  "blueprint": {
+    "desc": "Low walnut plank-top coffee table with four legs and a lower shelf, fitted to the living-room prompt box.",
+    "disabled": false,
+    "frozen": false,
+    "locked": false,
+    "model": "script-only",
+    "name": "Walnut Living-Room Coffee Table",
+    "props": {
+      "promptBoxTargetEntityId": "VkM1rGBL2O",
+      "sourcePrompt": "a low table in the middle of the living room."
+    },
+    "script": "file:./script.js",
+    "unique": true
+  },
+  "extraAssets": [],
   "key": "apps/walnut-living-room-coffee-table",
   "mode": "files",
-  "blueprint": {
-    "name": "Walnut Living-Room Coffee Table",
-    "desc": "Low walnut plank-top coffee table with four legs and a lower shelf, fitted to the living-room prompt box.",
-    "model": "script-only",
-    "script": "file:./script.js",
-    "props": {
-      "sourcePrompt": "a low table in the middle of the living room.",
-      "promptBoxTargetEntityId": "VkM1rGBL2O"
-    },
-    "locked": false,
-    "unique": true,
-    "frozen": false,
-    "disabled": false
-  },
-  "extraAssets": []
+  "schemaVersion": 1
 }

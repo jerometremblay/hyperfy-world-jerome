@@ -1,26 +1,26 @@
 {
-  "schemaVersion": 1,
-  "key": "apps/larch-house-top-portal-rotated-180",
-  "mode": "files",
   "blueprint": {
-    "name": "Larch House — Top Portal Rotated 180°",
-    "desc": "Astronomy staircase reversed toward the rear wall, door scripts fixed, and rooftop portal rotated 180 degrees in-plane so arrival aligns with the handrail opening.",
-    "model": "file:./model.glb",
-    "script": "file:./script.js",
-    "image": null,
     "author": "Jerome",
-    "url": null,
+    "desc": "Astronomy staircase reversed toward the rear wall, door scripts fixed, and rooftop portal rotated 180 degrees in-plane so arrival aligns with the handrail opening.",
+    "disabled": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Larch House — Top Portal Rotated 180°",
+    "preload": true,
     "props": {
       "castShadows": true,
-      "receiveShadows": true,
       "promptBoxRequestId": "CoygJxMgt9",
-      "promptBoxTargetEntityId": "HCzjtaVZFI"
+      "promptBoxTargetEntityId": "HCzjtaVZFI",
+      "receiveShadows": true
     },
-    "preload": true,
     "public": false,
-    "locked": false,
+    "script": "file:./script.js",
     "unique": false,
-    "disabled": false
+    "url": null
   },
-  "extraAssets": []
+  "extraAssets": [],
+  "key": "apps/larch-house-top-portal-rotated-180",
+  "mode": "files",
+  "schemaVersion": 1
 }

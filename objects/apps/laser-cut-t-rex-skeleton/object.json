@@ -1,21 +1,21 @@
 {
-  "schemaVersion": 1,
+  "blueprint": {
+    "author": "OpenAI",
+    "desc": "Native extruded plywood T-Rex skeleton demo. Corrected spine placement, one extrusion per piece, and separate depth layers for overlapping side plates.",
+    "disabled": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Laser-Cut T-Rex Skeleton",
+    "preload": false,
+    "props": {},
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": "https://www.atomm.com/project/54537-laser-cut-tyrannosaurus-dinosaur-3d-puzzle-3mm-free-vector"
+  },
+  "extraAssets": [],
   "key": "apps/laser-cut-t-rex-skeleton",
   "mode": "files",
-  "blueprint": {
-    "name": "Laser-Cut T-Rex Skeleton",
-    "desc": "Native extruded plywood T-Rex skeleton demo. Corrected spine placement, one extrusion per piece, and separate depth layers for overlapping side plates.",
-    "model": "file:./model.glb",
-    "script": "file:./script.js",
-    "image": null,
-    "author": "OpenAI",
-    "url": "https://www.atomm.com/project/54537-laser-cut-tyrannosaurus-dinosaur-3d-puzzle-3mm-free-vector",
-    "props": {},
-    "preload": false,
-    "public": false,
-    "locked": false,
-    "unique": false,
-    "disabled": false
-  },
-  "extraAssets": []
+  "schemaVersion": 1
 }

@@ -1,26 +1,26 @@
 {
-  "schemaVersion": 1,
-  "key": "apps/cognac-leather-beveled-armchair-1-seat-correct-sit-sit-markers-fixed",
-  "mode": "files",
   "blueprint": {
-    "name": "Cognac Leather Beveled Armchair - 1 Seat (Correct Sit) (Sit Markers Fixed)",
-    "desc": "Beveled couch with correct seated pose, raised seat anchor, and client-side per-couch Sit prompt management that restores on effect end/replacement.",
-    "model": "file:./model.glb",
-    "script": "file:./script.js",
-    "image": null,
     "author": "OpenAI",
-    "url": null,
+    "desc": "Beveled couch with correct seated pose, raised seat anchor, and client-side per-couch Sit prompt management that restores on effect end/replacement.",
+    "disabled": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Cognac Leather Beveled Armchair - 1 Seat (Correct Sit) (Sit Markers Fixed)",
+    "preload": false,
     "props": {
+      "castShadows": true,
       "promptBoxRequestId": "vbfGQmNv0x",
       "promptBoxTargetEntityId": "XP012MP8Mp",
-      "castShadows": true,
       "receiveShadows": true
     },
-    "preload": false,
     "public": false,
-    "locked": false,
+    "script": "file:./script.js",
     "unique": true,
-    "disabled": false
+    "url": null
   },
-  "extraAssets": []
+  "extraAssets": [],
+  "key": "apps/cognac-leather-beveled-armchair-1-seat-correct-sit-sit-markers-fixed",
+  "mode": "files",
+  "schemaVersion": 1
 }

@@ -1,25 +1,25 @@
 {
-  "schemaVersion": 1,
-  "key": "apps/billiards-wall-light-switch",
-  "mode": "files",
   "blueprint": {
-    "name": "Billiards - Wall Light Switch",
-    "desc": "Wall-mounted toggle switch communicating with billiards light fixtures over a configurable channel",
-    "model": "file:./model.glb",
-    "script": "file:./script.js",
-    "image": null,
     "author": "OpenAI",
-    "url": null,
+    "desc": "Wall-mounted toggle switch communicating with billiards light fixtures over a configurable channel",
+    "disabled": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Billiards - Wall Light Switch",
+    "preload": false,
     "props": {
       "channel": "billiards-main",
       "initialOn": true,
       "plateColor": "#c7bca1"
     },
-    "preload": false,
     "public": false,
-    "locked": false,
+    "script": "file:./script.js",
     "unique": false,
-    "disabled": false
+    "url": null
   },
-  "extraAssets": []
+  "extraAssets": [],
+  "key": "apps/billiards-wall-light-switch",
+  "mode": "files",
+  "schemaVersion": 1
 }

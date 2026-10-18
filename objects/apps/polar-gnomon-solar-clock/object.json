@@ -1,26 +1,26 @@
 {
-  "schemaVersion": 1,
+  "blueprint": {
+    "author": "OpenAI",
+    "desc": "Physical sunlight sundial; latitude from world.getLocation(), true-north orientation independent of app rotation",
+    "disabled": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Polar-Gnomon Solar Clock",
+    "preload": false,
+    "props": {
+      "castShadows": true,
+      "dialColor": "#bba06b",
+      "receiveShadows": true,
+      "stone": "#a69b83"
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": null
+  },
+  "extraAssets": [],
   "key": "apps/polar-gnomon-solar-clock",
   "mode": "files",
-  "blueprint": {
-    "name": "Polar-Gnomon Solar Clock",
-    "desc": "Physical sunlight sundial; latitude from world.getLocation(), true-north orientation independent of app rotation",
-    "model": "file:./model.glb",
-    "script": "file:./script.js",
-    "image": null,
-    "author": "OpenAI",
-    "url": null,
-    "props": {
-      "stone": "#a69b83",
-      "dialColor": "#bba06b",
-      "castShadows": true,
-      "receiveShadows": true
-    },
-    "preload": false,
-    "public": false,
-    "locked": false,
-    "unique": false,
-    "disabled": false
-  },
-  "extraAssets": []
+  "schemaVersion": 1
 }
