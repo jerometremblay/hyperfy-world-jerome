@@ -18,5 +18,11 @@
   "extraAssets": [],
   "key": "apps/hyperfy-news-folding-journal",
   "mode": "files",
-  "schemaVersion": 1
+  "schemaVersion": 1,
+  "upstream": {
+    "path": "tools/worldsync/catalog/objects/apps/hyperfy-news-folding-journal",
+    "ref": "main",
+    "repository": "https://github.com/jerometremblay/hyperfy",
+    "sourceFingerprint": "40e2cbcb8592374a3a2f8b9ddebbc33fd5a0451031c182db55edbdb106b5e5c7"
+  }
 }
