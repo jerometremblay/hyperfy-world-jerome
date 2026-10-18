@@ -14,7 +14,7 @@
       "promptBoxRequestId": "ZGInEmSGTz"
     },
     "script": "file:./script.js",
-    "unique": true
+    "unique": false
   },
   "extraAssets": [],
   "key": "apps/steampunk-gas-street-light-01",

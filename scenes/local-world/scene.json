@@ -406,7 +406,7 @@
     },
     {
       "key": "instances/moto-volante-x8-racer-02/001",
-      "object": "apps/moto-volante-x8-racer-02",
+      "object": "apps/moto-volante-x8-racer-01",
       "position": [
         21.79223563118127,
         0.0006896051334903675,
@@ -553,7 +553,7 @@
     },
     {
       "key": "instances/steampunk-gas-street-light-02/001",
-      "object": "apps/steampunk-gas-street-light-02",
+      "object": "apps/steampunk-gas-street-light-01",
       "position": [
         -4.119474132412279,
         0.00048315405920229537,
