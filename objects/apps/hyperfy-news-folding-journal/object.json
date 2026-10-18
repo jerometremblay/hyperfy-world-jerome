@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "key": "apps/hyperfy-news-folding-journal",
+  "mode": "files",
+  "blueprint": {
+    "name": "Hyperfy News — Folding Journal",
+    "desc": "Folded newspaper opens into two full-size interactive pages displaying the latest Hyperfy news.",
+    "model": "script-only",
+    "script": "file:./script.js",
+    "image": null,
+    "author": "Jérôme Tremblay",
+    "url": "https://hyperfy-news.jerometremblay.chatgpt.site/",
+    "props": {},
+    "preload": false,
+    "public": false,
+    "locked": false,
+    "unique": false,
+    "frozen": false,
+    "disabled": false
+  },
+  "extraAssets": []
+}

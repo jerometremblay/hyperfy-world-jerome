@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "key": "apps/fire-and-grate",
+  "mode": "files",
+  "blueprint": {
+    "name": "Fire and Grate",
+    "desc": "Standalone animated fire with iron grate, inspired by the provided reference fire.",
+    "model": "file:./model.glb",
+    "script": "file:./script.js",
+    "image": null,
+    "author": "OpenAI",
+    "url": null,
+    "props": {
+      "lightIntensity": 37,
+      "lightRange": 9.9,
+      "lightDecay": 2.3000000000000003,
+      "flickerAmount": 0.33,
+      "flickerSpeed": 0.4,
+      "lightHeight": 0.73,
+      "lightX": -0.01,
+      "lightZ": 0.02,
+      "lightShadows": true,
+      "promptBoxRequestId": "vbfGQmNv0x",
+      "promptBoxTargetEntityId": "uw2zCZ2v2M"
+    },
+    "preload": false,
+    "public": false,
+    "locked": false,
+    "unique": true,
+    "disabled": false
+  },
+  "extraAssets": []
+}

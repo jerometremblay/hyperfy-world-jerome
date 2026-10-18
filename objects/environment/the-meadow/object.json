@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "key": "environment/the-meadow",
+  "mode": "files",
+  "role": "environment",
+  "blueprint": {
+    "name": "The Meadow",
+    "desc": null,
+    "model": "file:./model.glb",
+    "script": "file:./script.js",
+    "image": null,
+    "author": null,
+    "url": null,
+    "props": {
+      "hour": 4,
+      "period": "pm",
+      "intensity": 1,
+      "sky": {
+        "type": "texture",
+        "name": "Clear_08_4pm_LDR.2048.webp",
+        "url": "file:./assets/properties/property-003.webp"
+      },
+      "hdr": {
+        "type": "hdr",
+        "name": "Clear_08_4pm_LDR.hdr",
+        "url": "asset://62db0ffbcea86b5e9ba23fb5da739b160e8abfd3b390235fed5ac436750e1e2e.hdr"
+      },
+      "verticalRotation": 20,
+      "horizontalRotation": 160,
+      "rotationY": 0,
+      "fogNear": 450,
+      "fogFar": 1000,
+      "fogColor": ""
+    },
+    "preload": true,
+    "public": false,
+    "locked": false,
+    "unique": false,
+    "disabled": false
+  },
+  "extraAssets": [
+    {
+      "file": "./assets/dependencies/asset-004.hdr",
+      "type": "texture"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "key": "apps/timber-hearth-three-seat-leather-sofa",
+  "mode": "files",
+  "blueprint": {
+    "name": "Timber Hearth — Three-Seat Leather Sofa",
+    "desc": "Extracted three-seat leather sofa with three synchronized clickable sitting positions.",
+    "model": "script-only",
+    "script": "file:./script.js",
+    "author": "OpenAI",
+    "props": {
+      "sittingEmote": {
+        "type": "emote",
+        "name": "Sofa seated pose",
+        "url": "asset://88506687fb069c946049e1ba6f1bac97f52b01851ad83dca7f2516d9d7e44f74.glb"
+      },
+      "promptBoxRequestId": "3pEKMKc6Rt",
+      "promptBoxTargetEntityId": "FxuPb5la4g"
+    },
+    "preload": true,
+    "public": false,
+    "locked": false,
+    "unique": true,
+    "disabled": true
+  },
+  "extraAssets": [
+    {
+      "file": "./assets/dependencies/asset-002.glb",
+      "type": "model"
+    }
+  ]
+}

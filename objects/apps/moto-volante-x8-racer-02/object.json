@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "key": "apps/moto-volante-x8-racer-02",
+  "mode": "files",
+  "blueprint": {
+    "name": "Moto volante X8 Racer",
+    "desc": "Moto de course carénée bleu métallique propulsée par 8 rotors coaxiaux (E pour monter, K : pilote costume / ton avatar). Posture de course par IK, train rétractable, caméra course, batterie, HUD, multijoueur.",
+    "model": "script-only",
+    "script": "file:./script.js",
+    "image": null,
+    "author": null,
+    "url": null,
+    "props": {
+      "rotorSound": {
+        "type": "audio",
+        "name": "rotor.mp3",
+        "url": "file:./assets/properties/property-002.mp3"
+      },
+      "beepSound": {
+        "type": "audio",
+        "name": "beep.mp3",
+        "url": "file:./assets/properties/property-003.mp3"
+      },
+      "ghostAvatar": {
+        "type": "avatar",
+        "name": "ghost.vrm",
+        "url": "asset://fcae9ad07d9c30c0abd9100b408d2965bab22ebe16416291b2026e0ad5f42d50.vrm"
+      },
+      "emo_rest_90": {
+        "type": "emote",
+        "name": "pilote-rest-90.glb",
+        "url": "asset://4ad31d8f3f5ab0f07a4b51f9c7563b5f0f3ad3ea10abb98c820b2cd49f043059.glb"
+      },
+      "emo_rest_100": {
+        "type": "emote",
+        "name": "pilote-rest-100.glb",
+        "url": "asset://3ecd2760d1495189d196391ac9da072b5d2878b4f28a2e1d9f70f98a57afd5c4.glb"
+      },
+      "emo_rest_110": {
+        "type": "emote",
+        "name": "pilote-rest-110.glb",
+        "url": "asset://863387f599baa1f622de4062c2aac984bc016351f8e3e94881f9a1fc74ab2b05.glb"
+      },
+      "emo_race_90": {
+        "type": "emote",
+        "name": "pilote-race-90.glb",
+        "url": "asset://4c726e030f9410e69b3c50dbc6f7ccac426c90c3005d9d783a3357307a7f04ad.glb"
+      },
+      "emo_race_100": {
+        "type": "emote",
+        "name": "pilote-race-100.glb",
+        "url": "asset://e8a871d37bcb314fcf30476eebaef10913bc3856fb4e4aede15bea5a3af44444.glb"
+      },
+      "emo_race_110": {
+        "type": "emote",
+        "name": "pilote-race-110.glb",
+        "url": "asset://8f5bf601d5de23c9c40f41d9a90bd11316854ead16cbc8ca35098c582287a7ae.glb"
+      },
+      "emo_tuck_90": {
+        "type": "emote",
+        "name": "pilote-tuck-90.glb",
+        "url": "asset://5389808f0fb5fd2de8ec7fda6340b8283f0a5330ff1d37bcf11171a9a586f2ed.glb"
+      },
+      "emo_tuck_100": {
+        "type": "emote",
+        "name": "pilote-tuck-100.glb",
+        "url": "asset://4ef1783274c9b0ca03afdc0ac20fc423dc3792a12fa8a8c902cd828c3fb2f313.glb"
+      },
+      "emo_tuck_110": {
+        "type": "emote",
+        "name": "pilote-tuck-110.glb",
+        "url": "asset://e231c7fcb20f7ac241dc2444b7370c93fd9d077ecc6b246cf19ab7167d0624ee.glb"
+      },
+      "emo_brake_90": {
+        "type": "emote",
+        "name": "pilote-brake-90.glb",
+        "url": "asset://9a7af0690a5ef77dd7a036c6063651c0a53caef8c6ad6d44c529b2d4960f0db8.glb"
+      },
+      "emo_brake_100": {
+        "type": "emote",
+        "name": "pilote-brake-100.glb",
+        "url": "asset://d67656e7da3a3fc045528215c9c43ea3a3cfc69b598a6586a6b60386a8ce27d3.glb"
+      },
+      "emo_brake_110": {
+        "type": "emote",
+        "name": "pilote-brake-110.glb",
+        "url": "asset://1fc0f036ee747505610543b2a12ef7dc77a7146504461b56641e6c7a59b523ab.glb"
+      },
+      "emo_hangL_90": {
+        "type": "emote",
+        "name": "pilote-hangL-90.glb",
+        "url": "asset://e19cf280a3632d7ab988ebb7d87570fa9497b241363752ceaa7b76aff7e2f2ef.glb"
+      },
+      "emo_hangL_100": {
+        "type": "emote",
+        "name": "pilote-hangL-100.glb",
+        "url": "asset://b20a37eb0c8b0e763c9b4a97cc7e8ad27412e49e5fa754212d4711301423a896.glb"
+      },
+      "emo_hangL_110": {
+        "type": "emote",
+        "name": "pilote-hangL-110.glb",
+        "url": "asset://345f7f3f9f6a934d35057f2779af40eddada38f81b47c1f6286ab618f27ad066.glb"
+      },
+      "emo_hangR_90": {
+        "type": "emote",
+        "name": "pilote-hangR-90.glb",
+        "url": "asset://9654c640cfeb7d95ac869a301f8f73840180af9f132e9a251fc9082786fca0be.glb"
+      },
+      "emo_hangR_100": {
+        "type": "emote",
+        "name": "pilote-hangR-100.glb",
+        "url": "asset://01052aad924e064ee99aa279a787995171018d6c95165f9a2d9ae9e66654fc24.glb"
+      },
+      "emo_hangR_110": {
+        "type": "emote",
+        "name": "pilote-hangR-110.glb",
+        "url": "asset://9f242fdf40f06d704da3f3ea4fc6c122c1fcc70072eebe206e14edecd781c21f.glb"
+      }
+    },
+    "preload": true,
+    "public": false,
+    "locked": false,
+    "unique": false,
+    "frozen": false,
+    "disabled": false
+  },
+  "extraAssets": [
+    {
+      "file": "./assets/dependencies/asset-004.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-005.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-006.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-007.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-008.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-009.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-010.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-011.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-012.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-013.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-014.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-015.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-016.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-017.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-018.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-019.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-020.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-021.glb",
+      "type": "model"
+    },
+    {
+      "file": "./assets/dependencies/asset-022.vrm",
+      "type": "model"
+    }
+  ]
+}

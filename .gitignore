@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.worldsync/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+coverage/
+world/
+worlds/
+db.sqlite*
+storage.json
+backups/

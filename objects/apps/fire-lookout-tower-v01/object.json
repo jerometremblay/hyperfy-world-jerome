@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "key": "apps/fire-lookout-tower-v01",
+  "mode": "files",
+  "blueprint": {
+    "name": "Fire Lookout Tower v01",
+    "desc": "Avatar-scale primitive-only fire lookout tower with lattice structure, cabin, stairs, rails, solar panel, antenna and beacon.",
+    "model": "file:./model.glb",
+    "script": "file:./script.js",
+    "image": null,
+    "author": "OpenAI",
+    "url": null,
+    "props": {},
+    "preload": false,
+    "public": false,
+    "locked": false,
+    "unique": false,
+    "disabled": true
+  },
+  "extraAssets": []
+}

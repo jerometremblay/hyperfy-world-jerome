@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "repoId": "jerome-local-world",
+  "defaultScene": "local-world",
+  "profiles": {},
+  "capture": {
+    "unmanaged": "review",
+    "includeSettings": true,
+    "includeEnvironment": true,
+    "excludeRuntimeState": true
+  }
+}

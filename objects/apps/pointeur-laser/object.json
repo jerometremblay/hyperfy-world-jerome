@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "key": "apps/pointeur-laser",
+  "mode": "files",
+  "blueprint": {
+    "name": "Pointeur laser",
+    "desc": "Maintenir G : un laser part de la main et suit le point blanc ; visible par tous les joueurs.",
+    "model": "script-only",
+    "script": "file:./script.js",
+    "image": null,
+    "author": null,
+    "url": null,
+    "props": {
+      "color": "rouge"
+    },
+    "preload": false,
+    "public": false,
+    "locked": false,
+    "unique": false,
+    "frozen": false,
+    "disabled": false
+  },
+  "extraAssets": []
+}

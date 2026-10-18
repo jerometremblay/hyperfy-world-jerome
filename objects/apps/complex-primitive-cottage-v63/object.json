@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "key": "apps/complex-primitive-cottage-v63",
+  "mode": "files",
+  "blueprint": {
+    "name": "Complex Primitive Cottage v63",
+    "desc": "Cottage with clapboard courses around openings allowed to overlap slightly behind head/sill trim vertically, removing the recessed transition above windows.",
+    "model": null,
+    "script": "file:./script.js",
+    "image": null,
+    "author": "OpenAI",
+    "url": null,
+    "props": {},
+    "preload": false,
+    "public": false,
+    "locked": false,
+    "unique": false,
+    "frozen": false,
+    "disabled": true
+  },
+  "extraAssets": []
+}

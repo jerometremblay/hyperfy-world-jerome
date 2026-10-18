@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "key": "apps/campfire-circle",
+  "mode": "files",
+  "blueprint": {
+    "name": "Campfire Circle",
+    "model": "script-only",
+    "script": "file:./script.js",
+    "props": {
+      "promptBoxRequestId": "X72hlUBic2",
+      "promptBoxTargetEntityId": "aAKGotg3PA",
+      "lightEnabled": true,
+      "lightIntensity": 5.5,
+      "lightDistance": 12.100000000000001,
+      "flickerStrength": 0.18,
+      "flickerSpeed": 1,
+      "lightHeight": 0.22,
+      "fireLightColor": "#ff923c",
+      "castFireShadows": false
+    },
+    "unique": true
+  },
+  "extraAssets": []
+}

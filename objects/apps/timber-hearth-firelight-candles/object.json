@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "key": "apps/timber-hearth-firelight-candles",
+  "mode": "files",
+  "blueprint": {
+    "name": "Timber Hearth — Firelight & Candles",
+    "desc": "Timber Hearth cabin with real flickering point lighting from fireplace, individual lanterns, and clustered candlelit chandeliers, plus preserved door, seating, and collision behavior.",
+    "model": "file:./model.glb",
+    "script": "file:./script.js",
+    "image": null,
+    "author": "OpenAI",
+    "url": null,
+    "props": {
+      "sittingEmote": {
+        "type": "emote",
+        "name": "Cabin seated pose",
+        "url": "asset://88506687fb069c946049e1ba6f1bac97f52b01851ad83dca7f2516d9d7e44f74.glb"
+      },
+      "promptBoxRequestId": "GbGGjBPJrX",
+      "promptBoxTargetEntityId": "ivDchkpaXB"
+    },
+    "preload": true,
+    "public": false,
+    "locked": false,
+    "unique": true,
+    "disabled": true
+  },
+  "extraAssets": [
+    {
+      "file": "./assets/dependencies/asset-003.glb",
+      "type": "model"
+    }
+  ]
+}

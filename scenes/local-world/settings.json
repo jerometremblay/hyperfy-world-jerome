@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "title": "Évain",
+  "description": null,
+  "dayNightCycle": true,
+  "skyAppearance": 15,
+  "bortleClass": 1,
+  "constellationLines": true
+}

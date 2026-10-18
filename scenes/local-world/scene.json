@@ -1,0 +1,1038 @@
+{
+  "schemaVersion": 1,
+  "sceneKey": "local-world",
+  "title": "Évain",
+  "environment": "environment/the-meadow",
+  "settingsFile": "settings.json",
+  "instances": [
+    {
+      "key": "instances/billiards-triple-green-pendant-light/001",
+      "object": "apps/billiards-triple-green-pendant-light",
+      "position": [
+        30.975088895212156,
+        0.8859671766369112,
+        7.359237896711217
+      ],
+      "quaternion": [
+        0,
+        0.9914448613738104,
+        0,
+        0.13052619222005157
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": true
+    },
+    {
+      "key": "instances/billiards-wall-light-switch/001",
+      "object": "apps/billiards-wall-light-switch",
+      "position": [
+        26.58688383731685,
+        1.7074802068918653,
+        6.803516468615533
+      ],
+      "quaternion": [
+        0,
+        0.6427876096865393,
+        0,
+        0.766044443118978
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/campfire-circle/001",
+      "object": "apps/campfire-circle",
+      "position": [
+        16.50527624881007,
+        0.49062854171876014,
+        3.3067842585577845
+      ],
+      "quaternion": [
+        0,
+        0.25881904510252074,
+        0,
+        0.9659258262890683
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/classic-8-ft-pool-table/001",
+      "object": "apps/classic-8-ft-pool-table",
+      "position": [
+        30.960234256474347,
+        0.12096717663691105,
+        7.376745806627403
+      ],
+      "quaternion": [
+        0,
+        -0.9914448613738104,
+        0,
+        -0.1305261922200516
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": true
+    },
+    {
+      "key": "instances/clockwork-gate-steampunk-portal-frame/001",
+      "object": "apps/clockwork-gate-steampunk-portal-frame",
+      "position": [
+        -0.1785126231588457,
+        1.839049922796976,
+        -4.3281278407245845
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": true
+    },
+    {
+      "key": "instances/cognac-leather-beveled-armchair-1-seat-correct-sit-sit-markers-fixed/001",
+      "object": "apps/cognac-leather-beveled-armchair-1-seat-correct-sit-sit-markers-fixed",
+      "position": [
+        31.16941295961208,
+        0.12096717663691132,
+        11.007600651933046
+      ],
+      "quaternion": [
+        0,
+        0.984807753012208,
+        0,
+        0.17364817766693041
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": true
+    },
+    {
+      "key": "instances/cognac-leather-beveled-sofa-3-seat-correct-sit-sit-markers-fixed-01/001",
+      "object": "apps/cognac-leather-beveled-sofa-3-seat-correct-sit-sit-markers-fixed-01",
+      "position": [
+        28.858531037074346,
+        0.12096717663691132,
+        12.175796310163067
+      ],
+      "quaternion": [
+        0,
+        -0.8191520442889918,
+        0,
+        0.5735764363510462
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": true
+    },
+    {
+      "key": "instances/cognac-leather-beveled-sofa-3-seat-correct-sit-sit-markers-fixed-02/001",
+      "object": "apps/cognac-leather-beveled-sofa-3-seat-correct-sit-sit-markers-fixed-02",
+      "position": [
+        29.735740909211344,
+        0.12096717663691103,
+        15.067814330353947
+      ],
+      "quaternion": [
+        0,
+        -0.17364817766693033,
+        0,
+        0.984807753012208
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": true
+    },
+    {
+      "key": "instances/complex-primitive-cottage-v63/001",
+      "object": "apps/complex-primitive-cottage-v63",
+      "position": [
+        39.15853805348483,
+        0.026823572057435463,
+        -23.270515575541545
+      ],
+      "quaternion": [
+        0,
+        -0.6755902076156602,
+        0,
+        0.737277336810124
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/eiffel-tower-full-scale/001",
+      "object": "apps/eiffel-tower-full-scale",
+      "position": [
+        -56.872862258007665,
+        0.008112037589452115,
+        -152.01948558726392
+      ],
+      "quaternion": [
+        0,
+        0.9537169507482269,
+        0,
+        0.30070579950427306
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": true
+    },
+    {
+      "key": "instances/fire-and-grate/001",
+      "object": "apps/fire-and-grate",
+      "position": [
+        33.07519871984491,
+        0.40746717663691123,
+        14.055608645381133
+      ],
+      "quaternion": [
+        0,
+        0.7933533402912352,
+        0,
+        -0.6087614290087207
+      ],
+      "scale": [
+        0.9483154037580614,
+        0.9483154037580614,
+        0.9483154037580614
+      ],
+      "pinned": true
+    },
+    {
+      "key": "instances/fire-lookout-tower-v01/001",
+      "object": "apps/fire-lookout-tower-v01",
+      "position": [
+        -13.34917290593675,
+        0.01624031518639968,
+        24.76150945652798
+      ],
+      "quaternion": [
+        0,
+        -0.9914448613738104,
+        0,
+        0.1305261922200517
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/forged-iron-hearth-set-five-independently-pickable-objects/001",
+      "object": "apps/forged-iron-hearth-set-five-independently-pickable-objects",
+      "position": [
+        31.72711947738037,
+        0.8523169091361932,
+        15.536046356263068
+      ],
+      "quaternion": [
+        0,
+        -0.7933533402912352,
+        0,
+        0.6087614290087207
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/hyperfy-news-folding-journal/001",
+      "object": "apps/hyperfy-news-folding-journal",
+      "position": [
+        30.623083340130712,
+        0.6365139870030225,
+        12.897152897609734
+      ],
+      "quaternion": [
+        -6.04360977929375e-09,
+        -0.8191520442889918,
+        -8.631169279293974e-09,
+        0.5735764363510462
+      ],
+      "scale": [
+        1.2,
+        1.2,
+        1.2
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/jerome-grounded-vrm/001",
+      "object": "apps/jerome-grounded-vrm",
+      "position": [
+        39.73129884573235,
+        3.300952113086702,
+        8.398898896174366
+      ],
+      "quaternion": [
+        0,
+        0.6427876096865393,
+        0,
+        0.766044443118978
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/larch-house-top-portal-rotated-180/001",
+      "object": "apps/larch-house-top-portal-rotated-180",
+      "position": [
+        32.28460777267203,
+        0.0009671766369110379,
+        13.860266481164185
+      ],
+      "quaternion": [
+        0,
+        0.6087614290087207,
+        0,
+        0.7933533402912352
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": true
+    },
+    {
+      "key": "instances/laser-cut-t-rex-skeleton/001",
+      "object": "apps/laser-cut-t-rex-skeleton",
+      "position": [
+        37.27447375549037,
+        6.050967176636911,
+        15.342814664317716
+      ],
+      "quaternion": [
+        0,
+        -0.766044443118978,
+        0,
+        0.6427876096865394
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/minwax-plan-adirondack-chair/001",
+      "object": "apps/minwax-plan-adirondack-chair",
+      "position": [
+        20.024045046489015,
+        0.7431132376080214,
+        6.889134982575702
+      ],
+      "quaternion": [
+        0,
+        0.3007057995042731,
+        0,
+        0.9537169507482269
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/moto-volante-x8-racer-01/001",
+      "object": "apps/moto-volante-x8-racer-01",
+      "position": [
+        20.165366234121432,
+        0.0006444269126932856,
+        -2.544229913997088
+      ],
+      "quaternion": [
+        0,
+        0.9238795325112867,
+        0,
+        0.38268343236508984
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/moto-volante-x8-racer-02/001",
+      "object": "apps/moto-volante-x8-racer-02",
+      "position": [
+        21.79223563118127,
+        0.0006896051334903675,
+        0.7791850329262031
+      ],
+      "quaternion": [
+        0,
+        0.8870108331782217,
+        0,
+        0.46174861323503386
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/neon-velocity-motorcycle-01/001",
+      "object": "apps/neon-velocity-motorcycle-01",
+      "position": [
+        3301.6774712831266,
+        43.59852731830215,
+        4338.477946998696
+      ],
+      "quaternion": [
+        0,
+        0.8870108331782217,
+        0,
+        0.46174861323503386
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/neon-velocity-motorcycle-02/001",
+      "object": "apps/neon-velocity-motorcycle-02",
+      "position": [
+        -31.161994466182826,
+        32.34018067033705,
+        26.750012773860014
+      ],
+      "quaternion": [
+        0,
+        0.984807753012208,
+        0,
+        0.17364817766693041
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/old-biplane/001",
+      "object": "apps/old-biplane",
+      "position": [
+        -1.2018950524111187,
+        0.006546483237725331,
+        12.630503441994755
+      ],
+      "quaternion": [
+        -0.13174524333726542,
+        0.4159996327853014,
+        0.038080582391165976,
+        0.8989646075487336
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/pointeur-laser/001",
+      "object": "apps/pointeur-laser",
+      "position": [
+        9.083431352528054,
+        0.0013875958892857199,
+        3.6120255606461713
+      ],
+      "quaternion": [
+        0,
+        0.5372996083468239,
+        0,
+        0.8433914458128857
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": true
+    },
+    {
+      "key": "instances/polar-gnomon-solar-clock/001",
+      "object": "apps/polar-gnomon-solar-clock",
+      "position": [
+        6.932349521885701,
+        0.005353838046366688,
+        9.70977524035806
+      ],
+      "quaternion": [
+        0,
+        -0.4617486132350339,
+        0,
+        0.8870108331782217
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/steampunk-gas-street-light-01/001",
+      "object": "apps/steampunk-gas-street-light-01",
+      "position": [
+        3.0909629372115512,
+        0.001695901482056783,
+        0.49865036551952313
+      ],
+      "quaternion": [
+        0,
+        0.8660254037844386,
+        0,
+        0.5000000000000001
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/steampunk-gas-street-light-02/001",
+      "object": "apps/steampunk-gas-street-light-02",
+      "position": [
+        -4.119474132412279,
+        0.00048315405920229537,
+        -0.7792471848356554
+      ],
+      "quaternion": [
+        0,
+        -0.9537169507482269,
+        0,
+        0.30070579950427306
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/timber-hearth-firelight-candles/001",
+      "object": "apps/timber-hearth-firelight-candles",
+      "position": [
+        5.906643923349744,
+        0.00027895888644380307,
+        -25.200202990935118
+      ],
+      "quaternion": [
+        0,
+        -0.25881904510252074,
+        0,
+        0.9659258262890683
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": true
+    },
+    {
+      "key": "instances/timber-hearth-three-seat-leather-sofa/001",
+      "object": "apps/timber-hearth-three-seat-leather-sofa",
+      "position": [
+        11.404871724417406,
+        0.7151173315736219,
+        -25.673405977025716
+      ],
+      "quaternion": [
+        0,
+        -0.8660254037844386,
+        0,
+        0.5000000000000001
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": true
+    },
+    {
+      "key": "instances/tree-01/001",
+      "object": "apps/tree-01",
+      "position": [
+        25.132167593873707,
+        0.0007789434846994236,
+        5.537336090219153
+      ],
+      "quaternion": [
+        0,
+        0.21643961393810288,
+        0,
+        0.9762960071199334
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/tree-02/001",
+      "object": "apps/tree-02",
+      "position": [
+        15.700392781879188,
+        0.006871051140957984,
+        17.94871874985525
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/tree-02/002",
+      "object": "apps/tree-02",
+      "position": [
+        18.44312965935573,
+        0.008963784779924877,
+        23.55413216118536
+      ],
+      "quaternion": [
+        0,
+        0.9990482215818578,
+        0,
+        -0.04361938736533589
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/tree-02/003",
+      "object": "apps/tree-02",
+      "position": [
+        -7.216558062121756,
+        0.0007037491908357119,
+        -4.752891558248137
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/tree-02/004",
+      "object": "apps/tree-02",
+      "position": [
+        43.5147394866142,
+        0.0039851111402400274,
+        29.676854429608714
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/tree-02/005",
+      "object": "apps/tree-02",
+      "position": [
+        50.91293710306957,
+        0.0014221720548914796,
+        14.202174685904762
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/tree-03/001",
+      "object": "apps/tree-03",
+      "position": [
+        -5.41274455438036,
+        0.002238664316493111,
+        5.819005196509487
+      ],
+      "quaternion": [
+        0,
+        0.5372996083468239,
+        0,
+        0.8433914458128857
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/tree-03/002",
+      "object": "apps/tree-03",
+      "position": [
+        -2.992512525323222,
+        -0.00044943829501820076,
+        -1.8652144363031946
+      ],
+      "quaternion": [
+        0,
+        0.5372996083468239,
+        0,
+        0.8433914458128857
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/tree-04/001",
+      "object": "apps/tree-04",
+      "position": [
+        5.404361128708538,
+        0.0002810563431183688,
+        -4.530439585242719
+      ],
+      "quaternion": [
+        0,
+        -0.25881904510252074,
+        0,
+        0.9659258262890683
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/tree-05/001",
+      "object": "apps/tree-05",
+      "position": [
+        -2.9273504909794057,
+        7.445551649087889e-05,
+        -6.559158841592792
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": true
+    },
+    {
+      "key": "instances/tree-05/002",
+      "object": "apps/tree-05",
+      "position": [
+        2.1669822932908205,
+        0.0001972857405490025,
+        -7.433034786012689
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/tree-05/003",
+      "object": "apps/tree-05",
+      "position": [
+        24.623084081894874,
+        0.0007559939346637456,
+        -0.8358518165536677
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/tree-05/004",
+      "object": "apps/tree-05",
+      "position": [
+        -2.262085833168269,
+        0.0044635613077252945,
+        7.455882283920664
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/tree-05/005",
+      "object": "apps/tree-05",
+      "position": [
+        38.647937919635524,
+        0.0011007881601261538,
+        0.7762002037382159
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/walnut-living-room-coffee-table/001",
+      "object": "apps/walnut-living-room-coffee-table",
+      "position": [
+        30.792643564203498,
+        0.37874058181996695,
+        13.11932888957003
+      ],
+      "quaternion": [
+        0,
+        -0.7933533402912352,
+        0,
+        0.6087614290087207
+      ],
+      "scale": [
+        1.4396762378555885,
+        0.5155468103661112,
+        1.6204173905883081
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/weathered-adirondack-chair/001",
+      "object": "apps/weathered-adirondack-chair",
+      "position": [
+        20.289268875773427,
+        0.7171725816651625,
+        4.8724668758552845
+      ],
+      "quaternion": [
+        0,
+        0.8660254037844386,
+        0,
+        0.5000000000000001
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/weathered-adirondack-side-table/001",
+      "object": "apps/weathered-adirondack-side-table",
+      "position": [
+        18.977757670621855,
+        0.49625174229458735,
+        5.568240644741479
+      ],
+      "quaternion": [
+        0,
+        0.8870108331782217,
+        0,
+        0.46174861323503386
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/world-portal-01/001",
+      "object": "apps/world-portal-01",
+      "position": [
+        35.783623074734976,
+        0.12096717663691105,
+        8.377734855611179
+      ],
+      "quaternion": [
+        0,
+        -0.7933533402912352,
+        0,
+        0.6087614290087207
+      ],
+      "scale": [
+        1.0116520438677394,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/world-portal-02/001",
+      "object": "apps/world-portal-02",
+      "position": [
+        34.67531524684416,
+        0.12096717663691076,
+        10.669360194691242
+      ],
+      "quaternion": [
+        0,
+        -0.9063077870366499,
+        0,
+        0.42261826174069944
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": false
+    },
+    {
+      "key": "instances/world-portal-03/001",
+      "object": "apps/world-portal-03",
+      "position": [
+        0.12736849734164718,
+        0.00015266055521689914,
+        -4.3281278407245845
+      ],
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "pinned": true
+    }
+  ]
+}

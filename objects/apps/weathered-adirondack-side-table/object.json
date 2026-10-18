@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "key": "apps/weathered-adirondack-side-table",
+  "mode": "files",
+  "blueprint": {
+    "name": "Weathered Adirondack Side Table",
+    "model": "script-only",
+    "script": "file:./script.js",
+    "props": {
+      "promptBoxRequestId": "5CZe5k3cz7",
+      "promptBoxTargetEntityId": "cVqclSVEJQ"
+    },
+    "locked": false,
+    "unique": true,
+    "frozen": false,
+    "disabled": false
+  },
+  "extraAssets": []
+}

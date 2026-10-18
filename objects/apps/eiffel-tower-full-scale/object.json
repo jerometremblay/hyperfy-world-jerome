@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "key": "apps/eiffel-tower-full-scale",
+  "mode": "files",
+  "blueprint": {
+    "name": "Eiffel Tower — Full Scale",
+    "desc": "Full-scale 330 m Eiffel Tower. Static collision on main structural members, footings, decks and large solids; decorative latticework remains non-colliding.",
+    "model": "file:./model.glb",
+    "script": "file:./script.js",
+    "image": null,
+    "author": "OpenAI",
+    "url": null,
+    "props": {},
+    "preload": true,
+    "public": false,
+    "locked": false,
+    "unique": false,
+    "disabled": true
+  },
+  "extraAssets": []
+}

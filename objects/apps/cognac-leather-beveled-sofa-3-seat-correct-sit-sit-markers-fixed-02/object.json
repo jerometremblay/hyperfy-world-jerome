@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "key": "apps/cognac-leather-beveled-sofa-3-seat-correct-sit-sit-markers-fixed-02",
+  "mode": "files",
+  "blueprint": {
+    "name": "Cognac Leather Beveled Sofa - 3 Seat (Correct Sit) (Sit Markers Fixed)",
+    "desc": "Beveled couch with correct seated pose, raised seat anchor, and client-side per-couch Sit prompt management that restores on effect end/replacement.",
+    "model": "file:./model.glb",
+    "script": "file:./script.js",
+    "image": null,
+    "author": "OpenAI",
+    "url": null,
+    "props": {
+      "promptBoxRequestId": "vbfGQmNv0x",
+      "promptBoxTargetEntityId": "iFPYSFRIj2",
+      "castShadows": true,
+      "receiveShadows": true
+    },
+    "preload": false,
+    "public": false,
+    "locked": false,
+    "unique": true,
+    "disabled": false
+  },
+  "extraAssets": []
+}

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "key": "apps/steampunk-gas-street-light-02",
+  "mode": "files",
+  "blueprint": {
+    "name": "Steampunk Gas Street Light",
+    "model": "script-only",
+    "script": "file:./script.js",
+    "props": {
+      "promptBoxRequestId": "ZGInEmSGTz",
+      "lightIntensity": 8.5,
+      "lightRange": 10.5,
+      "lightDecay": 0.2,
+      "flickerStrength": 0.12,
+      "flickerSpeed": 1,
+      "lightColor": "#ffbf67",
+      "castLightShadows": true
+    },
+    "preload": true,
+    "unique": true
+  },
+  "extraAssets": []
+}
