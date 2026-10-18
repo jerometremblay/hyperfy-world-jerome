@@ -2,7 +2,12 @@
   "schemaVersion": 1,
   "repoId": "jerome-local-world",
   "defaultScene": "local-world",
-  "profiles": {},
+  "profiles": {
+    "online-world": {
+      "apiUrl": "https://monstre.duckdns.org:3333/api/agent",
+      "writeTokenEnv": "AGENT_API_WRITE_TOKEN"
+    }
+  },
   "capture": {
     "unmanaged": "review",
     "includeSettings": true,

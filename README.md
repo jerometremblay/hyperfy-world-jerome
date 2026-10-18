@@ -10,4 +10,4 @@ This is a saved-database bootstrap, not an atomic snapshot from a running Agent 
 
 ## Tooling
 
-The offline `worldsync` compiler lives in the Hyperfy fork under `tools/worldsync`. Use it to validate source and build or verify a deterministic `.hworld` bundle. The current snapshot has two external script references, so its bundle requires the explicit `--allow-external` option and is marked nonportable. Live inventory, deployment, capture, and the in-world Git worker are not implemented yet.
+The `worldsync` tool lives in the Hyperfy fork under `tools/worldsync`. Use it to validate source and build or verify a deterministic `.hworld` bundle. Its Agent API bridge can deploy one existing, mapped app blueprint, including JavaScript source, to a configured live profile. It does not reconcile scene placements or world settings, capture live state, or update the protected environment blueprint. The current snapshot has two external script references, so its bundle requires the explicit `--allow-external` option and is marked nonportable.
