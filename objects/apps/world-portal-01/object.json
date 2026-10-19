@@ -9,16 +9,17 @@
     "name": "World Portal",
     "preload": false,
     "props": {
-      "arrivalImage_PBETNgBqKt": {
+      "destination": "",
+      "destinationPortalId": "4b73c1c1-98ab-40b2-92db-cae91208c7cc",
+      "doubleside": "false",
+      "resolution": "1024",
+      "updateRate": "30",
+      "portalId": "f7dada59-f925-4fcd-9fb9-4a6253d86890",
+      "arrivalImage_f7dada59-f925-4fcd-9fb9-4a6253d86890": {
         "name": "arrival-preview.jpg",
         "type": "image",
         "url": "file:./assets/properties/property-002.jpg"
-      },
-      "destination": "",
-      "destinationPortalId": "uPOFtrqbln",
-      "doubleside": "false",
-      "resolution": "1024",
-      "updateRate": "30"
+      }
     },
     "public": false,
     "script": null,

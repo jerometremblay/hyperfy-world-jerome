@@ -9,16 +9,17 @@
     "name": "World Portal",
     "preload": false,
     "props": {
-      "arrivalImage_OL3wuJiVCk": {
-        "name": "arrival-preview.jpg",
-        "type": "image",
-        "url": "file:./assets/properties/property-002.jpg"
-      },
       "destination": "https://rouynhyperfy.duckdns.org",
       "destinationPortalId": "8HAPhn6B6L",
       "doubleside": "false",
       "resolution": "1024",
-      "updateRate": "0"
+      "updateRate": "0",
+      "portalId": "7b846fcc-2366-4782-8259-4390855b234e",
+      "arrivalImage_7b846fcc-2366-4782-8259-4390855b234e": {
+        "name": "arrival-preview.jpg",
+        "type": "image",
+        "url": "file:./assets/properties/property-002.jpg"
+      }
     },
     "public": false,
     "script": null,

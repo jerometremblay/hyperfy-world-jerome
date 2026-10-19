@@ -10,10 +10,11 @@
     "preload": true,
     "props": {
       "destination": "",
-      "destinationPortalId": "PBETNgBqKt",
+      "destinationPortalId": "f7dada59-f925-4fcd-9fb9-4a6253d86890",
       "doubleside": "false",
       "resolution": "max",
-      "updateRate": "0"
+      "updateRate": "0",
+      "portalId": "4b73c1c1-98ab-40b2-92db-cae91208c7cc"
     },
     "public": false,
     "script": null,

@@ -6,6 +6,10 @@
     "online-world": {
       "apiUrl": "https://monstre.duckdns.org:3333/api/agent",
       "writeTokenEnv": "AGENT_API_WRITE_TOKEN"
+    },
+    "local-3334": {
+      "apiUrl": "https://monstre.duckdns.org:3334/api/agent",
+      "writeTokenEnv": "AGENT_API_WRITE_TOKEN"
     }
   },
   "capture": {
