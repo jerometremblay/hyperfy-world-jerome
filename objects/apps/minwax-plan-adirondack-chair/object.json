@@ -1,31 +1,27 @@
 {
   "blueprint": {
+    "author": null,
+    "desc": "",
     "disabled": false,
     "frozen": false,
+    "image": null,
     "locked": false,
     "model": "script-only",
     "name": "Minwax Plan Adirondack Chair",
+    "preload": false,
     "props": {
       "promptBoxRequestId": "5CZe5k3cz7",
       "promptBoxTargetEntityId": "au0RlsPSOd",
       "sitEmote": {
         "type": "emote",
-        "url": "asset://440bbd2e231ddefbe36f380d6fb0b6b322791a3d79459e649b3f063cf745c7ec.glb"
+        "url": "file:./emotes/d0a4cec5dcdd1dbbc75454f1375b79a4ffdccf1c8acaaf000fa89f119b03d7d3.glb"
       }
     },
+    "public": false,
     "script": "file:./script.js",
-    "unique": true
+    "unique": true,
+    "url": null
   },
-  "extraAssets": [
-    {
-      "file": "file:./assets/dependencies/asset-002.glb",
-      "type": "emote"
-    },
-    {
-      "file": "file:./assets/dependencies/asset-002.glb",
-      "type": "model"
-    }
-  ],
   "key": "apps/minwax-plan-adirondack-chair",
   "mode": "files",
   "schemaVersion": 1

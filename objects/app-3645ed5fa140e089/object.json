@@ -1,0 +1,30 @@
+{
+  "blueprint": {
+    "author": "Hyperfy",
+    "desc": "Seeded procedural oak variant 3 for the Larch House forest.",
+    "disabled": false,
+    "frozen": false,
+    "image": {
+      "name": "tree-icon.svg",
+      "type": "texture",
+      "url": "file:./textures/image.svg"
+    },
+    "locked": false,
+    "model": "script-only",
+    "name": "Oak Large 03",
+    "preload": false,
+    "props": {
+      "advanced": false,
+      "advancedOptions": "{}",
+      "preset": "Oak Large",
+      "seed": 250007
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": ""
+  },
+  "key": "app-3645ed5fa140e089",
+  "mode": "files",
+  "schemaVersion": 1
+}

@@ -1,0 +1,30 @@
+{
+  "blueprint": {
+    "author": "Hyperfy",
+    "desc": "Seeded procedural oak variant 2 for the Larch House forest.",
+    "disabled": false,
+    "frozen": false,
+    "image": {
+      "name": "tree-icon.svg",
+      "type": "texture",
+      "url": "file:./textures/image.svg"
+    },
+    "locked": false,
+    "model": "script-only",
+    "name": "Oak Small 02",
+    "preload": false,
+    "props": {
+      "advanced": false,
+      "advancedOptions": "{}",
+      "preset": "Oak Small",
+      "seed": 104729
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": ""
+  },
+  "key": "app-e21ff1375a82f02a",
+  "mode": "files",
+  "schemaVersion": 1
+}

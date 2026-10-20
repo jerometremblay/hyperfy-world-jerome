@@ -3,6 +3,7 @@
     "author": null,
     "desc": null,
     "disabled": false,
+    "frozen": false,
     "image": null,
     "locked": false,
     "model": "file:./model.glb",
@@ -15,7 +16,7 @@
       "hdr": {
         "name": "Clear_08_4pm_LDR.hdr",
         "type": "hdr",
-        "url": "asset://62db0ffbcea86b5e9ba23fb5da739b160e8abfd3b390235fed5ac436750e1e2e.hdr"
+        "url": "file:./hdrs/dc3cacf907d0e3cd9db1d884a8037de2cf0227b8be576bdf773efc3c3b5608c9.hdr"
       },
       "horizontalRotation": 160,
       "hour": 4,
@@ -25,7 +26,7 @@
       "sky": {
         "name": "Clear_08_4pm_LDR.2048.webp",
         "type": "texture",
-        "url": "file:./assets/properties/property-003.webp"
+        "url": "file:./textures/24bc26fecc29cc3bb106a75dd81088f9bfc443aa9f39673baeb5257c04fd5e1c.webp"
       },
       "verticalRotation": 20
     },
@@ -34,16 +35,6 @@
     "unique": false,
     "url": null
   },
-  "extraAssets": [
-    {
-      "file": "file:./assets/dependencies/asset-004.hdr",
-      "type": "hdr"
-    },
-    {
-      "file": "file:./assets/dependencies/asset-004.hdr",
-      "type": "texture"
-    }
-  ],
   "key": "environment/the-meadow",
   "mode": "files",
   "role": "environment",

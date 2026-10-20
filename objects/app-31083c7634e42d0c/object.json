@@ -1,0 +1,167 @@
+{
+  "blueprint": {
+    "author": null,
+    "desc": "",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "script-only",
+    "name": "Prompt Box",
+    "preload": false,
+    "props": {
+      "prompt": "Add a rack with pool queues. The rack is fied on the wall, and it contains 4 queues that can be picked up by the players. when the player drops them with x, it goes back to it's original place. make the queues standard sized. Take the rough position from the prompt box, but you can use realistic sizing outside of it or smaller.",
+      "promptBox": true,
+      "promptBoxRequest": {
+        "blueprintVersion": 2,
+        "box": {
+          "blueprintId": "6ntaI5NR9z",
+          "dimensions": [
+            1,
+            1.3153208111314405,
+            1
+          ],
+          "entityId": "rpM98Yhyxy",
+          "position": [
+            31.855596507717024,
+            1.6162448626684944,
+            4.603824586154603
+          ],
+          "prompt": "Add a rack with pool queues. The rack is fied on the wall, and it contains 4 queues that can be picked up by the players. when the player drops them with x, it goes back to it's original place. make the queues standard sized. Take the rough position from the prompt box, but you can use realistic sizing outside of it or smaller.",
+          "quaternion": [
+            0,
+            -0.17364817766693033,
+            0,
+            0.984807753012208
+          ]
+        },
+        "boxes": [
+          {
+            "blueprintId": "6ntaI5NR9z",
+            "dimensions": [
+              1,
+              1.3153208111314405,
+              1
+            ],
+            "entityId": "rpM98Yhyxy",
+            "position": [
+              31.855596507717024,
+              1.6162448626684944,
+              4.603824586154603
+            ],
+            "prompt": "Add a rack with pool queues. The rack is fied on the wall, and it contains 4 queues that can be picked up by the players. when the player drops them with x, it goes back to it's original place. make the queues standard sized. Take the rough position from the prompt box, but you can use realistic sizing outside of it or smaller.",
+            "quaternion": [
+              0,
+              -0.17364817766693033,
+              0,
+              0.984807753012208
+            ]
+          }
+        ],
+        "coordinates": {
+          "forward": "-Z",
+          "handedness": "right",
+          "origin": "box-center",
+          "units": "meters",
+          "up": "+Y"
+        },
+        "format": "hyperfy-prompt-box",
+        "intersectionMethod": "transformed-geometry-bounds",
+        "intersections": [
+          {
+            "blueprintId": "q8Sh5eK2Jl",
+            "blueprintVersion": 8,
+            "boxInAppMatrix": [
+              -0.08715574274765814,
+              0,
+              0.9961946980917455,
+              0,
+              0,
+              1.3153208111314405,
+              0,
+              0,
+              -0.9961946980917455,
+              0,
+              -0.08715574274765814,
+              0,
+              8.829999999999998,
+              1.6152776860315834,
+              -2.810136512902332,
+              1
+            ],
+            "boxLocalMatrix": [
+              -0.08715574274765814,
+              0,
+              -0.9961946980917455,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0.9961946980917455,
+              0,
+              -0.08715574274765814,
+              0,
+              3.5690283035291515,
+              -1.6152776860315834,
+              8.551479649145797,
+              1
+            ],
+            "editable": true,
+            "entityId": "HCzjtaVZFI",
+            "file": "apps/HCzjtaVZFI.hyp",
+            "name": "Larch House — Top Portal Rotated 180°",
+            "position": [
+              32.28460777267203,
+              0.0009671766369110379,
+              13.860266481164185
+            ],
+            "quaternion": [
+              0,
+              0.6087614290087207,
+              0,
+              0.7933533402912352
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ],
+            "state": {
+              "doors": {
+                "entrance-left": true,
+                "entrance-right": true
+              }
+            }
+          }
+        ],
+        "requestId": "M2Qzasuh09",
+        "result": {
+          "boxRole": "approximate-edit-region",
+          "constructionCoordinates": "preserve-app-local",
+          "file": "result.zip",
+          "removeBoxIfUntargeted": true,
+          "standalone": {
+            "baseY": -0.6576604055657203,
+            "file": "generated.hyp",
+            "scale": [
+              1,
+              1,
+              1
+            ]
+          },
+          "targetProperty": "promptBoxTargetEntityId"
+        },
+        "version": 2,
+        "world": "https://monstre.duckdns.org:3333/api"
+      }
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": true,
+    "url": null
+  },
+  "key": "app-31083c7634e42d0c",
+  "mode": "files",
+  "schemaVersion": 1
+}

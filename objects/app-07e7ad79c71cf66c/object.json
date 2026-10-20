@@ -1,0 +1,27 @@
+{
+  "blueprint": {
+    "author": null,
+    "desc": "",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "DwebXR Portal",
+    "preload": false,
+    "props": {
+      "destination": "https://play.dwebxr.xyz/",
+      "destinationPortalId": "",
+      "doubleside": "true",
+      "resolution": "max",
+      "updateRate": "30"
+    },
+    "public": false,
+    "script": null,
+    "unique": false,
+    "url": null
+  },
+  "key": "app-07e7ad79c71cf66c",
+  "mode": "files",
+  "schemaVersion": 1
+}

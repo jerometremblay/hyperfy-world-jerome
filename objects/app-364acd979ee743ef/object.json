@@ -1,0 +1,42 @@
+{
+  "blueprint": {
+    "author": null,
+    "desc": "Cabine photo rétro : séance de 5 photos (poses réelles figées en mannequins), strip qui sort par la fente, maintenir pour voir en grand, relâcher pour la laisser tomber.",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "script-only",
+    "name": "Photomaton rétro",
+    "preload": false,
+    "props": {
+      "sndBip": {
+        "name": "bip.mp3",
+        "type": "audio",
+        "url": "file:./audios/a1696cc095087494ef9064f84236580182b39b48ea9e51026826ee4b0328bb4f.mp3"
+      },
+      "sndClic": {
+        "name": "declic.mp3",
+        "type": "audio",
+        "url": "file:./audios/e58bf7b9e1ad0deae4080d9de419470c165aa8d2ef1aea41735c878a88c2521a.mp3"
+      },
+      "sndMoteur": {
+        "name": "moteur.mp3",
+        "type": "audio",
+        "url": "file:./audios/11aafcea530c0df9cf73416e6bb63e2957317f606b59bfb701ea1b50259b39a1.mp3"
+      },
+      "sndPapier": {
+        "name": "papier.mp3",
+        "type": "audio",
+        "url": "file:./audios/a2dae030406074e33961a4b644ca70a85f0a281a47c0a792e38d35a1424bd325.mp3"
+      }
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": null
+  },
+  "key": "app-364acd979ee743ef",
+  "mode": "files",
+  "schemaVersion": 1
+}

@@ -1,0 +1,133 @@
+{
+  "blueprint": {
+    "author": null,
+    "desc": "Moto de course carénée bleu métallique propulsée par 8 rotors coaxiaux (E pour monter, K : pilote costume / ton avatar). Posture de course par IK, train rétractable, caméra course, batterie, HUD, multijoueur.",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "script-only",
+    "name": "Moto volante X8 Racer",
+    "preload": true,
+    "props": {
+      "beepSound": {
+        "name": "beep.mp3",
+        "type": "audio",
+        "url": "file:./audios/e14108852e2f9b3db86db4a4a519b18511def4b962da6518beb461bf8d015d80.mp3"
+      },
+      "emo_brake_100": {
+        "name": "pilote-brake-100.glb",
+        "type": "emote",
+        "url": "file:./emotes/45a5c03f89b55d920217e9f309f992401624cebf3864ef7044484989678b2a9f.glb"
+      },
+      "emo_brake_110": {
+        "name": "pilote-brake-110.glb",
+        "type": "emote",
+        "url": "file:./emotes/2fa77c378b44e2724f55157d7453f998dfb407d520f737ab6435461240d96974.glb"
+      },
+      "emo_brake_90": {
+        "name": "pilote-brake-90.glb",
+        "type": "emote",
+        "url": "file:./emotes/9dc8db142cfa784c8a3598fd88caea32cd7944444583598e5050c922f1abacf8.glb"
+      },
+      "emo_hangL_100": {
+        "name": "pilote-hangL-100.glb",
+        "type": "emote",
+        "url": "file:./emotes/2f084791c9bd42e98fdded7addccd46e4df398277f894f196736c9b179dd91be.glb"
+      },
+      "emo_hangL_110": {
+        "name": "pilote-hangL-110.glb",
+        "type": "emote",
+        "url": "file:./emotes/0474f5ebaaf92e7a3fba170c5ecd4b3bda6cb693e05cfea5147546e42d599021.glb"
+      },
+      "emo_hangL_90": {
+        "name": "pilote-hangL-90.glb",
+        "type": "emote",
+        "url": "file:./emotes/aebcc11c300f8f56eab05a8e9c6734c91dd1f2278439d8d20c45748ccfdacb36.glb"
+      },
+      "emo_hangR_100": {
+        "name": "pilote-hangR-100.glb",
+        "type": "emote",
+        "url": "file:./emotes/5f705b8a7e56668e4b9bbfd8f4a43595fff32f51fa6964e88f1d8c0351ab469a.glb"
+      },
+      "emo_hangR_110": {
+        "name": "pilote-hangR-110.glb",
+        "type": "emote",
+        "url": "file:./emotes/450a905d5d889bc7621c2ce44ec8dcc5cec2927d78df3d99dbef7fbc9d397b9a.glb"
+      },
+      "emo_hangR_90": {
+        "name": "pilote-hangR-90.glb",
+        "type": "emote",
+        "url": "file:./emotes/255ccecc59b94bc404726381860fa952a92de6c9dde5db0cf4c4561c1d40ca1a.glb"
+      },
+      "emo_race_100": {
+        "name": "pilote-race-100.glb",
+        "type": "emote",
+        "url": "file:./emotes/af35db488fed267c40a6a6774d6266bfec75c320191007703831c386b0add0dd.glb"
+      },
+      "emo_race_110": {
+        "name": "pilote-race-110.glb",
+        "type": "emote",
+        "url": "file:./emotes/928fe21577366fe680136d3f26ce962ae2a290a99f2b9787ac64f67365a18040.glb"
+      },
+      "emo_race_90": {
+        "name": "pilote-race-90.glb",
+        "type": "emote",
+        "url": "file:./emotes/48ad926b1d6006dd4b552c70f7180a83434f5bdf86e8c8e8d0bdcde264aeeb1c.glb"
+      },
+      "emo_rest_100": {
+        "name": "pilote-rest-100.glb",
+        "type": "emote",
+        "url": "file:./emotes/9da23dcdd736e4b244eeaa1f69bdec1dfb02f0be58b7e3dd88ac6e1822b19fbd.glb"
+      },
+      "emo_rest_110": {
+        "name": "pilote-rest-110.glb",
+        "type": "emote",
+        "url": "file:./emotes/ee9f25359f6afc1e3c3ae8bc8d63c6e2207fd83cc7e918a26fa9755253ac5a0e.glb"
+      },
+      "emo_rest_90": {
+        "name": "pilote-rest-90.glb",
+        "type": "emote",
+        "url": "file:./emotes/523affe8258c9edcf5ef249d961b643100306790a219c4ccf399ee5521354309.glb"
+      },
+      "emo_tuck_100": {
+        "name": "pilote-tuck-100.glb",
+        "type": "emote",
+        "url": "file:./emotes/9d202173f12852a8d89143aea1f07a70f9151990ec4fa788acb2f52d74d38935.glb"
+      },
+      "emo_tuck_110": {
+        "name": "pilote-tuck-110.glb",
+        "type": "emote",
+        "url": "file:./emotes/30d5f9e4fef386327ec2ae76f1d60b7b17aa3cd4916b7d958ad39af2b74635ad.glb"
+      },
+      "emo_tuck_90": {
+        "name": "pilote-tuck-90.glb",
+        "type": "emote",
+        "url": "file:./emotes/f89a7ed5f905445f6d1545eb4debd6c56bb8b0f1439a865654e55f3086461b82.glb"
+      },
+      "ghostAvatar": {
+        "name": "ghost.vrm",
+        "type": "avatar",
+        "url": "file:./avatars/4ae413ca13d60ce529013f9ee3b005a1a6b5706c7a49fa2ea430041625ebd6d4.vrm"
+      },
+      "rotorSound": {
+        "name": "rotor.mp3",
+        "type": "audio",
+        "url": "file:./audios/8e5d2a9328e967a9090298e90dbf6eb1de102900939812838034cf0e80776156.mp3"
+      }
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": null
+  },
+  "extraAssets": [
+    {
+      "file": "file:./others/468eaa14d7fdc09b16c775d88253c74c2caa82c4866fb29e23d36779556288c1.vrm",
+      "type": "other"
+    }
+  ],
+  "key": "apps/moto-volante-x8-racer-02",
+  "mode": "files",
+  "schemaVersion": 1
+}

@@ -1,0 +1,31 @@
+{
+  "blueprint": {
+    "author": "Custom",
+    "desc": "Cross a linked portal; preview same-world destinations in live 3D.",
+    "disabled": true,
+    "frozen": false,
+    "image": {
+      "name": "world-portal-icon.png",
+      "type": "texture",
+      "url": "file:./textures/image.png"
+    },
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "World Portal",
+    "preload": false,
+    "props": {
+      "destination": "https://monstre.duckdns.org:3334",
+      "destinationPortalId": "qKIVvfDLlB",
+      "doubleside": "true",
+      "resolution": "max",
+      "updateRate": "0"
+    },
+    "public": false,
+    "script": null,
+    "unique": false,
+    "url": null
+  },
+  "key": "app-997c9339d8cb7ae1",
+  "mode": "files",
+  "schemaVersion": 1
+}

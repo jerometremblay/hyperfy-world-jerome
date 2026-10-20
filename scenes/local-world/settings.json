@@ -1,9 +1,27 @@
 {
-  "schemaVersion": 1,
-  "title": "Évain",
-  "description": null,
-  "dayNightCycle": true,
-  "skyAppearance": 15,
+  "avatar": null,
   "bortleClass": 1,
-  "constellationLines": true
+  "constellationLines": true,
+  "dayNightCycle": true,
+  "desc": null,
+  "image": null,
+  "latitude": 45.75689615,
+  "longitude": -74.01942099,
+  "schemaVersion": 1,
+  "skyAppearance": 0,
+  "spawn": {
+    "position": [
+      0,
+      0,
+      0
+    ],
+    "quaternion": [
+      0,
+      0,
+      0,
+      1
+    ]
+  },
+  "timeZone": "America/Toronto",
+  "title": "Évain"
 }

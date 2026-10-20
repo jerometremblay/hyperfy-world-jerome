@@ -1,5 +1,11 @@
 {
   "blueprint": {
+    "author": null,
+    "desc": "",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
     "model": "script-only",
     "name": "Steampunk Gas Street Light",
     "preload": true,
@@ -13,10 +19,11 @@
       "lightRange": 10.5,
       "promptBoxRequestId": "ZGInEmSGTz"
     },
+    "public": false,
     "script": "file:./script.js",
-    "unique": false
+    "unique": true,
+    "url": null
   },
-  "extraAssets": [],
   "key": "apps/steampunk-gas-street-light-01",
   "mode": "files",
   "schemaVersion": 1

@@ -1,0 +1,27 @@
+{
+  "blueprint": {
+    "author": null,
+    "desc": "",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Marketplace Portal",
+    "preload": false,
+    "props": {
+      "destination": "https://hyperfy.io/marketplace/~CWaU",
+      "destinationPortalId": "",
+      "doubleside": "true",
+      "resolution": "512",
+      "updateRate": "15"
+    },
+    "public": false,
+    "script": null,
+    "unique": false,
+    "url": null
+  },
+  "key": "app-21fdb03f1b487768",
+  "mode": "files",
+  "schemaVersion": 1
+}

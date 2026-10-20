@@ -1,32 +1,28 @@
 {
   "blueprint": {
+    "author": null,
+    "desc": "",
     "disabled": false,
     "frozen": false,
+    "image": null,
     "locked": false,
     "model": "script-only",
     "name": "Neon Velocity Motorcycle",
+    "preload": false,
     "props": {
       "promptBoxRequestId": "WBsNHCFwSO",
       "promptBoxTargetEntityId": "mpDOmW3sBu",
       "riderPose": {
         "name": "Motorcycle rider pose",
         "type": "emote",
-        "url": "asset://88506687fb069c946049e1ba6f1bac97f52b01851ad83dca7f2516d9d7e44f74.glb"
+        "url": "file:./emotes/4a3656fb39ff6c43aa7f86b48744536e776904578e3aad3260134397dab46d4b.glb"
       }
     },
+    "public": false,
     "script": "file:./script.js",
-    "unique": true
+    "unique": true,
+    "url": null
   },
-  "extraAssets": [
-    {
-      "file": "file:./assets/dependencies/asset-002.glb",
-      "type": "emote"
-    },
-    {
-      "file": "file:./assets/dependencies/asset-002.glb",
-      "type": "model"
-    }
-  ],
   "key": "apps/neon-velocity-motorcycle-01",
   "mode": "files",
   "schemaVersion": 1
