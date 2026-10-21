@@ -3,30 +3,30 @@
     "author": "Custom",
     "desc": "Cross a linked portal; preview same-world destinations in live 3D.",
     "disabled": false,
+    "frozen": false,
     "image": null,
     "locked": false,
     "model": "file:./model.glb",
     "name": "World Portal",
     "preload": false,
     "props": {
-      "destination": "",
-      "destinationPortalId": "4b73c1c1-98ab-40b2-92db-cae91208c7cc",
-      "doubleside": "false",
-      "resolution": "1024",
-      "updateRate": "30",
-      "portalId": "f7dada59-f925-4fcd-9fb9-4a6253d86890",
       "arrivalImage_f7dada59-f925-4fcd-9fb9-4a6253d86890": {
         "name": "arrival-preview.jpg",
         "type": "image",
-        "url": "file:./assets/properties/property-002.jpg"
-      }
+        "url": "file:./images/56bfb532d5d34000841bb21c137662ffdd28fb58e9fd72198180dc2b59c2d709.jpg"
+      },
+      "destination": "",
+      "destinationPortalId": "4b73c1c1-98ab-40b2-92db-cae91208c7cc",
+      "doubleside": "false",
+      "portalId": "f7dada59-f925-4fcd-9fb9-4a6253d86890",
+      "resolution": "max",
+      "updateRate": "15"
     },
     "public": false,
     "script": null,
     "unique": false,
     "url": null
   },
-  "extraAssets": [],
   "key": "apps/world-portal-01",
   "mode": "files",
   "schemaVersion": 1

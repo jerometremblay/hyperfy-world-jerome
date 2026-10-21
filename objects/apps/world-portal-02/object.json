@@ -3,30 +3,30 @@
     "author": "Custom",
     "desc": "Cross a linked portal; preview same-world destinations in live 3D.",
     "disabled": false,
+    "frozen": false,
     "image": null,
     "locked": false,
     "model": "file:./model.glb",
     "name": "World Portal",
     "preload": false,
     "props": {
-      "destination": "https://rouynhyperfy.duckdns.org",
-      "destinationPortalId": "8HAPhn6B6L",
-      "doubleside": "false",
-      "resolution": "1024",
-      "updateRate": "0",
-      "portalId": "7b846fcc-2366-4782-8259-4390855b234e",
       "arrivalImage_7b846fcc-2366-4782-8259-4390855b234e": {
         "name": "arrival-preview.jpg",
         "type": "image",
-        "url": "file:./assets/properties/property-002.jpg"
-      }
+        "url": "file:./images/64c098b29a3fcde242609b364570f00360d73863ca11b64380ab056a7bda5623.jpg"
+      },
+      "destination": "https://rouynhyperfy.duckdns.org",
+      "destinationPortalId": "8HAPhn6B6L",
+      "doubleside": "false",
+      "portalId": "7b846fcc-2366-4782-8259-4390855b234e",
+      "resolution": "1024",
+      "updateRate": "0"
     },
     "public": false,
     "script": null,
     "unique": false,
     "url": null
   },
-  "extraAssets": [],
   "key": "apps/world-portal-02",
   "mode": "files",
   "schemaVersion": 1

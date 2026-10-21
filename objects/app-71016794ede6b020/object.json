@@ -1,0 +1,30 @@
+{
+  "blueprint": {
+    "author": "Hyperfy",
+    "desc": "A procedural oak tree with wind-swaying leaves.",
+    "disabled": false,
+    "frozen": false,
+    "image": {
+      "name": "tree-icon.png",
+      "type": "texture",
+      "url": "file:./textures/image.png"
+    },
+    "locked": false,
+    "model": "script-only",
+    "name": "Tree",
+    "preload": false,
+    "props": {
+      "advanced": false,
+      "advancedOptions": "{}",
+      "preset": "Oak Large",
+      "seed": 571257591
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": null
+  },
+  "key": "app-71016794ede6b020",
+  "mode": "files",
+  "schemaVersion": 1
+}

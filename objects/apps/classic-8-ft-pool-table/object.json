@@ -1,21 +1,27 @@
 {
   "blueprint": {
+    "author": "tailuge and contributors; Hyperfy conversion",
+    "desc": "Original GPL-3.0-only p8 model, Y-up conversion, 8 ft fitting, four plain support legs.",
     "disabled": false,
     "frozen": false,
+    "image": null,
     "locked": false,
-    "model": "script-only",
-    "name": "Classic 8 ft Pool Table",
+    "model": "file:./model.glb",
+    "name": "Tailuge 8 ft Pool Table",
     "preload": false,
     "props": {
       "castShadows": true,
+      "clothColor": "#d77939",
+      "poolChannel": "classic-8-ft-pool-table",
       "promptBoxRequestId": "vbfGQmNv0x",
       "promptBoxTargetEntityId": "PMPL83pUPI",
       "receiveShadows": true
     },
+    "public": false,
     "script": "file:./script.js",
-    "unique": true
+    "unique": true,
+    "url": null
   },
-  "extraAssets": [],
   "key": "apps/classic-8-ft-pool-table",
   "mode": "files",
   "schemaVersion": 1

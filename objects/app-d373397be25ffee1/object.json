@@ -1,0 +1,85 @@
+{
+  "blueprint": {
+    "author": "jerometremblay-bot",
+    "desc": "Server-owned pool practice, Tailuge physics, WPA 8/9-foot surface. GPL-3.0-only.",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Hyperfy Billard — Pool Table Overlay",
+    "preload": false,
+    "props": {
+      "ball1": {
+        "type": "texture",
+        "url": "file:./textures/168980d3dbe0208206539341a378af626548c91f09d2cad55c6e3196654ef563.png"
+      },
+      "ball10": {
+        "type": "texture",
+        "url": "file:./textures/d404343a6cf44be312eacc7d34ddf68f5faec85161702dee4f562fd12bbec66d.png"
+      },
+      "ball11": {
+        "type": "texture",
+        "url": "file:./textures/bbc13d6c6ad3d7b7f53b45a8b1fb1acd70e16592f296a7d04498e4ba7ed9a151.png"
+      },
+      "ball12": {
+        "type": "texture",
+        "url": "file:./textures/63baf80c0cb8b956cc2e7748df2022369de7531c58828ed683bf3ff770234d02.png"
+      },
+      "ball13": {
+        "type": "texture",
+        "url": "file:./textures/215a9007d7ff0c5e9c22339b4f0fc3bb32787248bfa3a6efe23b7cdfe99b59de.png"
+      },
+      "ball14": {
+        "type": "texture",
+        "url": "file:./textures/0c94c7978de6564a47cc0992e97908d764a725b1ad4565a35e30093d1388ff28.png"
+      },
+      "ball15": {
+        "type": "texture",
+        "url": "file:./textures/c82d378e6556b35d2fac64005a4c865e53053ede7e62ec546c91412b692da49b.png"
+      },
+      "ball2": {
+        "type": "texture",
+        "url": "file:./textures/c3a37f283997f16aac33cdcf37d9370e50236e27c026b08704f41f72562e6269.png"
+      },
+      "ball3": {
+        "type": "texture",
+        "url": "file:./textures/da8765772c0e3923f6d1455f03ce82c632c212dd1df1e36bb0d628b145de10ed.png"
+      },
+      "ball4": {
+        "type": "texture",
+        "url": "file:./textures/d972d7b474ea301f886d3373fe0e9608dac07d5fb599e50152aed3e1b7292591.png"
+      },
+      "ball5": {
+        "type": "texture",
+        "url": "file:./textures/6b30cb2430f4c39c64bb9e9fa422c98c4010671400549fa556c2f74841bbf82a.png"
+      },
+      "ball6": {
+        "type": "texture",
+        "url": "file:./textures/6c6050247af9c39dde0cdb55b29cc6ece441eb678178ff19e972fc88721e6826.png"
+      },
+      "ball7": {
+        "type": "texture",
+        "url": "file:./textures/ef3ec982e2ea529b54379e987d0bbe6ac01b836933298c616ecceb5fdf59c6ad.png"
+      },
+      "ball8": {
+        "type": "texture",
+        "url": "file:./textures/110c04d3f7d1dd0bb0101339ebfa03691976e33d2e6d8f0472185cfc7afc509b.png"
+      },
+      "ball9": {
+        "type": "texture",
+        "url": "file:./textures/026465c0675df5d8e12e698f0d772c6da0789a63b2ae0fa0d9cb2e0e0ce62458.png"
+      },
+      "playChannel": "classic-8-ft-pool-table",
+      "showSurface": false,
+      "tableSize": "8"
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": null
+  },
+  "key": "app-d373397be25ffee1",
+  "mode": "files",
+  "schemaVersion": 1
+}
