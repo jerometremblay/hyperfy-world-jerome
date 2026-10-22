@@ -11,7 +11,8 @@
     "preload": false,
     "props": {
       "promptBoxRequestId": "M2Qzasuh09",
-      "promptBoxTargetEntityId": "rpM98Yhyxy"
+      "promptBoxTargetEntityId": "rpM98Yhyxy",
+      "poolChannel": "classic-8-ft-pool-table"
     },
     "public": false,
     "script": "file:./script.js",

@@ -19,7 +19,7 @@ app.configure([
 ])
 
 const channel = String(props.channel || 'billiards-main').trim()
-const mountHeight = Math.max(0.5, Number(props.mountHeight ?? 0.9)) + 0.16 // account for the hanging bulb beneath the shades
+const mountHeight = Math.max(0.5, Number(props.mountHeight ?? 0.9)) + 0.16 // preserve the installed fixture height
 const fallbackLength = Math.max(0.25, Number(props.fallbackLength ?? 3))
 const maxReach = Math.max(2, Number(props.maxReach ?? 18))
 const brightness = Math.max(0, Number(props.brightness ?? 95))
@@ -27,7 +27,7 @@ const lightRange = Math.max(1, Number(props.lightRange ?? 5.5))
 const brass = '#bb9460'
 const brassDark = '#59402c'
 const green = props.shadeColor || '#125943'
-const ecru = '#fff0ca'
+const ecru = '#ffffff'
 const ceilingStart = mountHeight + 0.44
 
 function prim(type, size, position, color, extra = {}) {
@@ -56,16 +56,22 @@ for (const x of [-0.99,0.99]) {
 const bulbs = []
 const diffusers = []
 const lights = []
-for (const x of [-0.66, 0, 0.66]) {
+for (const [index, x] of [-0.66, 0, 0.66].entries()) {
   cyl(0.047,0.047,0.14,[x,mountHeight+0.235,0],brass,{metalness:0.7,roughness:0.2})
-  cyl(0.106,0.30,0.235,[x,mountHeight+0.11,0],green,{metalness:0.12,roughness:0.25,castShadow:true,receiveShadow:true})
-  // Gold band and ivory diffuser sit slightly below the rim, without coplanar surfaces.
+  // Open conical shells: green outside, white reflector inside; no bottom disk.
+  const shade = app.get('ShadeOuter' + index)
+  shade.position.set(x, mountHeight + 0.11, 0)
+  shade.castShadow = true
+  shade.receiveShadow = true
+  shade.material.color = green
+  const reflector = app.get('ShadeInner' + index)
+  reflector.position.set(x, mountHeight + 0.11, 0)
+  reflector.castShadow = true
+  reflector.receiveShadow = true
+  diffusers.push(reflector.material)
   ring(0.29,0.014,[x,mountHeight-0.009,0],brass,{metalness:0.77,roughness:0.2})
-  diffusers.push(cyl(0.276,0.276,0.019,[x,mountHeight-0.016,0],ecru,{
-    emissive:ecru,emissiveIntensity:0.42,metalness:0,roughness:0.55,castShadow:false,
-  }))
-  // Keep the bulb tucked up inside the shade so it does not protrude visibly below it.
-  bulbs.push(orb(0.055,[x,mountHeight+0.018,0],ecru,{
+  // The entire 11 cm bulb sits above the opening and within the conical liner.
+  bulbs.push(orb(0.055,[x,mountHeight+0.08,0],ecru,{
     emissive:'#ffe9a1',emissiveIntensity:2.6,metalness:0,roughness:0.22,castShadow:false,
   }))
   // Point sources sit just inside each shade and illuminate the table below.

@@ -9,16 +9,16 @@
     "name": "Billiards - Triple Green Pendant Light",
     "preload": false,
     "props": {
-      "brightness": 6.5,
-      "castLightShadows": true,
       "channel": "billiards-main",
-      "fallbackLength": 3,
       "initialOn": true,
-      "lightColor": "#ffe8ba",
-      "lightRange": 3,
-      "maxReach": 18,
       "mountHeight": 0.61,
-      "shadeColor": "#125943"
+      "fallbackLength": 3,
+      "maxReach": 18,
+      "brightness": 1,
+      "lightRange": 3,
+      "lightColor": "#ffe8ba",
+      "shadeColor": "#125943",
+      "castLightShadows": true
     },
     "public": false,
     "script": "file:./script.js",

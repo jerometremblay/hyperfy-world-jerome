@@ -20,6 +20,10 @@ const CUE_Y = -0.236
 const CUE_Z = 0.170
 const CUE_LENGTH = 1.47
 const HOLD_TILT = -Math.PI * 0.44
+const CHANNEL = props.poolChannel || 'classic-8-ft-pool-table'
+const CUE_EVENT = `billard:cues:${CHANNEL}`
+const POSE_EVENT = `billard:cue-pose:${CHANNEL}`
+const aimPoses = new Map()
 app.resetOnMove = false
 
 function piece(parent, type, size, position, color, extra = {}) {
@@ -43,6 +47,12 @@ function torus(parent, r, tube, position, color, extra) {
     rotation: [Math.PI / 2, 0, 0], ...extra,
   })
 }
+
+// Invisible prims remain raycast targets. Fill the frame's gaps so native
+// actions pick the closest available cue even when pointing between slots.
+box(app, [0.620, 1.560, 0.200], [0, -0.288, 0.130], FINISH.mahogany, {
+  opacity: 0, castShadow: false, receiveShadow: false,
+})
 
 // Wall-facing polished hardwood uprights; rear edges sit against the logs.
 for (const x of [-0.285, 0.285]) {
@@ -138,6 +148,8 @@ function applyHolders(next) {
       attached[i] = false
     }
   }
+  for (const id of aimPoses.keys()) if (!holders.includes(id)) aimPoses.delete(id)
+  app.emit(CUE_EVENT, holders.slice())
   if (!world.isClient || typeof world.getPlayer !== 'function') return
   const me = world.getPlayer()
   const nextHeld = me ? holders.findIndex(id => id === me.id) : -1
@@ -151,7 +163,7 @@ function applyHolders(next) {
     localControls = app.control()
     const drop = () => {
       const player = world.getPlayer()
-      if (player && localHeld !== -1) app.send('drop-cue', { slot: localHeld, playerId: player.id })
+      if (player && localHeld !== -1) app.send('drop-cue', { slot: localHeld })
     }
     if (localControls.keyX) {
       localControls.keyX.onPress = drop
@@ -174,7 +186,7 @@ for (let i = 0; i < 4; i++) {
     onTrigger: () => {
       if (!world.isClient || typeof world.getPlayer !== 'function' || holders[i]) return
       const me = world.getPlayer()
-      if (me) app.send('take-cue', { slot: i, playerId: me.id })
+      if (me) app.send('take-cue', { slot: i })
     },
   })
   app.add(action)
@@ -182,26 +194,35 @@ for (let i = 0; i < 4; i++) {
 }
 
 if (world.isServer) {
+  // App state may survive a rebuild; disconnected holders must not keep cues.
+  for (let i = 0; i < holders.length; i++) if (holders[i] && !world.getPlayer(holders[i])) holders[i] = null
   app.state.holders = holders.slice()
   const valid = (slot, playerId) => Number.isInteger(slot) && slot >= 0 && slot < 4 &&
     typeof playerId === 'string' && playerId.length > 0 && !!world.getPlayer(playerId)
   const publish = () => {
     app.state.holders = holders.slice()
     app.send('cue-holders', holders.slice())
+    app.emit(CUE_EVENT, holders.slice())
   }
-  app.on('take-cue', ({ slot, playerId } = {}) => {
+  const playerFor = sender => world.getPlayers().find(player => player.networkId === sender)
+  app.on('take-cue', ({ slot } = {}, sender) => {
+    const player = playerFor(sender)
+    const playerId = player?.id
     if (!valid(slot, playerId) || holders[slot] || holders.includes(playerId)) return
-    const player = world.getPlayer(playerId)
     if (player.position.distanceTo(app.position) > 3.4) return
     holders[slot] = playerId
     publish()
   })
-  app.on('drop-cue', ({ slot, playerId } = {}) => {
+  app.on('drop-cue', ({ slot } = {}, sender) => {
+    const playerId = playerFor(sender)?.id
     if (!valid(slot, playerId) || holders[slot] !== playerId) return
     holders[slot] = null
     publish()
   })
   app.on('request-cues', () => publish())
+  world.on(`${CUE_EVENT}:request`, () => app.emit(CUE_EVENT, holders.slice()))
+  app.on('destroy', () => app.emit(CUE_EVENT, []))
+  publish()
   // Reset abandoned cues for disconnects, without one physics body per cue.
   let checkElapsed = 0
   app.on('update', dt => {
@@ -220,16 +241,35 @@ if (world.isServer) {
 }
 
 if (world.isClient && typeof world.getPlayer === 'function') {
+  world.on(`${CUE_EVENT}:request`, () => app.emit(CUE_EVENT, holders.slice()))
+  world.on(POSE_EVENT, pose => {
+    if (!pose || !holders.includes(pose.playerId)) return
+    if (pose.clear) { aimPoses.delete(pose.playerId); return }
+    if (Array.isArray(pose.position) && pose.position.length === 3 && pose.position.every(Number.isFinite) &&
+        Array.isArray(pose.quaternion) && pose.quaternion.length === 4 && pose.quaternion.every(Number.isFinite))
+      aimPoses.set(pose.playerId, pose)
+  })
   app.on('cue-holders', next => applyHolders(next))
   applyHolders(holders)
   app.send('request-cues')
 
   // Only held cues move. In the rack the entire construction is static.
+  let localPlayerId = world.getPlayer()?.id
   app.on('update', () => {
+    if (world.getPlayer()?.id !== localPlayerId) {
+      localPlayerId = world.getPlayer()?.id
+      applyHolders(holders)
+    }
     for (let i = 0; i < 4; i++) {
       if (!attached[i] || !holders[i]) continue
       const player = world.getPlayer(holders[i])
       if (!player) continue
+      const pose = aimPoses.get(holders[i])
+      if (pose) {
+        cues[i].position.fromArray(pose.position)
+        cues[i].quaternion.fromArray(pose.quaternion)
+        continue
+      }
       const handMatrix = player.getBoneTransform?.('rightHand')
       const bodyQuat = player.quaternion
       const tilt = new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), HOLD_TILT)
