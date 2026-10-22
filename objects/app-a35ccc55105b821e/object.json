@@ -1,0 +1,26 @@
+{
+  "blueprint": {
+    "author": "Jerome",
+    "desc": "Original log house, doors and roof portals retained; exterior, downstairs and upstairs light fixtures respond to independent wall switches",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Larch House — Wired Lighting Circuits",
+    "preload": true,
+    "props": {
+      "castShadows": true,
+      "promptBoxRequestId": "arXh5pxHzn",
+      "promptBoxTargetEntityId": "HCzjtaVZFI",
+      "receiveShadows": true
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": true,
+    "url": null
+  },
+  "key": "app-a35ccc55105b821e",
+  "mode": "files",
+  "schemaVersion": 1
+}

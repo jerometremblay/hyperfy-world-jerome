@@ -1,0 +1,27 @@
+{
+  "blueprint": {
+    "author": "OpenAI",
+    "desc": "Four independent wall-aligned circuit switches; original billiards circuit preserved and three Larch House circuits connected",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Four Wall Light Switches — Billiards / Exterior / Downstairs / Upstairs",
+    "preload": false,
+    "props": {
+      "channel": "billiards-main",
+      "initialOn": true,
+      "plateColor": "#c7bca1",
+      "promptBoxRequestId": "arXh5pxHzn",
+      "promptBoxTargetEntityId": "6rLqNtwGKv"
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": true,
+    "url": null
+  },
+  "key": "app-41607de0d357c8ca",
+  "mode": "files",
+  "schemaVersion": 1
+}

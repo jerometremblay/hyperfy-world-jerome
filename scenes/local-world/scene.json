@@ -172,7 +172,7 @@
     {
       "key": "instance-343cacb0fd37633d",
       "object": "app-ad9a35e5852a2887",
-      "pinned": false,
+      "pinned": true,
       "position": [
         31.92479552244702,
         1.8334094502795224,
@@ -225,6 +225,48 @@
         0.9238795325112867,
         0,
         0.38268343236508984
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "key": "instance-456eb06a023e7522",
+      "object": "apps/tree-05",
+      "pinned": false,
+      "position": [
+        -11.983163884993044,
+        0.0008373571839614957,
+        -20.47213251245944
+      ],
+      "quaternion": [
+        0,
+        -0.7372773368101241,
+        0,
+        0.6755902076156602
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "key": "instance-4b58141fd05d0ead",
+      "object": "apps/tree-05",
+      "pinned": false,
+      "position": [
+        -4.812360364639904,
+        0.0005260287497677041,
+        -20.23073365923415
+      ],
+      "quaternion": [
+        0,
+        -0.5372996083468239,
+        0,
+        0.8433914458128857
       ],
       "scale": [
         1,
@@ -548,6 +590,27 @@
       ]
     },
     {
+      "key": "instance-a0efa11e1774aa2f",
+      "object": "apps/tree-05",
+      "pinned": false,
+      "position": [
+        -12.912682547305014,
+        0.0006500107063494021,
+        -12.998633533248226
+      ],
+      "quaternion": [
+        0,
+        0.08715574274765817,
+        0,
+        0.9961946980917455
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
       "key": "instance-a21e95b2c8170186",
       "object": "apps/tree-05",
       "pinned": false,
@@ -624,6 +687,48 @@
         0.5566150568059149,
         0,
         -0.8307705330215727
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "key": "instance-be08400938778794",
+      "object": "app-5a6ba0698cd5da73",
+      "pinned": false,
+      "position": [
+        34.74321662900779,
+        0.12096717663691103,
+        14.098606126011399
+      ],
+      "quaternion": [
+        0,
+        -0.7933533402912352,
+        0,
+        0.6087614290087207
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "key": "instance-c358672e0c1275cd",
+      "object": "apps/tree-02",
+      "pinned": false,
+      "position": [
+        8.871369100901159,
+        0.00038037817217073666,
+        -30.719523574849617
+      ],
+      "quaternion": [
+        0,
+        0.3420201433256687,
+        0,
+        0.9396926207859084
       ],
       "scale": [
         1,
@@ -738,7 +843,7 @@
     },
     {
       "key": "instances/billiards-wall-light-switch/001",
-      "object": "apps/billiards-wall-light-switch",
+      "object": "app-41607de0d357c8ca",
       "pinned": false,
       "position": [
         26.58688383731685,
@@ -1032,7 +1137,7 @@
     },
     {
       "key": "instances/larch-house-top-portal-rotated-180/001",
-      "object": "apps/larch-house-top-portal-rotated-180",
+      "object": "app-a35ccc55105b821e",
       "pinned": true,
       "position": [
         32.28460777267203,

@@ -1,0 +1,69 @@
+{
+  "blueprint": {
+    "author": null,
+    "desc": "v3 — Photomaton années 60 (meuble en bois à gauche, cabine ouverte à droite, banquette 2 places, 5 décors, tableaux en liège) : séance de 5 vraies photos (world.capturePhoto, mannequins en secours), strip qui sort par la fente, maintenir pour voir en grand, relâcher pour la laisser tomber.",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "script-only",
+    "name": "Photomaton rétro",
+    "preload": false,
+    "props": {
+      "__test": {
+        "S": {
+          "phase": "idle",
+          "strips": []
+        },
+        "anims": {},
+        "awake": false,
+        "hold": null,
+        "seatCam": false,
+        "slots": []
+      },
+      "camHeight": 1.7,
+      "decorMontagnes": {
+        "name": "decor_montagnes.jpg",
+        "type": "image",
+        "url": "file:./images/e2710dc0b236e54de19dd42979f1e6c16f9d397fe1eb08f5a0496922af620ed8.jpg"
+      },
+      "decorVille": {
+        "name": "decor_ville.jpg",
+        "type": "image",
+        "url": "file:./images/8f3cbb29bb4b8690994a16b2c0271c30288faac0d2ce1a290a8642c9d2c06b36.jpg"
+      },
+      "flash": 0.2,
+      "lightOff": false,
+      "photoMode": "color",
+      "shots": "4",
+      "sndBip": {
+        "name": "bip.mp3",
+        "type": "audio",
+        "url": "file:./audios/a1696cc095087494ef9064f84236580182b39b48ea9e51026826ee4b0328bb4f.mp3"
+      },
+      "sndClic": {
+        "name": "declic.mp3",
+        "type": "audio",
+        "url": "file:./audios/e58bf7b9e1ad0deae4080d9de419470c165aa8d2ef1aea41735c878a88c2521a.mp3"
+      },
+      "sndMoteur": {
+        "name": "moteur.mp3",
+        "type": "audio",
+        "url": "file:./audios/11aafcea530c0df9cf73416e6bb63e2957317f606b59bfb701ea1b50259b39a1.mp3"
+      },
+      "sndPapier": {
+        "name": "papier.mp3",
+        "type": "audio",
+        "url": "file:./audios/a2dae030406074e33961a4b644ca70a85f0a281a47c0a792e38d35a1424bd325.mp3"
+      },
+      "zoom": "0.5"
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": null
+  },
+  "key": "app-5a6ba0698cd5da73",
+  "mode": "files",
+  "schemaVersion": 1
+}

@@ -1,13 +1,32 @@
 # Jerome's Hyperfy World
 
-This repository contains the source-first Git representation of Jerome's local Hyperfy world. `objects/**/object.json` and the per-object source files are authoritative; `scenes/local-world/scene.json` records independent placements. Runtime databases, player records, generated bundles, and credentials do not belong here.
+This world explicitly runs on [Jérôme’s Hyperfy fork](https://github.com/jerometremblay/hyperfy). The fork supplies the runtime and the `worldsync` tooling used by this repository. Visit the [live world](https://monstre.duckdns.org:3333).
 
-## Bootstrap state
+![A cozy view of Jerome’s Hyperfy world](cozy.png)
 
-The initial source tree was exported from a read-only SQLite backup of the saved local `world/db.sqlite` snapshot. It contains 41 saved blueprint definitions and 49 ordinary app placements (the environment singleton is represented separately), plus verified content-addressed assets referenced by blueprints and scripts. User records were not read or copied. World latitude, longitude, time zone, avatar defaults, voice, ranks, and other private settings were excluded.
+This repository contains the source-first Git representation of Jerome's Hyperfy world. `objects/**/object.json` and per-object source files describe app blueprints; `scenes/local-world/scene.json` records independent placements. Runtime databases, player records, generated bundles, and credentials do not belong here.
 
-This is a saved-database bootstrap, not an atomic snapshot from a running Agent API. Review it against the running world before treating it as deployable. The companion `.worldsync/bootstrap-map.json` stores the initial runtime ID mapping locally and is ignored by Git; keep it until the engine's managed-resource mapping is available.
+## Latest live capture
+
+The October 22, 2026 capture from the `online-world` profile contains 48 live app blueprints, 88 persistent app placements, 151 referenced assets, and 55 saved seat-pose records, together with the protected environment, portable settings, and spawn. Capture preserves source-only resources, so repository totals can exceed live totals. Eleven seat anchors could not be resolved, and four source placements without live mappings were preserved.
+
+Capture reads the running world without changing it. Saved seat poses retain source identity and anchor metadata; destination identity reconciliation is not implemented. Private world settings and transient runtime state are excluded.
 
 ## Tooling
 
-The `worldsync` tool lives in the Hyperfy fork under `tools/worldsync`. Use it to validate source and build or verify a deterministic `.hworld` bundle. Its Agent API bridge can deploy one existing, mapped app blueprint, including JavaScript source, to a configured live profile. It does not reconcile scene placements or world settings, capture live state, or update the protected environment blueprint. The current snapshot has two external script references, so its bundle requires the explicit `--allow-external` option and is marked nonportable.
+Run these commands from the [Hyperfy fork checkout](https://github.com/jerometremblay/hyperfy), with this repository alongside it:
+
+```sh
+npm run worldsync -- validate --root ../hyperfy-world-jerome --scene local-world
+npm run worldsync -- capture --root ../hyperfy-world-jerome --scene local-world --profile online-world --dry-run
+npm run worldsync -- capture --root ../hyperfy-world-jerome --scene local-world --profile online-world --write
+npm run worldsync -- build --root ../hyperfy-world-jerome --scene local-world --allow-external
+```
+
+The profile is configured in `worldsync.config.json`. Authentication comes from `AGENT_API_WRITE_TOKEN` in the environment or the fork checkout’s local environment files; never commit the token. Capture protects dirty source files and stops on conflicting source and live edits.
+
+`worldsync` can also deploy an existing mapped app blueprint, including its script and assets. Its separate `bootstrap` command uploads scene resources, applies portable settings and spawn, and creates or updates mapped placements. Capture, commits, and pushes do not deploy changes. External asset references require `--allow-external` for builds and make the bundle nonportable. See the fork’s [worldsync documentation](https://github.com/jerometremblay/hyperfy/blob/main/tools/worldsync/README.md) for deployment and bootstrap details.
+
+## Bootstrap history
+
+The initial source tree came from a read-only SQLite backup of the local world: 41 saved blueprint definitions and 49 ordinary app placements, plus the environment. Subsequent live captures update mapped resources while preserving source-only content. Local runtime mappings under `.worldsync/` support repeat captures and deployments.

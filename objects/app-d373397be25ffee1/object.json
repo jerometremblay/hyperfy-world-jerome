@@ -8,7 +8,7 @@
     "locked": false,
     "model": "file:./model.glb",
     "name": "Hyperfy Billard — Pool Table Overlay",
-    "preload": false,
+    "preload": true,
     "props": {
       "ball1": {
         "type": "texture",
@@ -72,6 +72,22 @@
       },
       "playChannel": "classic-8-ft-pool-table",
       "showSurface": false,
+      "soundCollision": {
+        "type": "audio",
+        "url": "file:./audios/5a836915e565f3507e769f2700ecf00a9e978b92e61785158c1d1f81ca391621.ogg"
+      },
+      "soundCushion": {
+        "type": "audio",
+        "url": "file:./audios/bceabc709517f8730e1d63f196053b335003c46c15a34c8334246c98822858e6.ogg"
+      },
+      "soundHit": {
+        "type": "audio",
+        "url": "file:./audios/5083372a6f86b0ac55b3e7ba3215bc96ab6067950a025774bbecf41b8897447d.ogg"
+      },
+      "soundPot": {
+        "type": "audio",
+        "url": "file:./audios/06f138ede6cc3005660fa5e76afc4bd2b66753d27f728002fa56da9b4ca38bdf.ogg"
+      },
       "tableSize": "8"
     },
     "public": false,
