@@ -30,3 +30,13 @@ The profile is configured in `worldsync.config.json`. Authentication comes from 
 ## Bootstrap history
 
 The initial source tree came from a read-only SQLite backup of the local world: 41 saved blueprint definitions and 49 ordinary app placements, plus the environment. Subsequent live captures update mapped resources while preserving source-only content. Local runtime mappings under `.worldsync/` support repeat captures and deployments.
+
+## Static interaction performance
+
+Static furniture should have zero frame callbacks on both server and client. Cognac seat prompts now restore through the effect-end callback rather than polling effect handles. The regression tests exercise the sibling fork's actual effect and hot-loop paths, including leaving a seat, switching to another app's effect, and suppressing adjacent prompts while seated:
+
+```sh
+node --test tests/cognac-seating.test.mjs
+```
+
+See the fork's `docs/scripting/performance.md` for the idle callback rule.

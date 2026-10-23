@@ -167,13 +167,7 @@ function restoreSeatActions(session) {
   setSeatActionsActive(true)
 }
 
-// Hyperfy can replace a player effect without calling the previous onEnd.
-// Check the returned effect handle to restore prompts after that case, too.
-app.on('update', () => {
-  if (seatedEffect && seatedEffect.active === false) {
-    restoreSeatActions(sitSession)
-  }
-})
+// Restore prompts through applyEffect onEnd; static seating has no frame callbacks.
 
 function addSeatInteraction(seatIndex, x, seatY, seatZ) {
   const anchor = app.create('anchor', {

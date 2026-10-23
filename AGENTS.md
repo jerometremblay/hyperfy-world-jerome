@@ -3,3 +3,7 @@
 ## Live world sync
 
 Whenever this repository's world source, scene, or assets are changed, sync the resulting world to the live Hyperfy server at `monstre.duckdns.org:3333` and verify that the sync completed before reporting the update complete. A Git commit or push is not a live sync. Use the supported world sync or deployment workflow; do not invent one. The current `README.md` says live deployment is not implemented. If no supported sync path is available, report live sync as blocked, identify the missing capability, and do not claim the online world was updated.
+
+## Static interaction performance
+
+For static interactions, use action/effect/trigger callbacks rather than frame polling. An unconditional `app.on('update', ...)` keeps the app in the active engine loop even when its body immediately returns; a client guard inside the callback does not remove server dispatch. Seat prompts must restore through `applyEffect({ onEnd })`, with no idle client or server frame callbacks. Verify cancellation and effect replacement against the current fork and compare fresh server profiler samples after deployment.
