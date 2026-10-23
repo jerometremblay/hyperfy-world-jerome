@@ -247,15 +247,15 @@ for(const t of [-1,1]) {
 
 rebuildCalibratedDial()
 
-// Keep the dial aligned even when the player rotates the app in the editor.
-// Recalibrate automatically when world latitude changes (for example, when
-// the world's geographic location is edited). No extra sun/shadow simulation.
-let locationPoll = 0
+// Keep the dial aligned if the app is rotated in the editor, and recalibrate
+// if world latitude changes. These checks are intentionally limited to 10s
+// intervals because this is a static object.
+let checkElapsed = 0
 app.on('update', dt => {
+  checkElapsed += dt
+  if (checkElapsed < 10) return
+  checkElapsed = 0
   alignToWorldNorth()
-  locationPoll += dt
-  if (locationPoll < 2) return
-  locationPoll = 0
   const newLatitude = getGeoLatitude()
   if (Math.abs(newLatitude - latitudeDegrees) > 0.00001) {
     latitudeDegrees = newLatitude
