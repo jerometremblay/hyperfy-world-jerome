@@ -19,7 +19,27 @@
       "lightX": -0.01,
       "lightZ": 0.02,
       "promptBoxRequestId": "vbfGQmNv0x",
-      "promptBoxTargetEntityId": "uw2zCZ2v2M"
+      "promptBoxTargetEntityId": "uw2zCZ2v2M",
+      "soundVolume": 8,
+      "fireSound": {
+        "type": "audio",
+        "url": "file:./fireplace.ogg"
+      },
+      "crackleVolume": 12,
+      "crackleMinInterval": 8,
+      "crackleMaxInterval": 25,
+      "crackle1": {
+        "type": "audio",
+        "url": "file:./crackle-1.ogg"
+      },
+      "crackle2": {
+        "type": "audio",
+        "url": "file:./crackle-2.ogg"
+      },
+      "crackle3": {
+        "type": "audio",
+        "url": "file:./crackle-3.ogg"
+      }
     },
     "public": false,
     "script": "file:./script.js",

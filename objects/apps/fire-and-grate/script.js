@@ -6,6 +6,13 @@ app.resetOnMove = false
 
 // Lighting controls. Sliders use fractional steps; editing a setting rebuilds the app.
 app.configure([
+  { type: 'section', label: 'Fire sound' },
+  { type: 'file', key: 'fireSound', label: 'Fireplace recording', kind: 'audio' },
+  { type: 'range', key: 'soundVolume', label: 'Sound volume (%)', initial: 8, min: 0, max: 100, step: 1, hint: 'Quiet by default; 0 mutes the fire' },
+  { type: 'section', label: 'Occasional crackles' },
+  { type: 'range', key: 'crackleVolume', label: 'Crackle volume (%)', initial: 12, min: 0, max: 100, step: 1, hint: 'Independent of the steady fire sound; 0 disables occasional crackles' },
+  { type: 'range', key: 'crackleMinInterval', label: 'Minimum interval (s)', initial: 8, min: 1, max: 120, step: 1 },
+  { type: 'range', key: 'crackleMaxInterval', label: 'Maximum interval (s)', initial: 25, min: 1, max: 120, step: 1, hint: 'Each crackle waits a random interval between these two settings' },
   { type: 'section', label: 'Fire lighting' },
   { type: 'range', key: 'lightIntensity', label: 'Light intensity', initial: 125, min: 0, max: 300, step: 0.5, hint: 'Brightness of the point light' },
   { type: 'range', key: 'lightRange', label: 'Light range (m)', initial: 8, min: 0.5, max: 20, step: 0.1, hint: 'How far the fire illuminates nearby surfaces' },
@@ -271,3 +278,60 @@ function animateFire(delta) {
 }
 
 if (world.isClient) app.on('update', animateFire)
+
+// Native positional audio follows the grate and stops automatically on unmount.
+if (world.isClient && props.fireSound?.url && props.soundVolume > 0) {
+  const fireAudio = app.create('audio', {
+    src: props.fireSound.url,
+    position: [0, 0.35, 0],
+    loop: true,
+    group: 'sfx',
+    volume: props.soundVolume / 100,
+    spatial: true,
+    distanceModel: 'inverse',
+    refDistance: 1,
+    maxDistance: 12,
+    rolloffFactor: 2,
+  })
+  app.add(fireAudio)
+  fireAudio.play()
+}
+
+// App-scoped timers are invalidated by Hyperfy when the app is rebuilt or destroyed.
+if (world.isClient && props.crackleVolume > 0) {
+  const crackles = [props.crackle1, props.crackle2, props.crackle3]
+    .filter(sound => sound?.url)
+    .map(sound => {
+      const audio = app.create('audio', {
+        src: sound.url,
+        position: [0, 0.35, 0],
+        loop: false,
+        group: 'sfx',
+        volume: props.crackleVolume / 100,
+        spatial: true,
+        distanceModel: 'inverse',
+        refDistance: 1,
+        maxDistance: 12,
+        rolloffFactor: 2,
+      })
+      app.add(audio)
+      return audio
+    })
+  if (crackles.length) {
+    const minimum = Math.max(1, Math.min(props.crackleMinInterval, props.crackleMaxInterval))
+    const maximum = Math.max(minimum, props.crackleMinInterval, props.crackleMaxInterval)
+    let previous = -1
+    function scheduleCrackle() {
+      setTimeout(() => {
+        // Choose a different recording each time, with a little natural loudness variation.
+        const choices = crackles.map((audio, index) => index).filter(index => index !== previous)
+        previous = choices.length ? choices[Math.floor(Math.random() * choices.length)] : 0
+        const audio = crackles[previous]
+        audio.volume = props.crackleVolume / 100 * (0.75 + Math.random() * 0.25)
+        audio.play(true)
+        scheduleCrackle()
+      }, (minimum + Math.random() * (maximum - minimum)) * 1000)
+    }
+    scheduleCrackle()
+  }
+}
