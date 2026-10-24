@@ -247,15 +247,14 @@ for(const t of [-1,1]) {
 
 rebuildCalibratedDial()
 
-// Keep the dial aligned if the app is rotated in the editor, and recalibrate
-// if world latitude changes. These checks are intentionally limited to 10s
-// intervals because this is a static object.
-let checkElapsed = 0
-app.on('update', dt => {
-  checkElapsed += dt
-  if (checkElapsed < 10) return
-  checkElapsed = 0
-  alignToWorldNorth()
+// Native root-transform notifications keep the clock at true north in the same
+// transform commit, without registering a client or server frame callback.
+app.on('transform', changed => {
+  if (changed.rotation) alignToWorldNorth()
+})
+
+// Only latitude changes alter the geometry; longitude affects the world's sun.
+world.on('location', () => {
   const newLatitude = getGeoLatitude()
   if (Math.abs(newLatitude - latitudeDegrees) > 0.00001) {
     latitudeDegrees = newLatitude
