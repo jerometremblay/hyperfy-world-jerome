@@ -8,7 +8,7 @@ This repository contains the source-first Git representation of Jerome's Hyperfy
 
 ## Latest live capture
 
-The October 22, 2026 capture from the `online-world` profile contains 48 live app blueprints, 88 persistent app placements, 151 referenced assets, and 55 saved seat-pose records, together with the protected environment, portable settings, and spawn. Capture preserves source-only resources, so repository totals can exceed live totals. Eleven seat anchors could not be resolved, and four source placements without live mappings were preserved.
+The latest capture from the `online-world` profile contains 44 live app blueprints, 89 persistent app placements, and 101 referenced assets. It added one live object and placement, refreshed a portal preview and destination, and preserved source-only resources. Existing object scripts were verified against the live world before publication. Fourteen seat anchors could not be resolved, no seat-pose records were captured, and four source placements without live mappings were preserved.
 
 Capture reads the running world without changing it. Saved seat poses retain source identity and anchor metadata; destination identity reconciliation is not implemented. Private world settings and transient runtime state are excluded.
 

@@ -13,14 +13,14 @@
       "arrivalImage_7b846fcc-2366-4782-8259-4390855b234e": {
         "name": "arrival-preview.jpg",
         "type": "image",
-        "url": "file:./images/64c098b29a3fcde242609b364570f00360d73863ca11b64380ab056a7bda5623.jpg"
+        "url": "file:./images/d09ed3bc5ef64a3f46db0af2c6abda8618555c732884a15f254f3905198bb1f8.jpg"
       },
       "destination": "https://rouynhyperfy.duckdns.org",
-      "destinationPortalId": "8HAPhn6B6L",
+      "destinationPortalId": "b3wzvTWCYN",
       "doubleside": "false",
       "portalId": "7b846fcc-2366-4782-8259-4390855b234e",
-      "resolution": "1024",
-      "updateRate": "0"
+      "resolution": "max",
+      "updateRate": "30"
     },
     "public": false,
     "script": null,

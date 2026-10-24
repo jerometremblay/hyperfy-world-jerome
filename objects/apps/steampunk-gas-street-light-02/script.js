@@ -243,7 +243,7 @@ const flame = prim('sphere', [0.095], [0, 2.045, 0], warm, {
 })
 const glow1 = prim('sphere', [0.17], [0, 2.045, 0], '#ffc46b', {
   transparent: true,
-  opacity: 0.11,
+  opacity: 0.10,
   emissive: '#ffad42',
   emissiveIntensity: 3.2,
   metalness: 0,
@@ -253,7 +253,7 @@ const glow1 = prim('sphere', [0.17], [0, 2.045, 0], '#ffc46b', {
 })
 const glow2 = prim('sphere', [0.25], [0, 2.045, 0], '#ffcb78', {
   transparent: true,
-  opacity: 0.045,
+  opacity: 0.040,
   emissive: '#ffaf45',
   emissiveIntensity: 1.8,
   metalness: 0,
@@ -299,7 +299,7 @@ for (const s of [-1, 1]) {
 const pool = prim('plane', [0.86, 0.86], [0, -0.495, 0], '#ffb65c', {
   rotation: [-PI / 2, 0, 0],
   transparent: true,
-  opacity: 0.10,
+  opacity: 0.085,
   emissive: '#ff9e34',
   emissiveIntensity: 2.0,
   metalness: 0,
@@ -309,17 +309,18 @@ const pool = prim('plane', [0.86, 0.86], [0, -0.495, 0], '#ffb65c', {
   receiveShadow: false,
 })
 
-// Gas-light flicker for both emissive surfaces and the actual point light.
+// Animate brightness in place; changing opacity rebuilds primitive meshes.
+// Visual flicker belongs only to clients, not the server simulation.
 let t = 0
-app.on('update', dt => {
+if (world.isClient) app.on('update', dt => {
   t += dt
   const tt = t * flickerSpeed
   const flicker = 0.92 + Math.sin(tt * 7.1) * 0.035 + Math.sin(tt * 13.7) * 0.025 + Math.sin(tt * 29.3) * 0.012
   const flickerScale = 1 + (flicker - 0.92) * (flickerStrength / 0.08)
   flame.emissiveIntensity = 7.0 * flickerScale
   flame.scale.y = 1.45 * (0.96 + Math.sin(tt * 10.7) * 0.04)
-  glow1.opacity = 0.10 + (flickerScale - 1.0) * 0.17
-  glow2.opacity = 0.040 + (flickerScale - 1.0) * 0.08
-  pool.opacity = 0.085 + (flickerScale - 1.0) * 0.09
+  glow1.emissiveIntensity = 3.2 * flickerScale
+  glow2.emissiveIntensity = 1.8 * flickerScale
+  pool.emissiveIntensity = 2.0 * flickerScale
   lamp.intensity = lightBaseIntensity * flickerScale
 })

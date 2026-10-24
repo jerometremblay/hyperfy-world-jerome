@@ -29,6 +29,7 @@ const CLOTH_COLORS = [
 const DEFAULT_CLOTH_COLOR = '#e99476'
 
 app.configure([
+  { key: 'soundVolume', type: 'range', label: 'Sound volume (1 = normal)', min: 0, max: 5, step: 0.1, initial: 1 },
   { key: 'poolChannel', type: 'text', label: 'Pool game channel', initial: 'classic-8-ft-pool-table' },
   {
     key: 'clothColor', type: 'select', label: 'Cloth color', initial: DEFAULT_CLOTH_COLOR,
@@ -56,72 +57,20 @@ if (world.isClient) {
 
 if (world.isClient && !world.isPreview) {
   const channel = props.poolChannel || 'classic-8-ft-pool-table'
-  let holders = [], aiming = false
-  const hasCue = () => holders.includes(world.getPlayer()?.id)
-  const play = () => { if (hasCue() && !aiming) app.emit(`billard:play:${channel}`) }
-  // Native actions require the pointer hit to be within one metre of their
-  // position. Three positions cover the whole cloth and every rail.
-  const actions = [-0.9, 0, 0.9].map(x => {
-    const action = app.create('action', {
-      label: 'Play', distance: 0, duration: 0.2, position: [x, 0.72, 0],
-    })
-    action.onTrigger = play
-    app.add(action)
-    return action
-  })
-  const refresh = () => {
-    for (const action of actions) action.distance = hasCue() && !aiming ? 3 : 0
-  }
-  world.on(`billard:cues:${channel}`, next => {
-    if (!Array.isArray(next)) return
-    holders = next.filter(id => typeof id === 'string')
-    refresh()
-  })
-  world.on(`billard:aiming:${channel}`, active => {
-    aiming = active === true
-    refresh()
-  })
-  const ready = () => {
-    if (!world.getPlayer()) return
-    app.off('update', ready)
-    refresh()
-    app.emit(`billard:cues:${channel}:request`)
-    app.emit(`billard:aiming:${channel}:request`)
-  }
-  app.on('update', ready)
-  ready()
-  app.onPointerDown = play
-  // One detached structural collider for avatars; ball physics stays numerical.
-  const colliderSize = [2.72, 0.70, 1.53]
-  const colliderTransform = () => {
-    const position = app.position.clone()
-    const offset = app.position.clone().set(0, colliderSize[1] / 2, 0)
-      .multiply(app.scale).applyQuaternion(app.quaternion)
-    position.add(offset)
-    return { position, quaternion: app.quaternion.clone(), scale: app.scale.clone() }
-  }
-  const initial = colliderTransform()
-  const collider = app.create('prim', {
-    type: 'box', size: colliderSize,
-    position: initial.position.toArray(),
-    quaternion: initial.quaternion.toArray(),
-    scale: initial.scale.toArray(),
-    opacity: 0, castShadow: false, receiveShadow: false, physics: 'static',
-  })
-  world.add(collider)
-  const previousScale = initial.scale.clone()
-  const syncCollider = () => {
-    const transform = colliderTransform()
-    collider.position.copy(transform.position)
-    collider.quaternion.copy(transform.quaternion)
-    collider.scale.copy(transform.scale)
-    if (!transform.scale.equals(previousScale)) {
-      previousScale.copy(transform.scale)
-      const physics = collider.physics
-      collider.physics = null
-      collider.physics = physics
-    }
-  }
-  app.on('update', syncCollider)
-  app.on('destroy', () => world.remove(collider))
+  const volumeEvent = `billard:volume:${channel}`
+  const sendVolume = () => app.emit(volumeEvent, props.soundVolume ?? 1)
+  world.on(`${volumeEvent}:request`, sendVolume)
+  sendVolume()
+  // Physics-only nodes never enter the stage octree used for action clicks.
+  // A continuous floor-to-rail box gives avatars no intermediate steps.
+  const colliderSize = [2.72, 0.76, 1.53]
+  const body = app.create('rigidbody', { type: 'static' })
+  const collider = app.create('collider', { type: 'box' })
+  collider.width = colliderSize[0] * app.scale.x
+  collider.height = colliderSize[1] * app.scale.y
+  collider.depth = colliderSize[2] * app.scale.z
+  collider.position.set(0, collider.height / 2, 0)
+  body.add(collider)
+  // Parent the static body so Hyperfy carries it with the table transform.
+  app.add(body)
 }

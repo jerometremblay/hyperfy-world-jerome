@@ -5,21 +5,14 @@ const WOOD = ['#6b5239', '#765b3f', '#806447', '#5f4934', '#70563c']
 const DARK = '#49382a'
 const groundY = -0.5
 
-function exactWorldTransform(node) {
-  const position = node.position.clone().multiply(app.scale).applyQuaternion(app.quaternion).add(app.position)
-  const quaternion = app.quaternion.clone().multiply(node.quaternion)
-  const scale = node.scale.clone().multiply(app.scale)
-  return { position, quaternion, scale }
-}
-
+// Keep colliders in the app hierarchy so only actual app movement updates them.
 function attachCollider(node, type, size) {
-  const t = exactWorldTransform(node)
   const collider = app.create('prim', {
     type,
     size,
-    position: t.position.toArray(),
-    quaternion: t.quaternion.toArray(),
-    scale: t.scale.toArray(),
+    position: node.position.toArray(),
+    quaternion: node.quaternion.toArray(),
+    scale: node.scale.toArray(),
     opacity: 0,
     castShadow: false,
     receiveShadow: false,
@@ -27,22 +20,7 @@ function attachCollider(node, type, size) {
     staticFriction: 0.72,
     dynamicFriction: 0.62,
   })
-  world.add(collider)
-  const lastScale = t.scale.clone()
-  const sync = () => {
-    const next = exactWorldTransform(node)
-    collider.position.copy(next.position)
-    collider.quaternion.copy(next.quaternion)
-    collider.scale.copy(next.scale)
-    if (!lastScale.equals(next.scale)) {
-      lastScale.copy(next.scale)
-      const physics = collider.physics
-      collider.physics = null
-      collider.physics = physics
-    }
-  }
-  app.on('update', sync)
-  app.on('destroy', () => world.remove(collider))
+  app.add(collider)
 }
 
 function addBox(size, position, color, rotation = [0, 0, 0], collidable = false, extra = {}) {

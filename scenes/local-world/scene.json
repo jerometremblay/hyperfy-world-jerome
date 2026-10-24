@@ -317,6 +317,27 @@
       ]
     },
     {
+      "key": "instance-529940175ec9af5c",
+      "object": "app-d5ec3f6c990e423e",
+      "pinned": false,
+      "position": [
+        34.89267506987275,
+        0.12096717663691105,
+        13.900582729609967
+      ],
+      "quaternion": [
+        0,
+        -0.7933533402912352,
+        0,
+        0.6087614290087207
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
       "key": "instance-59d19b22433f91a0",
       "object": "app-7e9e39cf94d2ca40",
       "pinned": false,
@@ -1075,7 +1096,7 @@
     {
       "key": "instances/forged-iron-hearth-set-five-independently-pickable-objects/001",
       "object": "apps/forged-iron-hearth-set-five-independently-pickable-objects",
-      "pinned": false,
+      "pinned": true,
       "position": [
         31.72711947738037,
         0.8523169091361932,

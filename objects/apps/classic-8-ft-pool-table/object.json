@@ -15,7 +15,8 @@
       "poolChannel": "classic-8-ft-pool-table",
       "promptBoxRequestId": "vbfGQmNv0x",
       "promptBoxTargetEntityId": "PMPL83pUPI",
-      "receiveShadows": true
+      "receiveShadows": true,
+      "soundVolume": 1
     },
     "public": false,
     "script": "file:./script.js",

@@ -124,7 +124,7 @@ const fireLight = app.create('light', {
 app.add(fireLight)
 
 let fireTime = 0
-app.on('update', delta => {
+if (world.isClient) app.on('update', delta => {
   // Keep phase time bounded so the fire can run indefinitely without losing
   // floating-point resolution after a very long world session.
   fireTime = (fireTime + delta) % 10000

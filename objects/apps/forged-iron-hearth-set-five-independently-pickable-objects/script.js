@@ -189,14 +189,24 @@ if(world.isClient && typeof world.getPlayer==='function' && typeof app.send==='f
     groups[kind].position.set(...home[kind])
     groups[kind].quaternion.set(0,0,0,1)
     actions[kind].active=true
+    updateReturnHint()
   }
   app.on('claimed',({kind,playerId})=>{
     if(!groups[kind]) return
     owners[kind]=playerId
     actions[kind].active=false
+    updateReturnHint()
   })
   app.on('released',({kind})=>{if(groups[kind]) restore(kind)})
   const controls=app.control()
+  let hintedKind=null
+  function updateReturnHint(){
+    const kind=KINDS.find(kind=>owners[kind]===localId) || null
+    if(kind===hintedKind) return
+    hintedKind=kind
+    controls.setActions(kind ? [{type:'keyX',label:'Put the '+kind+' away',position:'bottom-left',opacity:0.5}] : [])
+  }
+  updateReturnHint()
   controls.keyX.onPress=()=>{
     if(!localId) return
     for(const kind of KINDS) if(owners[kind]===localId)

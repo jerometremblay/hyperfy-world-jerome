@@ -1369,13 +1369,34 @@
     }
   };
 
+  // src/cues.js
+  var CUE_EVENT = "billard:cues";
+  var POSE_EVENT = "billard:cue-pose";
+  function watchCues(world2, changed) {
+    const racks = /* @__PURE__ */ new Map();
+    world2.on(CUE_EVENT, (data) => {
+      if (!data || typeof data.rackId !== "string" || !Array.isArray(data.holders)) return;
+      if (data.holders.length) racks.set(data.rackId, data.holders.filter((id) => typeof id === "string"));
+      else racks.delete(data.rackId);
+      changed([...new Set([...racks.values()].flat())]);
+    });
+  }
+
   // src/server.js
-  function startServer(world2, app2, preset2, playChannel = "classic-8-ft-pool-table") {
+  function startServer(world2, app2, preset2) {
     const sim = new Simulation(preset2);
-    let owner = null, lease = 0, seq = 0, rack = 0, elapsed = 0, accumulator = 0, sinceSnapshot = 0, cueHolders = [], aim = null, lastAim = -1;
+    let owner = null, leaseUntil = 0, seq = 0, rack = 0, accumulator = 0, sinceSnapshot = 0, cueHolders = [], aim = null, lastAimAt = -Infinity, updateAttached = false, leaseTimerScheduled = false;
     const publish = () => {
       app2.state.aim = aim;
-      app2.state.pool = { ...sim.snapshot(), owner, aim, cueHolders: cueHolders.slice(), seq: ++seq, rack, events: sim.events.splice(0) };
+      app2.state.pool = {
+        ...sim.snapshot(),
+        owner,
+        aim,
+        cueHolders: cueHolders.slice(),
+        seq: ++seq,
+        rack,
+        events: sim.events.splice(0)
+      };
       app2.send("pool:snapshot", app2.state.pool);
     };
     const playerFor = (sender) => world2.getPlayers().find((p) => p.networkId === sender);
@@ -1388,77 +1409,48 @@
       const player = playerFor(sender);
       return player && player.id === owner && cueHolders.includes(player.id) && nearby(player);
     };
-    const cueEvent = `billard:cues:${playChannel}`;
-    world2.on(cueEvent, (holders) => {
-      if (!Array.isArray(holders)) return;
-      const next = holders.filter((id) => typeof id === "string");
+    const scheduleLeaseExpiry = () => {
+      if (leaseTimerScheduled || !owner) return;
+      leaseTimerScheduled = true;
+      setTimeout(
+        () => {
+          leaseTimerScheduled = false;
+          expire();
+          if (owner) scheduleLeaseExpiry();
+        },
+        Math.max(1, leaseUntil - Date.now())
+      );
+    };
+    const renewLease = () => {
+      leaseUntil = Date.now() + 6e4;
+      scheduleLeaseExpiry();
+    };
+    const cueEvent = CUE_EVENT;
+    watchCues(world2, (next) => {
       if (JSON.stringify(next) === JSON.stringify(cueHolders)) return;
       cueHolders = next;
-      if (owner && !cueHolders.includes(owner)) owner = aim = null;
+      if (owner && !cueHolders.includes(owner)) {
+        owner = aim = null;
+        leaseUntil = 0;
+      }
       publish();
     });
     const refreshCues = () => app2.emit(`${cueEvent}:request`);
-    const validAim = (data) => data && [data.angle, data.side ?? 0, data.top ?? 0].every(Number.isFinite) && Math.abs(data.angle) <= Math.PI * 2 && Math.hypot(data.side ?? 0, data.top ?? 0) <= 0.450001;
+    const validAim = (data) => data && [data.angle, data.side ?? 0, data.top ?? 0, data.speed ?? 2.5].every(Number.isFinite) && Math.abs(data.angle) <= Math.PI * 2 && Math.hypot(data.side ?? 0, data.top ?? 0) <= 0.450001 && (data.speed ?? 2.5) >= 0.1 && (data.speed ?? 2.5) <= 5;
     const expire = () => {
       const player = owner && world2.getPlayer(owner);
-      if (owner && (elapsed > lease || !nearby(player) || !cueHolders.includes(owner))) {
+      if (owner && (Date.now() >= leaseUntil || !nearby(player) || !cueHolders.includes(owner))) {
         owner = aim = null;
+        leaseUntil = 0;
         publish();
       }
     };
-    app2.on("pool:claim", (request, sender) => {
-      refreshCues();
-      expire();
-      const player = playerFor(sender);
-      if (!sim.moving && nearby(player) && cueHolders.includes(player.id) && (!owner || owner === player.id)) {
-        owner = player.id;
-        aim = { playerId: owner, angle: validAim(request) ? request.angle : 0, side: 0, top: 0 };
-        lease = elapsed + 60;
-        publish();
-      }
-    });
-    app2.on("pool:release", (_, sender) => {
-      if (authorized(sender)) {
-        owner = aim = null;
-        publish();
-      }
-    });
-    app2.on("pool:ping", (_, sender) => {
-      if (authorized(sender)) lease = elapsed + 60;
-    });
-    app2.on("pool:aim", (request, sender) => {
-      if (!authorized(sender) || sim.moving || !validAim(request) || elapsed - lastAim < 0.05) return;
-      lastAim = elapsed;
-      aim = { playerId: owner, angle: request.angle, side: request.side ?? 0, top: request.top ?? 0 };
-      app2.state.aim = aim;
-      app2.send("pool:aim", aim);
-    });
-    for (const operation of ["shoot", "reset", "place"]) {
-      app2.on(`pool:${operation}`, (request, sender) => {
-        refreshCues();
-        expire();
-        if (!authorized(sender) || !request || request.seq !== seq) return;
-        lease = elapsed + 60;
-        let accepted = false;
-        if (operation === "shoot") {
-          accepted = sim.shoot(request);
-          if (accepted) owner = aim = null;
-        }
-        if (operation === "place") accepted = sim.place(request.x, request.y);
-        if (operation === "reset" && !sim.moving) {
-          sim.reset();
-          rack++;
-          accepted = true;
-        }
-        if (accepted) publish();
-      });
-    }
-    app2.on("update", (dt) => {
+    const update = (dt) => {
       if (!Number.isFinite(dt) || dt <= 0) return;
-      elapsed += dt;
-      expire();
       if (!sim.moving) {
         accumulator = 0;
+        app2.off("update", update);
+        updateAttached = false;
         return;
       }
       accumulator = Math.min(accumulator + dt, 0.25);
@@ -1471,7 +1463,78 @@
         sinceSnapshot = 0;
         publish();
       }
+      if (!sim.moving) {
+        app2.off("update", update);
+        updateAttached = false;
+      }
+    };
+    const startUpdates = () => {
+      if (sim.moving && !updateAttached) {
+        updateAttached = true;
+        app2.on("update", update);
+      }
+    };
+    app2.on("pool:claim", (request, sender) => {
+      refreshCues();
+      expire();
+      const player = playerFor(sender);
+      if (!sim.moving && nearby(player) && cueHolders.includes(player.id) && (!owner || owner === player.id)) {
+        owner = player.id;
+        aim = { playerId: owner, angle: validAim(request) ? request.angle : 0, side: 0, top: 0 };
+        renewLease();
+        publish();
+      }
     });
+    app2.on("pool:release", (_, sender) => {
+      expire();
+      if (authorized(sender)) {
+        owner = aim = null;
+        leaseUntil = 0;
+        publish();
+      }
+    });
+    app2.on("pool:ping", (_, sender) => {
+      expire();
+      if (authorized(sender)) renewLease();
+    });
+    app2.on("pool:aim", (request, sender) => {
+      expire();
+      const now = Date.now();
+      if (!authorized(sender) || sim.moving || !validAim(request) || now - lastAimAt < 50) return;
+      lastAimAt = now;
+      aim = {
+        playerId: owner,
+        angle: request.angle,
+        side: request.side ?? 0,
+        top: request.top ?? 0,
+        speed: request.speed ?? 2.5
+      };
+      app2.state.aim = aim;
+      app2.send("pool:aim", aim);
+    });
+    for (const operation of ["shoot", "reset", "place"]) {
+      app2.on(`pool:${operation}`, (request, sender) => {
+        refreshCues();
+        expire();
+        if (!authorized(sender) || !request || request.seq !== seq) return;
+        renewLease();
+        let accepted = false;
+        if (operation === "shoot") {
+          accepted = sim.shoot(request);
+          if (accepted) owner = aim = null;
+        }
+        if (operation === "place") accepted = sim.place(request.x, request.y);
+        if (operation === "reset" && !sim.moving) {
+          sim.reset();
+          rack++;
+          accepted = true;
+        }
+        if (accepted) {
+          publish();
+          startUpdates();
+        }
+      });
+    }
     refreshCues();
     publish();
     return sim;
@@ -1515,6 +1578,7 @@
             voice.until = 0;
           }
         }
+        return voices.some((voice) => voice.until > clock);
       },
       clear() {
         for (const voice of voices) {
@@ -1527,7 +1591,7 @@
 
   // src/aim.js
   var AIM_ELEVATION = Math.atan2(0.14, 0.68);
-  function avatarStance(position, angle, size, floorY) {
+  function avatarStance(position, angle, size, floorY, pullback = 0) {
     const forward = new V(Math.cos(angle), 0, -Math.sin(angle));
     const across = new V(Math.sin(angle), 0, Math.cos(angle));
     const origin = new V(position[0], floorY, -position[1]).addScaledVector(across, -0.32);
@@ -1536,14 +1600,14 @@
     const halfZ = size.width / 2 + 0.18 + 0.3;
     const exitX = Math.abs(backward.x) < 1e-9 ? Infinity : (Math.sign(backward.x) * halfX - origin.x) / backward.x;
     const exitZ = Math.abs(backward.z) < 1e-9 ? Infinity : (Math.sign(backward.z) * halfZ - origin.z) / backward.z;
-    const distance = Math.max(1.47 + BALL_RADIUS + 0.012 + 0.3, Math.min(exitX, exitZ) + 0.04);
+    const distance = Math.max(1.47 + BALL_RADIUS + 0.012 + pullback + 0.3, Math.min(exitX, exitZ) + 0.04);
     return {
       position: origin.addScaledVector(backward, distance),
       quaternion: new Q().setFromEuler(new E(0, angle - Math.PI / 2, 0, "YXZ")),
       distance
     };
   }
-  function shotPose(position, angle, side = 0, top = 0, elevation = AIM_ELEVATION) {
+  function shotPose(position, angle, side = 0, top = 0, elevation = AIM_ELEVATION, speed = 2.5) {
     const ball = new V(position[0], BALL_RADIUS + position[2], -position[1]);
     const forward = new V(Math.cos(angle), 0, -Math.sin(angle));
     const across = new V(Math.sin(angle), 0, Math.cos(angle));
@@ -1561,10 +1625,11 @@
     cueDirection.normalize();
     const contact = ball.clone().addScaledVector(across, side * BALL_RADIUS);
     contact.y += top * BALL_RADIUS;
-    const gap = BALL_RADIUS * Math.sqrt(Math.max(0, 1 - side * side - top * top)) + 0.012;
+    const pullback = Math.max(0, Math.min(1, (speed - 0.1) / 4.9)) * 0.35;
+    const gap = BALL_RADIUS * Math.sqrt(Math.max(0, 1 - side * side - top * top)) + 0.012 + pullback;
     const cuePosition = contact.addScaledVector(cueDirection, -(0.735 + gap));
     const cueQuaternion = new Q().setFromUnitVectors(new V(0, 1, 0), cueDirection);
-    return { cameraPosition, cameraQuaternion, cameraTarget: ball, cuePosition, cueQuaternion };
+    return { cameraPosition, cameraQuaternion, cameraTarget: ball, cuePosition, cueQuaternion, pullback };
   }
 
   // src/client.js
@@ -1574,10 +1639,10 @@
     if (!me) {
       const ready = () => {
         if (!world2.getPlayer()) return;
-        app2.off("update", ready);
+        world2.off("player", ready);
         startClient(world2, app2, { balls, ghost, surfaceTarget, size, playChannel, soundSources });
       };
-      app2.on("update", ready);
+      world2.on("player", ready);
       return;
     }
     let latest = app2.state?.pool, frames = [], clock = 0, control = null, idle = null;
@@ -1591,9 +1656,9 @@
     world2.on(volumeEvent, (value) => sounds.setVolume(value));
     app2.emit(`${volumeEvent}:request`);
     let soundEvents = [], lastEventId = latest?.lastEventId || 0;
-    const cueEvent = `billard:cues:${playChannel}`;
+    const cueEvent = CUE_EVENT;
     const aimingEvent = `billard:aiming:${playChannel}`;
-    const poseEvent = `billard:cue-pose:${playChannel}`;
+    const poseEvent = POSE_EVENT;
     const hasCue = () => cueHolders.includes(me.id);
     const canPlay = () => hasCue() && !control && !pending && !shotPending && !latest?.moving && !latest?.owner;
     const ui = app2.create("ui", {
@@ -1614,6 +1679,22 @@
     let playHintControl = null;
     let hintMode = null;
     let hoverRefreshPending = false;
+    let updateAttached = false;
+    let update;
+    const wake = () => {
+      if (!update || updateAttached) return;
+      updateAttached = true;
+      app2.on("update", update);
+    };
+    const isNearby = () => me.position.distanceTo(app2.position) < 15;
+    const setBallsActive = (active) => {
+      for (const ball of balls) ball.active = active;
+    };
+    setBallsActive(isNearby());
+    latest?.balls?.forEach((state, i) => {
+      balls[i].position.set(state.p[0], BALL_RADIUS + state.p[2], -state.p[1]);
+      if (isNearby()) balls[i].active = state.state !== "InPocket";
+    });
     const hoveredTargets = /* @__PURE__ */ new Set();
     const clearPlayHint = () => {
       playHintControl?.setActions([]);
@@ -1637,15 +1718,17 @@
       target.onPointerEnter = () => {
         hoveredTargets.add(target);
         hoverRefreshPending = false;
+        if (isNearby()) setBallsActive(true);
         refresh2();
       };
       target.onPointerLeave = () => {
         hoveredTargets.delete(target);
         hoverRefreshPending = true;
+        wake();
       };
     }
     const clearPose = () => {
-      if (posedPlayer) app2.emit(poseEvent, { playerId: posedPlayer, clear: true });
+      if (posedPlayer) app2.emit(poseEvent, { playerId: posedPlayer, tableId: app2.instanceId, clear: true });
       posedPlayer = null;
     };
     const stop = (release = true) => {
@@ -1683,6 +1766,7 @@
         control[key].capture = true;
       control.camera.write = true;
       control.camera.zoom = 0;
+      control.scrollDelta.capture = true;
       control.space.onPress = () => {
         if (!latest || latest.moving || !hasCue()) return;
         if (latest.scratched) placeCueBall();
@@ -1735,16 +1819,18 @@
         idle = null;
       }
       refresh2();
+      wake();
     };
     app2.on("pool:snapshot", receive);
     app2.on("pool:aim", (next) => {
       aim = next;
+      wake();
     });
-    world2.on(cueEvent, (holders) => {
-      if (!Array.isArray(holders)) return;
-      cueHolders = holders.filter((id) => typeof id === "string");
+    watchCues(world2, (holders) => {
+      cueHolders = holders;
       if (!hasCue() && control) stop();
       refresh2();
+      wake();
     });
     if (latest) frames = [{ at: clock, snapshot: latest }];
     const play = () => {
@@ -1754,10 +1840,12 @@
       angle = Math.atan2(ball[1] + local.z, ball[0] - local.x);
       pending = true;
       requestedAt = clock;
+      if (isNearby()) setBallsActive(true);
       idle = app2.control();
       idle.pointer.lock();
       app2.send("pool:claim", { angle });
       refresh2();
+      wake();
     };
     const playOrPlace = (event) => {
       if (event?.button !== "left") return;
@@ -1769,7 +1857,7 @@
     app2.emit(`${cueEvent}:request`);
     const axis = new V();
     const worldPosition = (local) => local.clone().multiply(app2.scale).applyQuaternion(app2.quaternion).add(app2.position);
-    app2.on("update", (dt) => {
+    update = (dt) => {
       if (!Number.isFinite(dt) || dt <= 0) return;
       clock += dt;
       if (hoverRefreshPending) {
@@ -1777,9 +1865,8 @@
         refresh2();
       }
       if (pending && clock - requestedAt > 2) stop(false);
-      sounds.update(clock);
-      const nearby = me.position.distanceTo(app2.position) < 15;
-      for (const ball of balls) ball.active = nearby;
+      const nearby = isNearby();
+      if (nearby) setBallsActive(true);
       if (!nearby) {
         if (control) stop();
         clearPose();
@@ -1801,7 +1888,7 @@
         a.snapshot.balls.forEach((state, i) => {
           const next = b.snapshot.balls[i];
           const p = state.p.map((v, j) => v + (next.p[j] - v) * alpha);
-          balls[i].active = nearby && state.state !== "InPocket";
+          if (nearby) balls[i].active = state.state !== "InPocket";
           balls[i].position.set(p[0], BALL_RADIUS + p[2], -p[1]);
           axis.set(state.w[0], state.w[2], -state.w[1]);
           const rotationSpeed = axis.length();
@@ -1810,8 +1897,8 @@
           );
         });
       }
-      if (!nearby) return;
-      if (control && (me.position.distanceTo(app2.position) > 5 || !hasCue())) stop();
+      const soundsActive = sounds.update(clock);
+      if (nearby && control && (me.position.distanceTo(app2.position) > 5 || !hasCue())) stop();
       if (control) {
         ping += dt;
         if (ping > 15) {
@@ -1839,7 +1926,7 @@
           balls[0].active = true;
           balls[0].position.set(placeX, BALL_RADIUS, -placeY);
         } else {
-          speed = Math.max(0.1, Math.min(5, speed + vertical * dt));
+          speed = Math.max(0.1, Math.min(5, speed + vertical * dt - control.scrollDelta.value * 0.01));
           side += (Number(control.keyD.down) - Number(control.keyA.down)) * dt * 0.3;
           top += (Number(control.keyW.down) - Number(control.keyS.down)) * dt * 0.3;
           const spin = Math.hypot(side, top);
@@ -1850,11 +1937,11 @@
         }
         const ball = latest?.scratched ? [placeX, placeY, 0] : latest?.balls[0]?.p;
         if (ball) {
-          const pose = shotPose(ball, angle, side, top, elevation);
+          const pose = shotPose(ball, angle, side, top, elevation, speed);
           control.camera.position.copy(worldPosition(pose.cameraPosition));
           control.camera.quaternion.copy(app2.quaternion).multiply(pose.cameraQuaternion);
           if (clock - lastStanceAt >= 0.05) {
-            const stance = avatarStance(ball, angle, size, floorY);
+            const stance = avatarStance(ball, angle, size, floorY, pose.pullback);
             const position = worldPosition(stance.position);
             const quaternion = app2.quaternion.clone().multiply(stance.quaternion);
             if (me.position.distanceTo(position) > 0.025 || me.quaternion.angleTo(quaternion) > 0.02)
@@ -1865,26 +1952,32 @@
         sinceAim += dt;
         if (sinceAim >= 0.1) {
           sinceAim = 0;
-          app2.send("pool:aim", { angle, side, top });
+          app2.send("pool:aim", { angle, side, top, speed });
         }
         ghost.active = false;
-        text.value = latest?.error || (latest?.scratched ? "Scratch \xB7 Mouse / \u2190 \u2192: orbit \xB7 WASD: move white ball\nClick / Space: confirm \xB7 R: re-rack \xB7 Esc: leave" : `Mouse: orbit / aim \xB7 \u2191 \u2193 Power ${speed.toFixed(1)} m/s \xB7 W/S Top ${top.toFixed(2)} \xB7 A/D Side ${side.toFixed(2)}
+        text.value = latest?.error || (latest?.scratched ? "Scratch \xB7 Mouse / \u2190 \u2192: orbit \xB7 WASD: move white ball\nClick / Space: confirm \xB7 R: re-rack \xB7 Esc: leave" : `Mouse: orbit / aim \xB7 Scroll back / closer: Power ${speed.toFixed(1)} m/s \xB7 W/S Top ${top.toFixed(2)} \xB7 A/D Side ${side.toFixed(2)}
 Space: shoot \xB7 Esc: leave \xB7 X: return cue`);
       }
       const shooter = latest?.owner;
       const aiming = shooter && !latest.moving && !latest.scratched && (shooter === me.id ? !!control : aim?.playerId === shooter);
       if (aiming && latest.balls[0]) {
-        const params = shooter === me.id ? { angle, side, top } : aim;
-        const pose = shotPose(latest.balls[0].p, params.angle, params.side, params.top);
+        const params = shooter === me.id ? { angle, side, top, speed } : aim;
+        const pose = shotPose(latest.balls[0].p, params.angle, params.side, params.top, AIM_ELEVATION, params.speed);
         if (posedPlayer && posedPlayer !== shooter) clearPose();
         posedPlayer = shooter;
         app2.emit(poseEvent, {
           playerId: shooter,
+          tableId: app2.instanceId,
           position: worldPosition(pose.cuePosition).toArray(),
           quaternion: app2.quaternion.clone().multiply(pose.cueQuaternion).toArray()
         });
       } else clearPose();
-    });
+      if (!control && !pending && !hoverRefreshPending && !latest?.moving && frames.length <= 1 && soundEvents.length === 0 && !soundsActive) {
+        app2.off("update", update);
+        updateAttached = false;
+      }
+    };
+    if (latest?.moving || latest?.owner) wake();
     app2.on("destroy", () => {
       stop();
       clearPlayHint();
@@ -1909,7 +2002,7 @@ Space: shoot \xB7 Esc: leave \xB7 X: return cue`);
   ]);
   var preset = props.tableSize === "8" ? "8" : "9";
   if (world.isServer) {
-    startServer(world, app, preset, props.playChannel || "classic-8-ft-pool-table");
+    startServer(world, app, preset);
   } else {
     const size = dimensions(preset);
     const { length: L, width: W } = size;

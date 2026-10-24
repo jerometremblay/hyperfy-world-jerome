@@ -6,10 +6,7 @@
 app.resetOnMove = false
 
 // Only major aircraft masses receive collision. Visual detail stays collision-free.
-// Colliders are detached into world space so they continue to work while the app
-// is selected/transformed in the builder. One shared update keeps the small set
-// of colliders aligned with the app transform.
-const physicsBindings = []
+// Parent static colliders to the app; native transforms handle actual movement.
 
 const PHYSICS_KEYS = [
   'mass',
@@ -35,28 +32,19 @@ function pickPhysicsOptions(extra) {
   return out
 }
 
-function exactWorldTransform(node) {
-  const position = node.position.clone().multiply(app.scale).applyQuaternion(app.quaternion).add(app.position)
-  const quaternion = app.quaternion.clone().multiply(node.quaternion)
-  const scale = node.scale.clone().multiply(app.scale)
-  return { position, quaternion, scale }
-}
-
 function attachMajorCollider(node, shapeConfig, physics, extra = {}) {
-  const initial = exactWorldTransform(node)
   const collider = app.create('prim', {
     ...shapeConfig,
-    position: initial.position.toArray(),
-    quaternion: initial.quaternion.toArray(),
-    scale: initial.scale.toArray(),
+    position: node.position.toArray(),
+    quaternion: node.quaternion.toArray(),
+    scale: node.scale.toArray(),
     opacity: 0,
     castShadow: false,
     receiveShadow: false,
     physics,
     ...pickPhysicsOptions(extra),
   })
-  world.add(collider)
-  physicsBindings.push({ node, collider, lastScale: initial.scale.clone() })
+  app.add(collider)
   return collider
 }
 
@@ -868,31 +856,4 @@ for (const x of [-3.52, 3.52]) {
   })
   sphere(0.009, [x - 0.09, lowerWingY + 0.086, -0.12], C.brass)
   sphere(0.009, [x + 0.09, lowerWingY + 0.086, -0.12], C.brass)
-}
-
-
-// Keep the small set of detached structural colliders synchronized with the app.
-function syncMajorColliders() {
-  for (const binding of physicsBindings) {
-    const t = exactWorldTransform(binding.node)
-    const scaleChanged = !binding.lastScale.equals(t.scale)
-
-    binding.collider.position.copy(t.position)
-    binding.collider.quaternion.copy(t.quaternion)
-    binding.collider.scale.copy(t.scale)
-
-    if (scaleChanged) {
-      binding.lastScale.copy(t.scale)
-      const physics = binding.collider.physics
-      binding.collider.physics = null
-      binding.collider.physics = physics
-    }
-  }
-}
-
-if (physicsBindings.length) {
-  app.on('update', syncMajorColliders)
-  app.on('destroy', () => {
-    for (const binding of physicsBindings) world.remove(binding.collider)
-  })
 }

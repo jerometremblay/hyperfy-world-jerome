@@ -23,43 +23,21 @@ const C = {
   mortar: '#655f55', hearth: '#8e8777', roof: '#333a39', iron: '#333531',
   soffit: '#93734e', glass: '#b6d3d5', inside: '#373731',
 }
-// Structural physics uses a small set of invisible box anchors plus detached
-// world colliders. One shared update hook keeps them aligned if the app is moved,
-// rotated, or scaled in the builder; decorative primitives remain visual-only.
+// Keep structural and door colliders under the house so native transforms
+// move them with the app. Door updates run only while a door is animating.
 app.resetOnMove = false
-const physicsEntries = []
-function rebuildPhysics(node) {
-  const mode = node.physics
-  if (!mode) return
-  node.physics = null
-  node.physics = mode
-}
-function exactWorldTransform(node) {
-  const position = node.position.clone().multiply(app.scale).applyQuaternion(app.quaternion).add(app.position)
-  const quaternion = app.quaternion.clone().multiply(node.quaternion)
-  const scale = node.scale.clone().multiply(app.scale)
-  return { position, quaternion, scale }
-}
+let collisionSerial = 0
 function collisionBox(size, position, rotation = [0, 0, 0], name = 'structure', extra = {}) {
-  const anchor = app.create('prim', {
-    id: `physics-anchor:${name}:${physicsEntries.length}`,
-    type: 'box', size, position, rotation,
-    opacity: 0, castShadow: false, receiveShadow: false, physics: null,
-  })
-  app.add(anchor)
-  const initial = exactWorldTransform(anchor)
   const collider = app.create('prim', {
-    id: `physics:${name}:${physicsEntries.length}`,
-    type: 'box', size,
-    position: initial.position.toArray(), quaternion: initial.quaternion.toArray(), scale: initial.scale.toArray(),
+    id: `physics:${name}:${collisionSerial++}`,
+    type: 'box', size, position, rotation,
     opacity: 0, castShadow: false, receiveShadow: false,
     physics: extra.physics || 'static',
     staticFriction: extra.staticFriction === undefined ? 0.8 : extra.staticFriction,
     dynamicFriction: extra.dynamicFriction === undefined ? 0.65 : extra.dynamicFriction,
     restitution: extra.restitution === undefined ? 0 : extra.restitution,
   })
-  world.add(collider)
-  physicsEntries.push({ anchor, collider, lastScale: initial.scale.clone() })
+  app.add(collider)
   return collider
 }
 function wallCollisionWithOpenings(axis, fixed, low, high, bottom, top, openings, depth = 0.34, name = 'wall') {
@@ -87,31 +65,6 @@ function wallCollisionWithOpenings(axis, fixed, low, high, bottom, top, openings
     }
   }
 }
-let lastPhysicsPosition = app.position.clone()
-let lastPhysicsQuaternion = app.quaternion.clone()
-let lastPhysicsScale = app.scale.clone()
-function syncPhysicsEntry(entry) {
-  const t = exactWorldTransform(entry.anchor)
-  entry.collider.position.copy(t.position)
-  entry.collider.quaternion.copy(t.quaternion)
-  entry.collider.scale.copy(t.scale)
-  if (!entry.lastScale.equals(t.scale)) {
-    entry.lastScale.copy(t.scale)
-    rebuildPhysics(entry.collider)
-  }
-}
-function syncStructuralPhysics(force = false) {
-  const scaleChanged = !lastPhysicsScale.equals(app.scale)
-  if (!force && !scaleChanged && lastPhysicsPosition.equals(app.position) && lastPhysicsQuaternion.equals(app.quaternion)) return
-  for (const entry of physicsEntries) syncPhysicsEntry(entry)
-  lastPhysicsPosition.copy(app.position)
-  lastPhysicsQuaternion.copy(app.quaternion)
-  lastPhysicsScale.copy(app.scale)
-}
-app.on('update', () => syncStructuralPhysics())
-app.on('destroy', () => {
-  for (const entry of physicsEntries) world.remove(entry.collider)
-})
 
 const lightingPosts = []
 const upperFloorShadowLights = []
@@ -342,7 +295,7 @@ function registerDoor(id, hingeX, hingeY, hingeZ, direction, width, height, open
   const group = app.create('group', { position: [hingeX, hingeY, hingeZ] })
   app.add(group)
   const d = { id, group, hingeX, hingeY, hingeZ, direction, width, height, openAngle,
-    face, angle: 0, target: 0, physicsEntry: null }
+    face, angle: 0, target: 0, collider: null }
   doorRegistry[id] = d
   if (face === 'entrance') {
     const plankWidth = width / 5
@@ -840,22 +793,20 @@ collisionBox([roofCollisionLength, 0.22, 16.70], [roofCollisionRun / 2, roofColl
 section = 'doors'
 function setDoorGeometry(door, angle) {
   door.angle = angle
-  door.group.rotation.y = angle
-  if (door.physicsEntry) {
-    const p = door.physicsEntry.anchor
+  if (world.isClient) door.group.rotation.y = angle
+  if (door.collider) {
     const x = door.direction * door.width / 2
-    p.position.set(door.hingeX + x * Math.cos(angle), door.hingeY + door.height / 2,
+    door.collider.position.set(door.hingeX + x * Math.cos(angle), door.hingeY + door.height / 2,
       door.hingeZ - x * Math.sin(angle))
-    p.rotation.y = angle
-    syncPhysicsEntry(door.physicsEntry)
+    door.collider.rotation.y = angle
   }
 }
+
 for (const door of Object.values(doorRegistry)) {
   const centreX = door.hingeX + door.direction * door.width / 2
-  collisionBox([door.width - 0.008, door.height - 0.015, door.face === 'entrance' ? 0.132 : 0.105],
+  door.collider = collisionBox([door.width - 0.008, door.height - 0.015, door.face === 'entrance' ? 0.132 : 0.105],
     [centreX, door.hingeY + door.height / 2, door.hingeZ], [0, 0, 0], `${door.id}-leaf`,
     { physics: 'kinematic', staticFriction: 0.7 })
-  door.physicsEntry = physicsEntries[physicsEntries.length - 1]
 }
 
 if (world.isServer && (!app.state?.doors || typeof app.state.doors !== 'object')) {
@@ -868,14 +819,38 @@ for (const door of Object.values(doorRegistry)) {
   setDoorGeometry(door, door.target)
   if (door.action) door.action.label = isOpen ? 'Close door' : 'Open door'
 }
-syncStructuralPhysics(true)
-
+let doorUpdateRegistered = false
+function updateDoors(delta) {
+  const step = Math.min(Math.max(delta || 0, 0), 0.08) * 3.2
+  if (!step) return
+  let changedUpperDoor = false
+  for (const door of Object.values(doorRegistry)) {
+    const diff = door.target - door.angle
+    if (Math.abs(diff) < 0.0001) continue
+    const next = Math.abs(diff) <= step ? door.target : door.angle + Math.sign(diff) * step
+    setDoorGeometry(door, next)
+    if (world.isClient && door.hingeY >= D.upper) changedUpperDoor = true
+  }
+  if (changedUpperDoor) for (const light of upperFloorShadowLights) {
+    if (typeof light.refreshShadow === 'function') light.refreshShadow()
+  }
+  if (Object.values(doorRegistry).every(door => Math.abs(door.target - door.angle) < 0.0001)) {
+    app.off('update', updateDoors)
+    doorUpdateRegistered = false
+  }
+}
+function startDoorUpdates() {
+  if (doorUpdateRegistered) return
+  doorUpdateRegistered = true
+  app.on('update', updateDoors)
+}
 function applyAuthoritativeDoorState(data) {
   if (!data || typeof data.id !== 'string' || typeof data.open !== 'boolean') return
   const door = doorRegistry[data.id]
   if (!door) return
   door.target = data.open ? door.openAngle : 0
   if (door.action) door.action.label = data.open ? 'Close door' : 'Open door'
+  if (Math.abs(door.target - door.angle) >= 0.0001) startDoorUpdates()
 }
 if (world.isServer) {
   app.on('toggleDoor', (request) => {
@@ -891,23 +866,6 @@ if (world.isServer) {
 }
 if (world.isClient) app.on('doorState', applyAuthoritativeDoorState)
 
-app.on('update', (delta) => {
-  const step = Math.min(Math.max(delta || 0, 0), 0.08) * 3.2
-  if (!step) return
-  let changedUpperDoor = false
-  for (const door of Object.values(doorRegistry)) {
-    const diff = door.target - door.angle
-    if (Math.abs(diff) < 0.0001) continue
-    const next = Math.abs(diff) <= step ? door.target : door.angle + Math.sign(diff) * step
-    setDoorGeometry(door, next)
-    if (door.hingeY >= D.upper) changedUpperDoor = true
-  }
-  if (changedUpperDoor) for (const light of upperFloorShadowLights) {
-    // Some fork versions do not expose this optional cache invalidation hook.
-    // Calling a missing method aborts the door's update handler.
-    if (typeof light.refreshShadow === 'function') light.refreshShadow()
-  }
-})
 
 // 16. Four warm paired-cone sconces: two downstairs and two upstairs.
 // Native spots illuminate surfaces; the small emissive lenses show the openings.
