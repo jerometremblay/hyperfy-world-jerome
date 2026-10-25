@@ -222,7 +222,6 @@ const glassPanels = [
 ]
 for (const [position, size] of glassPanels) {
   prim('box', size, position, '#f5d99b', {
-    transparent: true,
     opacity: 0.17,
     metalness: 0.0,
     roughness: 0.06,
@@ -242,7 +241,6 @@ const flame = prim('sphere', [0.095], [0, 2.045, 0], warm, {
   castShadow: false,
 })
 const glow1 = prim('sphere', [0.17], [0, 2.045, 0], '#ffc46b', {
-  transparent: true,
   opacity: 0.10,
   emissive: '#ffad42',
   emissiveIntensity: 3.2,
@@ -252,7 +250,6 @@ const glow1 = prim('sphere', [0.17], [0, 2.045, 0], '#ffc46b', {
   receiveShadow: false,
 })
 const glow2 = prim('sphere', [0.25], [0, 2.045, 0], '#ffcb78', {
-  transparent: true,
   opacity: 0.040,
   emissive: '#ffaf45',
   emissiveIntensity: 1.8,
@@ -298,7 +295,6 @@ for (const s of [-1, 1]) {
 // Subtle warm pool on the ground to visually sell local illumination.
 const pool = prim('plane', [0.86, 0.86], [0, -0.495, 0], '#ffb65c', {
   rotation: [-PI / 2, 0, 0],
-  transparent: true,
   opacity: 0.085,
   emissive: '#ff9e34',
   emissiveIntensity: 2.0,

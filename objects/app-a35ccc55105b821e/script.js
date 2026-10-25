@@ -174,7 +174,7 @@ function windowFrame(axis, fixed, o, options = {}) {
   wallBox(axis, fixed, u, b, w + 0.42, 0.22, 0.44, C.trim, 'window-sill')
   const glassSize = axis === 'x' ? [glassWidth, glassHeight, 0.035] : [0.035, glassHeight, glassWidth]
   box(glassSize, wallPoint(axis, fixed, u, glassY), C.glass, [0, 0, 0],
-    { opacity: 0.18, transparent: true, roughness: 0.12, castShadow: false }, 'glass')
+    { opacity: 0.18, roughness: 0.12, castShadow: false }, 'glass')
   wallBox(axis, fixed, u, glassY, 0.075, glassHeight, 0.085, C.trim, 'mullion')
   if (w > 2.4) wallBox(axis, fixed, u, b + h * 0.7, glassWidth, 0.075, 0.067, C.trim, 'transom')
 }
@@ -663,16 +663,16 @@ for (const x of [-4.6, -1.24, 1.24, 4.6]) {
 for (const y of [2.75, 5.95]) box([9.36, 0.22, 0.34], [0, y, -7.5], C.timber, [0, 0, 0], {}, 'screen-transom')
 for (const [left, right] of [[-4.48, -1.37], [1.37, 4.48]]) {
   box([right - left, 2.49, 0.035], [(left + right) / 2, 1.435, -7.5], C.glass, [0, 0, 0],
-    { opacity: 0.18, transparent: true, castShadow: false, roughness: 0.12 }, 'glass')
+    { opacity: 0.18, castShadow: false, roughness: 0.12 }, 'glass')
   box([right - left + 0.12, 0.13, 0.35], [(left + right) / 2, 0.18, -7.5], C.trim)
 }
 for (const [left, right] of [[-4.48, -1.37], [-1.11, 1.11], [1.37, 4.48]]) {
   box([right - left, 2.98, 0.035], [(left + right) / 2, 4.35, -7.5], C.glass, [0, 0, 0],
-    { opacity: 0.18, transparent: true, castShadow: false, roughness: 0.12 }, 'glass')
+    { opacity: 0.18, castShadow: false, roughness: 0.12 }, 'glass')
 }
 const gableGlass = [[-4.48, 6.07], [4.48, 6.07], [4.48, roofY(4.48) - 0.14], [0, 9.66], [-4.48, roofY(4.48) - 0.14]]
 extrude(gableGlass, 0.035, -7.5, C.glass, 0, 'gable-glass',
-  { opacity: 0.18, transparent: true, castShadow: false, roughness: 0.12 })
+  { opacity: 0.18, castShadow: false, roughness: 0.12 })
 for (const x of [-1.24, 0, 1.24]) box([0.12, roofY(x) - 6.17, 0.14], [x, (roofY(x) - 0.1 + 6.07) / 2, -7.51], C.trim)
 for (const side of [-1, 1]) beamBetween([side * 9.03, 5.99, -7.67], [0, 9.8, -7.67], 0.24, C.timber, 'gable-frame')
 // The structural screen posts at x=+/-1.24 and transom at y=2.75 already

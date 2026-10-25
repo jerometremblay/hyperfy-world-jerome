@@ -259,7 +259,7 @@ for (let i=0;i<4;i++) {
 function collider(size, pos, rot=[0,0,0]) {
   addPrim(null,'box',{
     size, position:pos, rotation:rot,
-    color:'#ffffff', transparent:true, opacity:0,
+    color:'#ffffff', opacity:0,
     castShadow:false, receiveShadow:false,
     physics:'static', roughness:1,
   })

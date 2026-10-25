@@ -101,7 +101,7 @@ for (let i = 0; i < flameData.length; i++) {
     type: 'cone', size: [d[2], d[3]],
     position: [d[0], baseY + 0.28 + d[3] / 2, d[1]],
     color: d[4], emissive: d[5], emissiveIntensity: d[6],
-    transparent: true, opacity: 0.78,
+    opacity: 0.78,
     roughness: 0.6, metalness: 0, physics: null,
     castShadow: false, receiveShadow: false
   })
