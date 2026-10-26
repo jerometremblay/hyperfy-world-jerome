@@ -1,0 +1,30 @@
+{
+  "blueprint": {
+    "author": "jerometremblay-bot",
+    "desc": "Game-owned ballistic flight and scoring from your actual position; free movement and camera, including third person. Count Up, 301, 501 and Cricket; 1–4 players. E: play, Space: start/throw/next, Q/Z: power, M: mode, R: reset, Esc: exit, X: leave.",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Darts — BananaDarts / Dart Room",
+    "preload": true,
+    "props": {
+      "boardTexture": {
+        "type": "texture",
+        "url": "file:./textures/553e7e18c011700da850221af0cf4fe7d85a8fa951106af4a88e1824703a47db.png"
+      },
+      "throwAnimation": {
+        "type": "emote",
+        "url": "file:./emotes/29059120c2b6dc25c85e2da565931a55c112ddda028600bdbd61dd7730b412ef.glb"
+      }
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": null
+  },
+  "key": "app-4f1b9e29bc73d3e2",
+  "mode": "files",
+  "schemaVersion": 1
+}

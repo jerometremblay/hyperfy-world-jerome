@@ -19,7 +19,7 @@
       "destinationPortalId": "4b73c1c1-98ab-40b2-92db-cae91208c7cc",
       "doubleside": "false",
       "portalId": "f7dada59-f925-4fcd-9fb9-4a6253d86890",
-      "resolution": "max",
+      "resolution": "1024",
       "updateRate": "15"
     },
     "public": false,

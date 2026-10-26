@@ -3,12 +3,32 @@
     "author": "OpenAI",
     "desc": "Standalone animated fire with iron grate, inspired by the provided reference fire.",
     "disabled": false,
+    "frozen": false,
     "image": null,
     "locked": false,
     "model": "file:./model.glb",
     "name": "Fire and Grate",
     "preload": false,
     "props": {
+      "crackle1": {
+        "type": "audio",
+        "url": "file:./audios/75720456e17b8f45cb307e105e6bde6f793c901427c3bde38d1c8922f6a2d1c4.ogg"
+      },
+      "crackle2": {
+        "type": "audio",
+        "url": "file:./audios/b9471b054cd18bbc7b9361310096428d868cf573ff23d83b72cc5bb377d713c7.ogg"
+      },
+      "crackle3": {
+        "type": "audio",
+        "url": "file:./audios/85cd20bce7f9585ea7500524ca29a2bef6e8a86ed150fb5f4dc9a05f8ae7770c.ogg"
+      },
+      "crackleMaxInterval": 43,
+      "crackleMinInterval": 18,
+      "crackleVolume": 62,
+      "fireSound": {
+        "type": "audio",
+        "url": "file:./audios/043c98f30dd75d3f5749e59cbad61046315c799c80bef4d6071476a8ba99ac97.ogg"
+      },
       "flickerAmount": 0.33,
       "flickerSpeed": 0.4,
       "lightDecay": 2.3000000000000003,
@@ -20,33 +40,13 @@
       "lightZ": 0.02,
       "promptBoxRequestId": "vbfGQmNv0x",
       "promptBoxTargetEntityId": "uw2zCZ2v2M",
-      "soundVolume": 8,
-      "fireSound": {
-        "type": "audio",
-        "url": "file:./fireplace.ogg"
-      },
-      "crackleVolume": 12,
-      "crackleMinInterval": 8,
-      "crackleMaxInterval": 25,
-      "crackle1": {
-        "type": "audio",
-        "url": "file:./crackle-1.ogg"
-      },
-      "crackle2": {
-        "type": "audio",
-        "url": "file:./crackle-2.ogg"
-      },
-      "crackle3": {
-        "type": "audio",
-        "url": "file:./crackle-3.ogg"
-      }
+      "soundVolume": 27
     },
     "public": false,
     "script": "file:./script.js",
     "unique": true,
     "url": null
   },
-  "extraAssets": [],
   "key": "apps/fire-and-grate",
   "mode": "files",
   "schemaVersion": 1

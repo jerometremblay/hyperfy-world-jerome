@@ -1,0 +1,24 @@
+{
+  "blueprint": {
+    "author": "OpenAI",
+    "desc": "Tall tropical houseplant with broad veined leaves, sculpted stems and a decorated handmade terracotta planter.",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "script-only",
+    "name": "Bird of Paradise — Terracotta Planter",
+    "preload": false,
+    "props": {
+      "promptBoxRequestId": "SFx6DFfaSN",
+      "promptBoxTargetEntityId": "4l1QAS6q2z"
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": true,
+    "url": null
+  },
+  "key": "app-7a892e5a78020935",
+  "mode": "files",
+  "schemaVersion": 1
+}

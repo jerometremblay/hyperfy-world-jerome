@@ -1,0 +1,24 @@
+{
+  "blueprint": {
+    "author": "Jerome",
+    "desc": "Large U-shaped walnut desk with brass edge, drawer pedestals and leather pad. Physical collision preserves the open bay; placement stays grounded.",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Walnut and Brass U-shaped Work Desk",
+    "preload": true,
+    "props": {
+      "castShadows": true,
+      "receiveShadows": true
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": ""
+  },
+  "key": "app-62dab8666b24fcef",
+  "mode": "files",
+  "schemaVersion": 1
+}

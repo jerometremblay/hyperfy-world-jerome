@@ -15,6 +15,8 @@ const SHADOW_CASTING = props.castShadows !== false
 const SHADOW_RECEIVING = props.receiveShadows !== false
 
 const D = { halfWidth: 9, halfDepth: 7.5, floor: 0.12, upper: 3.3, eave: 6, ridge: 9.8 }
+const E = { halfWidth: 3, front: 7.5, back: 12.35, eave: 6,
+  ridge: 6 + 3 * (D.ridge - D.eave) / D.halfWidth }
 const C = {
   logs: ['#805b3d', '#896344', '#936c4a', '#876042', '#9b7450'],
   end: '#b08a5d', timber: '#513b2b', trim: '#664932',
@@ -187,8 +189,14 @@ function doorFrame(axis, fixed, u, bottom, width, height) {
 function floorDeck(x0, x1, z0, z1, y, prefix) {
   box([x1 - x0, 0.21, z1 - z0], [(x0 + x1) / 2, y - 0.155, (z0 + z1) / 2], C.trim, [0, 0, 0], { castShadow: true }, prefix + '-deck')
   const n = Math.ceil((x1 - x0) / 0.36), width = (x1 - x0) / n
-  for (let i = 0; i < n; i++) box([width - 0.005, 0.05, z1 - z0],
-    [x0 + (i + 0.5) * width, y - 0.023, (z0 + z1) / 2], C.floor[i % 4], [0, 0, 0], { castShadow: true }, prefix + '-board')
+  for (let i = 0; i < n; i++) {
+    const x = x0 + (i + 0.5) * width
+    // Continue the original rear mezzanine boards through the enlarged bedroom.
+    const back = prefix === 'rear' && Math.abs(x) + width / 2 <= E.halfWidth
+      ? E.back - 0.16 : z1
+    box([width - 0.005, 0.05, back - z0],
+      [x, y - 0.023, (z0 + back) / 2], C.floor[i % 4], [0, 0, 0], { castShadow: true }, prefix + '-board')
+  }
 }
 const guardPostPositions = new Set()
 function railing(a, b, name = 'guard') {
@@ -212,9 +220,15 @@ function railing(a, b, name = 'guard') {
 
 // 1. Ground contact slab and wide timber floorboards.
 box([18, 0.077, 15], [0, 0.0385, 0], C.trim, [0, 0, 0], {}, 'contact-slab')
-for (let i = 0; i < 60; i++) box([0.295, 0.04, 15], [-8.85 + i * 0.3, 0.10, 0], C.floor[i % 4], [0, 0, 0], {}, 'floorboard')
+for (let i = 0; i < 60; i++) {
+  const x = -8.85 + i * 0.3
+  const back = Math.abs(x) < E.halfWidth ? E.back : D.halfDepth
+  box([0.295, 0.04, back + D.halfDepth], [x, 0.10, (back - D.halfDepth) / 2],
+    C.floor[i % 4], [0, 0, 0], {}, 'floorboard')
+}
 // Low perimeter sill closes the half-course corner staggering at floor level.
-box([17.70, 0.27, 0.30], [0, 0.255, 7.5], C.trim)
+// The central rear sill is removed along with the wall, at both floors.
+for (const x of [-6, 6]) box([5.70, 0.27, 0.30], [x, 0.255, 7.5], C.trim)
 for (const x of [-6.725, 6.725]) box([4.25, 0.27, 0.30], [x, 0.255, -7.5], C.trim)
 for (const x of [-9, 9]) box([0.30, 0.27, 15.32], [x, 0.255, 0], C.trim)
 
@@ -227,9 +241,11 @@ const frontOpenings = [
 ]
 const rearOpenings = [
   { u: -5.85, width: 2.8, bottom: 0.94, top: 2.65 },
-  { u: 0, width: 2.5, bottom: 0.94, top: 2.65 },
   { u: 5.85, width: 2.8, bottom: 0.94, top: 2.65 },
-  ...[-5.95, 0, 5.95].map(u => ({ u, width: 2.25, bottom: 4.23, top: 5.66 })),
+  ...[-5.95, 5.95].map(u => ({ u, width: 2.25, bottom: 4.23, top: 5.66 })),
+  // A real full-height opening joins the ground floor and center bedroom
+  // to the extension. Do not glaze this former exterior wall.
+  { u: 0, width: 6, bottom: 0.12, top: 6.15, passage: true },
 ]
 const leftOpenings = [
   { u: -5.05, width: 2.75, bottom: 0.92, top: 2.67 },
@@ -281,6 +297,7 @@ const bedrooms = [
   { left: 3, right: 8.83, door: 5.9 },
 ]
 const roomDoors = bedrooms.map(r => ({ u: r.door, width: 1.17, bottom: 3.3, top: 5.51 }))
+const hingedDoorOpenAngle = 175 * Math.PI / 180
 const doorRegistry = {}
 function doorPrim(pivot, size, position, color, name, extra = {}) {
   const node = app.create('prim', {
@@ -291,11 +308,38 @@ function doorPrim(pivot, size, position, color, name, extra = {}) {
   pivot.add(node)
   return node
 }
-function registerDoor(id, hingeX, hingeY, hingeZ, direction, width, height, openAngle, face = 'room') {
-  const group = app.create('group', { position: [hingeX, hingeY, hingeZ] })
-  app.add(group)
-  const d = { id, group, hingeX, hingeY, hingeZ, direction, width, height, openAngle,
-    face, angle: 0, target: 0, collider: null }
+function patioPanel(group, id, direction, width, height, movable = true) {
+  for (const x of [0.045, width - 0.045]) {
+    doorPrim(group, [0.09, height, 0.11],
+      [direction * x, height / 2, 0], C.trim, id + '-stile')
+  }
+  for (const y of [0.055, height - 0.055]) {
+    doorPrim(group, [width, 0.11, 0.11],
+      [direction * width / 2, y, 0], C.trim, id + '-rail')
+  }
+  doorPrim(group, [width - 0.18, height - 0.22, 0.035],
+    [direction * width / 2, height / 2, 0], C.glass, id + '-glass',
+    { opacity: 0.18, roughness: 0.12, castShadow: false })
+  // Grips sit on the outer latch stile beside the jamb.
+  if (movable) for (const side of [-1, 1]) {
+    doorPrim(group, [0.04, 0.24, 0.045],
+      [direction * 0.045, 1.12, side * 0.085], C.iron, id + '-handle',
+      { metalness: 0.55 })
+  }
+}
+function registerDoor(id, hingeX, hingeY, hingeZ, direction, width, height, openAngle, face = 'room', slideDistance = 0) {
+  // The hinge pin touches the leaf's opening face at its edge.
+  const hingeOffsetZ = slideDistance ? 0 : (face === 'entrance' ? -0.080 : 0.065)
+  const pivot = app.create('group', { position: [hingeX, hingeY, hingeZ + hingeOffsetZ] })
+  app.add(pivot)
+  let group = pivot
+  if (hingeOffsetZ) {
+    group = app.create('group', { position: [0, 0, -hingeOffsetZ] })
+    pivot.add(group)
+  }
+  const d = { id, group: pivot, hingeX, hingeY, hingeZ: hingeZ + hingeOffsetZ,
+    leafOffsetZ: -hingeOffsetZ, direction, width, height, openAngle,
+    face, slideDistance, slide: 0, angle: 0, target: 0, collider: null, actions: [] }
   doorRegistry[id] = d
   if (face === 'entrance') {
     const plankWidth = width / 5
@@ -309,6 +353,8 @@ function registerDoor(id, hingeX, hingeY, hingeZ, direction, width, height, open
         [direction * width / 2, h, -0.078], C.iron, id + '-hinge', { metalness: 0.35 })
     }
     doorPrim(group, [0.055, 0.24, 0.075], [direction * (width - 0.18), height / 2, -0.12], C.iron, id + '-handle')
+  } else if (face === 'patio') {
+    patioPanel(group, id, direction, width, height)
   } else {
     // A flat closed panel, visibly inset from the wall logs and jambs.
     doorPrim(group, [width, height, 0.11], [direction * width / 2, height / 2, 0], C.trim, id + '-panel')
@@ -321,14 +367,35 @@ function registerDoor(id, hingeX, hingeY, hingeZ, direction, width, height, open
         [direction * (width - 0.15), height / 2, side * 0.085], C.iron, id + '-latch')
     }
   }
-  if (world.isClient) {
-    const action = app.create('action', {
-      position: [hingeX + direction * width * 0.56, hingeY + 1.30, hingeZ + (face === 'entrance' ? -0.28 : -0.15)],
-      label: 'Open door', distance: 2.7, duration: 0.12,
-      onTrigger: () => app.send('toggleDoor', { id }),
+  if (!slideDistance) for (const h of [0.26, height / 2, height - 0.26]) {
+    const pin = app.create('prim', {
+      id: `doors:${id}-hinge-pin:${serial++}`, type: 'cylinder',
+      size: [0.014, 0.014, 0.14], position: [0, h, 0],
+      color: C.iron, metalness: 0.55, roughness: 0.6, physics: null,
+      castShadow: SHADOW_CASTING, receiveShadow: SHADOW_RECEIVING,
     })
-    app.add(action)
-    d.action = action
+    pivot.add(pin)
+    const faceZ = face === 'entrance' ? -0.075 : 0.062
+    doorPrim(group, [0.075, 0.13, 0.014], [direction * 0.0375, h, faceZ],
+      C.iron, id + '-hinge-leaf', { metalness: 0.55 })
+    // Fixed half attaches the pin to the existing jamb.
+    doorPrim(app, [0.060, 0.13, 0.05],
+      [hingeX - direction * 0.030, hingeY + h, hingeZ + (face === 'entrance' ? -0.060 : 0.040)],
+      C.iron, id + '-hinge-frame', { metalness: 0.55 })
+  }
+  if (world.isClient) {
+    // Native targeting uses a 1 m radius around an action. Two points cover
+    // the whole leaf; parenting them here follows both hinge and slide motion.
+    for (const y of [height * 0.25, height * 0.75]) {
+      const action = app.create('action', {
+        id: `doors:${id}-action-${y < height / 2 ? 'lower' : 'upper'}`,
+        position: [direction * width / 2, y, 0],
+        label: 'Open door', distance: 5, duration: 0.12,
+        onTrigger: () => app.send('toggleDoor', { id }),
+      })
+      group.add(action)
+      d.actions.push(action)
+    }
   }
   return d
 }
@@ -340,8 +407,8 @@ for (const x of [-3, 3]) {
 for (const r of bedrooms) {
   box([r.right - r.left, 0.14, 3.15], [(r.left + r.right) / 2, 5.98, 5.775], C.soffit, [0, 0, 0], {}, 'bedroom-ceiling')
   doorFrame('x', 4.2, r.door, 3.3, 1.17, 2.21)
-  registerDoor(`bedroom-${bedrooms.indexOf(r) + 1}`, r.door - 0.51, 3.33, 4.2,
-    1, 1.02, 2.12, -1.28)
+  registerDoor(`bedroom-${bedrooms.indexOf(r) + 1}`, r.door - 0.48, 3.33, 4.34,
+    1, 0.96, 2.12, -hingedDoorOpenAngle)
 }
 
 // 7. L stair: eighteen 176.7 mm risers, 320 mm going, 1.35 m tread width.
@@ -654,7 +721,7 @@ for (const [axis, fixed, openings, options] of [
   ['x', 7.5, rearOpenings, {}],
   ['z', -9, leftOpenings, { phase: 0.145 }],
   ['z', 9, rightOpenings, { phase: 0.145 }],
-]) for (const o of openings) windowFrame(axis, fixed, o, options)
+]) for (const o of openings) if (!o.passage) windowFrame(axis, fixed, o, options)
 // Broad front screen: door bay, two sidelights, upper lights and shaped gable panes.
 for (const x of [-4.6, -1.24, 1.24, 4.6]) {
   const top = roofY(x) - 0.14
@@ -678,8 +745,8 @@ for (const side of [-1, 1]) beamBetween([side * 9.03, 5.99, -7.67], [0, 9.8, -7.
 // The structural screen posts at x=+/-1.24 and transom at y=2.75 already
 // form this doorway. Do not stack a second matching set of jambs/lintel.
 wallBox('x', -7.5, 0, 0.15, 2.52, 0.05, 0.37, C.trim, 'entrance-threshold')
-registerDoor('entrance-left', -1.16, 0.17, -7.5, 1, 1.12, 2.44, 2, 'entrance')
-registerDoor('entrance-right', 1.16, 0.17, -7.5, -1, 1.12, 2.44, -2, 'entrance')
+registerDoor('entrance-left', -1.10, 0.17, -7.61, 1, 1.06, 2.44, hingedDoorOpenAngle, 'entrance')
+registerDoor('entrance-right', 1.10, 0.17, -7.61, -1, 1.06, 2.44, -hingedDoorOpenAngle, 'entrance')
 
 // 12. Balcony guards, leaving the stair arrival and chimney mass unobstructed.
 section = 'railings'
@@ -703,6 +770,141 @@ for (const x of [-8.76, 8.76]) box([0.14, 0.18, 5.35], [x, 3.40, 4.625], C.trim)
 box([17.62, 0.22, 0.28], [0, 5.84, 4.2], C.timber, [0, 0, 0], {}, 'room-crown')
 
 
+
+// Rear extension, aligned to the existing center-bedroom partitions rather
+// than the approximate prompt-box edges. +Y up, +X right, -Z forward.
+// Two connected floors; the original house root, stairs, portals and roof stay.
+const extensionRoofY = x => E.ridge - Math.abs(x) * (D.ridge - D.eave) / D.halfWidth
+const extensionSideWindows = [
+  { u: 9.92, width: 3.15, bottom: 0.88, top: 2.72 },
+  { u: 9.92, width: 3.15, bottom: 3.89, top: 5.67 },
+]
+const extensionRearOpenings = [
+  { u: 0, width: 3, bottom: D.floor, top: 2.80, patio: true },
+  { u: 0, width: 4.60, bottom: 3.89, top: 5.67 },
+]
+
+section = 'extension-floor'
+box([6, 0.077, E.back - 7.35], [0, 0.0385, (7.35 + E.back) / 2],
+  C.trim, [0, 0, 0], {}, 'contact-slab')
+// Only the supporting slab and deck are added here. The original boards
+// above already continue through both rooms, preserving their spacing and tones.
+box([5.68, 0.21, E.back - 0.16 - 7.35],
+  [0, D.upper - 0.155, (7.35 + E.back - 0.16) / 2],
+  C.trim, [0, 0, 0], { castShadow: true }, 'extension-upper-deck')
+for (let x = -2.65; x <= 2.7; x += 0.88) {
+  box([0.15, 0.24, E.back - 7.35], [x, 2.947, (7.35 + E.back) / 2],
+    C.trim, [0, 0, 0], {}, 'joist')
+}
+// Continue the existing ceiling panel through the extension to its rear wall.
+const extensionCeilingDepth = E.back - 7.35
+const extensionCeilingZ = 7.35 + extensionCeilingDepth / 2
+box([5.70, 0.14, extensionCeilingDepth], [0, 5.98, extensionCeilingZ],
+  C.soffit, [0, 0, 0], {}, 'bedroom-ceiling')
+
+section = 'extension-logs'
+for (const x of [-E.halfWidth, E.halfWidth]) {
+  wallLogsWithOpening('z', x, E.front, E.back, D.floor, E.eave,
+    extensionSideWindows, { phase: 0.145, tone: x < 0 ? 2 : 3 })
+  box([0.30, 0.27, E.back - E.front], [x, 0.255, (E.front + E.back) / 2], C.trim)
+}
+wallLogsWithOpening('x', E.back, -3, 3, D.floor, E.eave,
+  extensionRearOpenings, { tone: 1 })
+for (const x of [-2.25, 2.25]) box([1.5, 0.27, 0.30], [x, 0.255, E.back], C.trim)
+
+section = 'extension-frame'
+for (const x of [-2.84, 2.84]) {
+  for (const z of [7.68, E.back - 0.17]) {
+    box([0.25, 5.78, 0.25], [x, 3.01, z], C.timber, [0, 0, 0], {}, 'corner-post')
+  }
+  beamBetween([x, 5.86, E.front], [x, 5.86, E.back], 0.28, C.timber, 'wall-plate')
+}
+beamBetween([-2.84, 3.01, E.back - 0.17], [2.84, 3.01, E.back - 0.17],
+  0.30, C.timber, 'floor-bearing-beam')
+// The existing center bedroom's side partitions continue into these side walls.
+// Their rear corner posts sit outside the new circulation passage.
+
+section = 'extension-windows'
+for (const x of [-3, 3]) for (const opening of extensionSideWindows) {
+  windowFrame('z', x, opening, { phase: 0.145 })
+}
+windowFrame('x', E.back, extensionRearOpenings[1])
+doorFrame('x', E.back, 0, D.floor, 3, 2.62)
+// Standard two-track patio door: the left panel slides behind the fixed right
+// panel. Travel ends within the existing jambs; no leaf swings into the room.
+registerDoor('patio-left', -1.395, 0.18, E.back - 0.10,
+  1, 1.425, 2.42, 0, 'patio', 1.365)
+const fixedPatioPanel = app.create('group', { position: [-0.03, 0.18, E.back + 0.10] })
+app.add(fixedPatioPanel)
+patioPanel(fixedPatioPanel, 'patio-fixed', 1, 1.425, 2.42, false)
+collisionBox([1.417, 2.405, 0.105], [0.6825, 1.39, E.back + 0.10],
+  [0, 0, 0], 'patio-fixed')
+for (const z of [-0.10, 0.10]) {
+  box([2.90, 0.014, 0.026], [0, 0.137, E.back + z], C.iron,
+    [0, 0, 0], { metalness: 0.55 }, 'patio-bottom-track')
+}
+box([2.96, 0.055, 0.28], [0, 2.635, E.back], C.iron,
+  [0, 0, 0], { metalness: 0.55 }, 'patio-top-track')
+
+section = 'extension-roof'
+// A lower gable uses the main roof's pitch and materials, joining the original
+// rear wall below its gable. The original 9.8 m ridge and observation deck remain.
+for (const [x0, x1] of [[-3.50, 0], [0, 3.50]]) {
+  const profile = lower => [
+    [x0, extensionRoofY(x0) + lower], [x1, extensionRoofY(x1) + lower],
+    [x1, extensionRoofY(x1) + lower + 0.14], [x0, extensionRoofY(x0) + lower + 0.14],
+  ]
+  extrude(profile(-0.14), 5.50, 10.15, C.soffit, 0, 'roof-deck')
+  extrude(profile(0.015), 5.50, 10.15, C.roof, 0, 'roof-cover')
+}
+for (const z of [8.15, 10.2, 12.55]) for (const side of [-1, 1]) {
+  beamBetween([side * 3.42, extensionRoofY(3.42) - 0.22, z],
+    [0, E.ridge - 0.22, z], 0.20, C.timber, 'rafter')
+}
+for (const side of [-1, 1]) {
+  beamBetween([side * 3.52, extensionRoofY(3.52) + 0.005, 12.92],
+    [0, E.ridge + 0.005, 12.92], 0.22, C.timber, 'rake-fascia')
+  box([0.18, 0.25, 5.62], [side * 3.51, extensionRoofY(3.51) - 0.015, 10.15],
+    C.timber, [0, 0, 0], {}, 'eave-fascia')
+}
+box([0.20, 0.12, 5.54], [0, E.ridge + 0.18, 10.15],
+  C.roof, [0, 0, 0], {}, 'ridge-cap')
+for (let z = 8.15; z <= 12.6; z += 1.28) for (const side of [-1, 1]) {
+  beamBetween([side * 3.45, extensionRoofY(3.45) + 0.17, z],
+    [side * 0.08, extensionRoofY(0.08) + 0.17, z], 0.035, '#444b48', 'roof-seam')
+}
+// A real glazed gable; its triangle is not hidden behind a solid wall core.
+extrude([[-2.86, 6.08], [2.86, 6.08], [0, E.ridge - 0.10]],
+  0.035, E.back, C.glass, 0, 'gable-glass',
+  { opacity: 0.18, roughness: 0.12, castShadow: false })
+beamBetween([-3, 6.0, E.back], [3, 6.0, E.back], 0.23, C.timber, 'gable-bottom')
+for (const side of [-1, 1]) {
+  beamBetween([side * 3, 6.0, E.back], [0, E.ridge, E.back], 0.20, C.timber, 'gable-frame')
+}
+beamBetween([0, 6.08, E.back], [0, E.ridge - 0.10, E.back], 0.09, C.trim, 'gable-mullion')
+
+section = 'extension-physics'
+collisionBox([6, 0.12, E.back - 7.35], [0, 0.06, (7.35 + E.back) / 2],
+  [0, 0, 0], 'extension-ground-floor')
+collisionBox([5.68, 0.20, E.back - 0.16 - 7.35],
+  [0, 3.20, (7.35 + E.back - 0.16) / 2], [0, 0, 0], 'extension-upper-floor')
+for (const x of [-3, 3]) {
+  collisionBox([0.34, 5.88, E.back - E.front], [x, 3.06, (E.front + E.back) / 2],
+    [0, 0, 0], 'extension-side-wall')
+}
+wallCollisionWithOpenings('x', E.back, -3, 3, D.floor, E.eave,
+  [{ u: 0, width: 2.81, bottom: D.floor, top: 2.615 }], 0.34, 'extension-rear-wall')
+const extensionPitch = Math.atan2(D.ridge - D.eave, D.halfWidth)
+for (const side of [-1, 1]) {
+  collisionBox([3.50 / Math.cos(extensionPitch), 0.22, 5.50],
+    [side * 1.75, extensionRoofY(1.75), 10.15],
+    [0, 0, -side * extensionPitch], 'extension-roof')
+}
+// One level threshold outside the patio; no per-detail collision.
+section = 'extension-patio'
+box([3.35, 0.12, 0.88], [0, 0.06, E.back + 0.50], C.hearth, [0, 0, 0], {}, 'patio-step')
+collisionBox([3.35, 0.12, 0.88], [0, 0.06, E.back + 0.50], [0, 0, 0], 'patio-step')
+
 // 16. Compact structural collision shell. The wall colliders intentionally treat
 // fixed glazing as solid while preserving the actual entrance and bedroom doors.
 section = 'physics'
@@ -716,7 +918,8 @@ collisionBox([6.38, 0.20, 0.50], [5.64, 3.20, 1.65], [0, 0, 0], 'mezzanine-right
 // Exterior envelope. Only the open double entrance is traversable; windows remain solid.
 const entranceOpening = [{ u: 0, width: 2.48, bottom: 0.12, top: 2.75 }]
 wallCollisionWithOpenings('x', -7.5, -9, 9, 0.12, 6.0, entranceOpening, 0.34, 'front-wall')
-collisionBox([18, 5.88, 0.34], [0, 3.06, 7.5], [0, 0, 0], 'rear-wall')
+wallCollisionWithOpenings('x', 7.5, -9, 9, 0.12, 6,
+  [{ u: 0, width: 6, bottom: 0.12, top: 6.15 }], 0.34, 'rear-wall')
 collisionBox([0.34, 5.88, 15], [-9, 3.06, 0], [0, 0, 0], 'left-wall')
 collisionBox([0.34, 5.88, 15], [9, 3.06, 0], [0, 0, 0], 'right-wall')
 
@@ -787,17 +990,27 @@ const roofCollisionY = (D.ridge + roofY(roofCollisionRun)) / 2
 collisionBox([roofCollisionLength, 0.22, 16.70], [-roofCollisionRun / 2, roofCollisionY, 0], [0, 0, roofCollisionPitch], 'left-roof')
 collisionBox([roofCollisionLength, 0.22, 16.70], [roofCollisionRun / 2, roofCollisionY, 0], [0, 0, -roofCollisionPitch], 'right-roof')
 
-// 17. Animated, server-authoritative hinged doors. The server alone changes
+// 17. Server-authoritative hinged doors and the sliding patio panel. The server alone changes
 // app.state.doors; clients receive broadcast updates, and late joiners obtain
 // the current values in their initial app.state snapshot.
 section = 'doors'
 function setDoorGeometry(door, angle) {
+  if (door.slideDistance) {
+    door.slide = angle
+    if (world.isClient) door.group.position.x = door.hingeX + angle
+    if (door.collider) {
+      door.collider.position.set(door.hingeX + angle + door.direction * door.width / 2,
+        door.hingeY + door.height / 2, door.hingeZ)
+    }
+    return
+  }
   door.angle = angle
   if (world.isClient) door.group.rotation.y = angle
   if (door.collider) {
     const x = door.direction * door.width / 2
-    door.collider.position.set(door.hingeX + x * Math.cos(angle), door.hingeY + door.height / 2,
-      door.hingeZ - x * Math.sin(angle))
+    door.collider.position.set(door.hingeX + x * Math.cos(angle) + door.leafOffsetZ * Math.sin(angle),
+      door.hingeY + door.height / 2,
+      door.hingeZ - x * Math.sin(angle) + door.leafOffsetZ * Math.cos(angle))
     door.collider.rotation.y = angle
   }
 }
@@ -805,36 +1018,38 @@ function setDoorGeometry(door, angle) {
 for (const door of Object.values(doorRegistry)) {
   const centreX = door.hingeX + door.direction * door.width / 2
   door.collider = collisionBox([door.width - 0.008, door.height - 0.015, door.face === 'entrance' ? 0.132 : 0.105],
-    [centreX, door.hingeY + door.height / 2, door.hingeZ], [0, 0, 0], `${door.id}-leaf`,
+    [centreX, door.hingeY + door.height / 2, door.hingeZ + door.leafOffsetZ], [0, 0, 0], `${door.id}-leaf`,
     { physics: 'kinematic', staticFriction: 0.7 })
 }
 
 if (world.isServer && (!app.state?.doors || typeof app.state.doors !== 'object')) {
   // Replace the top-level state so Hyperfy can retain the update.
-  app.state = { ...(app.state || {}), doors: {} }
+  app.state = { ...(app.state || {}), doors: { ...(props.initialDoors || {}) } }
 }
 for (const door of Object.values(doorRegistry)) {
-  const isOpen = app.state?.doors?.[door.id] === true
-  door.target = isOpen ? door.openAngle : 0
+  const isOpen = (app.state?.doors?.[door.id] ?? props.initialDoors?.[door.id]) === true
+  door.target = isOpen ? (door.slideDistance || door.openAngle) : 0
   setDoorGeometry(door, door.target)
-  if (door.action) door.action.label = isOpen ? 'Close door' : 'Open door'
+  for (const action of door.actions) action.label = door.slideDistance ? (isOpen ? 'Slide closed' : 'Slide open') : (isOpen ? 'Close door' : 'Open door')
 }
 let doorUpdateRegistered = false
 function updateDoors(delta) {
-  const step = Math.min(Math.max(delta || 0, 0), 0.08) * 3.2
-  if (!step) return
+  const dt = Math.min(Math.max(delta || 0, 0), 0.08)
+  if (!dt) return
   let changedUpperDoor = false
   for (const door of Object.values(doorRegistry)) {
-    const diff = door.target - door.angle
+    const current = door.slideDistance ? door.slide : door.angle
+    const diff = door.target - current
     if (Math.abs(diff) < 0.0001) continue
-    const next = Math.abs(diff) <= step ? door.target : door.angle + Math.sign(diff) * step
+    const step = dt * (door.slideDistance ? 1.2 : 3.2)
+    const next = Math.abs(diff) <= step ? door.target : current + Math.sign(diff) * step
     setDoorGeometry(door, next)
     if (world.isClient && door.hingeY >= D.upper) changedUpperDoor = true
   }
   if (changedUpperDoor) for (const light of upperFloorShadowLights) {
     if (typeof light.refreshShadow === 'function') light.refreshShadow()
   }
-  if (Object.values(doorRegistry).every(door => Math.abs(door.target - door.angle) < 0.0001)) {
+  if (Object.values(doorRegistry).every(door => Math.abs(door.target - (door.slideDistance ? door.slide : door.angle)) < 0.0001)) {
     app.off('update', updateDoors)
     doorUpdateRegistered = false
   }
@@ -848,9 +1063,9 @@ function applyAuthoritativeDoorState(data) {
   if (!data || typeof data.id !== 'string' || typeof data.open !== 'boolean') return
   const door = doorRegistry[data.id]
   if (!door) return
-  door.target = data.open ? door.openAngle : 0
-  if (door.action) door.action.label = data.open ? 'Close door' : 'Open door'
-  if (Math.abs(door.target - door.angle) >= 0.0001) startDoorUpdates()
+  door.target = data.open ? (door.slideDistance || door.openAngle) : 0
+  for (const action of door.actions) action.label = door.slideDistance ? (data.open ? 'Slide closed' : 'Slide open') : (data.open ? 'Close door' : 'Open door')
+  if (Math.abs(door.target - (door.slideDistance ? door.slide : door.angle)) >= 0.0001) startDoorUpdates()
 }
 if (world.isServer) {
   app.on('toggleDoor', (request) => {
@@ -929,6 +1144,26 @@ for (const [x, y, z] of roofLights) {
   spot([x, y - 0.055, z], false, 15, 22, 'roof-downlight', null, 'house-exterior')
 }
 
+
+// Three static fixtures extend the existing switch circuits, without new
+// frame callbacks or shadow maps.
+section = 'extension-lighting'
+for (const [y, circuit] of [
+  [3.00, 'house-interior-lower'], [5.82, 'house-interior-upper'],
+  [5.72, 'house-exterior'],
+]) {
+  // The upstairs fixture sits below the restored front ceiling.
+  const z = circuit === 'house-exterior' ? E.back + 0.38
+    : circuit === 'house-interior-upper' ? extensionCeilingZ : 10.0
+  prim('cylinder', { size: [0.16, 0.16, 0.045], position: [0, y, z],
+    color: C.iron, metalness: 0.55 }, 'ceiling-trim')
+  const lens = prim('cylinder', { size: [0.115, 0.115, 0.012],
+    position: [0, y - 0.03, z], color: '#ffe0af', emissive: '#ffd29a',
+    emissiveIntensity: 0.5, castShadow: false }, 'ceiling-lens')
+  addCircuitLens(circuit, lens, 0.5)
+  spot([0, y - 0.045, z], false, 10, 10, 'extension-downlight', null, circuit)
+}
+
 // Three independent, persistent circuits for the new wall controls.
 // An app.emit() reaches world.on() on the same server; server app.send() then
 // synchronizes the real light intensities and lens glow on every client.
@@ -952,7 +1187,7 @@ const defaultLighting = {}
 for (const circuit of houseLightCircuits) defaultLighting[circuit] = true
 if (world.isServer) {
   if (!app.state?.lighting) {
-    app.state = { ...(app.state || {}), lighting: defaultLighting }
+    app.state = { ...(app.state || {}), lighting: { ...defaultLighting, ...(props.initialLighting || {}) } }
   }
   world.on('larch-house-light-command', message => {
     if (!message || !houseLightCircuits.includes(message.channel) || typeof message.on !== 'boolean') return
@@ -966,8 +1201,24 @@ if (world.isServer) {
   app.emit('larch-house-light-request', {})
 }
 if (world.isClient) {
-  applyHouseLighting({ ...defaultLighting, ...(app.state?.lighting || {}) })
+  applyHouseLighting({ ...defaultLighting, ...(props.initialLighting || {}), ...(app.state?.lighting || {}) })
   app.on('larch-house-light-state', message => {
     if (message?.lighting) applyHouseLighting(message.lighting)
   })
 }
+
+// The same app-owned structural boxes used by walls and floors also block
+// native camera sweeps. One shape per ceiling; the rear roof stays exposed.
+const roomCeilingColliders = bedrooms.map((r, i) =>
+  collisionBox([r.right - r.left, 0.14, 3.15],
+    [(r.left + r.right) / 2, 5.98, 5.775], [0, 0, 0], `room-ceiling-${i + 1}`))
+roomCeilingColliders.push(collisionBox([5.70, 0.14, extensionCeilingDepth],
+  [0, 5.98, extensionCeilingZ], [0, 0, 0], 'extension-front-ceiling'))
+app.on('transform', changed => {
+  if (!changed.scale) return
+  // Native actor movement updates the pose; scale edits need new shape sizes.
+  for (const collider of roomCeilingColliders) {
+    collider.physics = null
+    collider.physics = 'static'
+  }
+})

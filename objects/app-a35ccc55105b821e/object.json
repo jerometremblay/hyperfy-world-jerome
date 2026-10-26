@@ -1,7 +1,7 @@
 {
   "blueprint": {
     "author": "Jerome",
-    "desc": "Original log house, doors and roof portals retained; exterior, downstairs and upstairs light fixtures respond to independent wall switches",
+    "desc": "Original log house with existing floorboards continued into the two-storey center-room rear extension; large glazing on three exposed sides and a two-track sliding patio door. Original hinged doors, roof portals and lighting circuits retained.",
     "disabled": false,
     "frozen": false,
     "image": null,
@@ -11,7 +11,20 @@
     "preload": true,
     "props": {
       "castShadows": true,
-      "promptBoxRequestId": "arXh5pxHzn",
+      "initialDoors": {
+        "bedroom-1": true,
+        "bedroom-2": true,
+        "bedroom-3": true,
+        "entrance-left": false,
+        "entrance-right": true,
+        "patio-left": true
+      },
+      "initialLighting": {
+        "house-exterior": true,
+        "house-interior-lower": true,
+        "house-interior-upper": true
+      },
+      "promptBoxRequestId": "HRtqa5asTi",
       "promptBoxTargetEntityId": "HCzjtaVZFI",
       "receiveShadows": true
     },

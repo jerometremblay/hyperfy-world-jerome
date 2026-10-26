@@ -1,0 +1,24 @@
+{
+  "blueprint": {
+    "author": "Jerome",
+    "desc": "Luxury leather chair with five offset swivelling twin casters and horizontal axles. Physical, grounded and sittable: WASD/arrows roll; Space/E stands. Wheels self-align and rotate with actual travel.",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Luxury Leather Executive Chair — Five Caster Base",
+    "preload": true,
+    "props": {
+      "castShadows": true,
+      "receiveShadows": true
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": ""
+  },
+  "key": "app-fb976d74dbdebcce",
+  "mode": "files",
+  "schemaVersion": 1
+}
