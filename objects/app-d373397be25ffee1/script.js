@@ -1505,6 +1505,11 @@
       leaseUntil = Date.now() + 6e4;
       scheduleLeaseExpiry();
     };
+    const strokeMoving = () => stroke && stroke.elapsed < STROKE_END;
+    const releaseStroke = () => {
+      stroke.held = false;
+      if (stroke.elapsed + 1e-9 >= STROKE_END) stroke = null;
+    };
     const cueEvent = CUE_EVENT;
     watchCues(world2, (next) => {
       if (JSON.stringify(next) === JSON.stringify(cueHolders)) return;
@@ -1513,7 +1518,10 @@
         owner = aim = null;
         leaseUntil = 0;
       }
-      if (stroke && !stroke.hit && !cueHolders.includes(stroke.playerId)) stroke = null;
+      if (stroke && !cueHolders.includes(stroke.playerId)) {
+        if (!stroke.hit) stroke = null;
+        else releaseStroke();
+      }
       publish();
     });
     const refreshCues = () => app2.emit(`${cueEvent}:request`);
@@ -1528,42 +1536,42 @@
     };
     const update = (dt) => {
       if (!Number.isFinite(dt) || dt <= 0) return;
-      if (!sim.moving && !stroke) {
+      if (!sim.moving && !strokeMoving()) {
         accumulator = 0;
         app2.off("update", update);
         updateAttached = false;
         return;
       }
       accumulator = Math.min(accumulator + dt, 0.25);
-      while (accumulator >= STEP && (sim.moving || stroke)) {
-        if (stroke) {
+      while (accumulator >= STEP && (sim.moving || strokeMoving())) {
+        if (strokeMoving()) {
           const player = world2.getPlayer(stroke.playerId);
           if (!stroke.hit && (!nearby(player) || !cueHolders.includes(stroke.playerId))) stroke = null;
           if (stroke) {
-            stroke.elapsed += STEP;
+            stroke.elapsed = Math.min(STROKE_END, stroke.elapsed + STEP);
             if (!stroke.hit && stroke.elapsed + 1e-9 >= STROKE_CONTACT) {
               stroke.hit = sim.shoot(stroke);
               if (!stroke.hit) stroke = null;
             }
-            if (stroke && stroke.elapsed + 1e-9 >= STROKE_END) stroke = null;
+            if (stroke && !stroke.held && stroke.elapsed + 1e-9 >= STROKE_END) stroke = null;
           }
         }
         if (sim.moving) sim.step();
         accumulator -= STEP;
       }
       sinceSnapshot += dt;
-      if (sinceSnapshot >= 0.05 || !sim.moving && !stroke) {
+      if (sinceSnapshot >= 0.05 || !sim.moving && !strokeMoving()) {
         sinceSnapshot = 0;
         publish();
       }
-      if (!sim.moving && !stroke) {
+      if (!sim.moving && !strokeMoving()) {
         accumulator = 0;
         app2.off("update", update);
         updateAttached = false;
       }
     };
     const startUpdates = () => {
-      if ((sim.moving || stroke) && !updateAttached) {
+      if ((sim.moving || strokeMoving()) && !updateAttached) {
         updateAttached = true;
         app2.on("update", update);
       }
@@ -1600,6 +1608,11 @@
         leaseUntil = 0;
         publish();
       }
+    });
+    app2.on("pool:stroke-release", (request, sender) => {
+      if (!stroke?.held || request?.id !== stroke.id || playerFor(sender)?.id !== stroke.playerId) return;
+      releaseStroke();
+      publish();
     });
     app2.on("pool:ping", (_, sender) => {
       expire();
@@ -1645,7 +1658,8 @@
               top: request.top ?? 0,
               ball: sim.table.cueball.pos.toArray(),
               elapsed: 0,
-              hit: false
+              hit: false,
+              held: request.hold === true
             };
             accepted = true;
           } else if (!stroke && request.animate !== true) {
@@ -1674,8 +1688,9 @@
       });
     }
     world2.on("leave", ({ playerId }) => {
-      if (stroke?.playerId === playerId && !stroke.hit) {
-        stroke = null;
+      if (stroke?.playerId === playerId) {
+        if (!stroke.hit) stroke = null;
+        else releaseStroke();
         publish();
       }
     });
@@ -1873,7 +1888,7 @@
     world2.on(volumeEvent, (value) => sounds.setVolume(value));
     app2.emit(`${volumeEvent}:request`);
     let poseMeasurements = null, savedCamera = null, cameraHold = null;
-    let aimCameraPosition = null, aimCameraTarget = null;
+    let aimCameraPosition = null, aimCameraTarget = null, strokePlayback = null, completedStrokeId = -1;
     const riseDuration = 1;
     let soundEvents = [], lastEventId = latest?.lastEventId || 0;
     const cueEvent = CUE_EVENT;
@@ -1900,10 +1915,12 @@
     let hintMode = null;
     let hoverRefreshPending = false;
     let updateAttached = false;
+    let frameTime = world2.getTime();
     let update;
     const wake = () => {
       if (!update || updateAttached) return;
       updateAttached = true;
+      frameTime = world2.getTime();
       app2.on("update", update);
     };
     const isNearby = () => me.position.distanceTo(app2.position) < 15;
@@ -1957,9 +1974,16 @@
       poseMeasurements = null;
       posedPlayer = null;
     };
+    const releaseStroke = () => {
+      if (!cameraHold?.holding) return;
+      cameraHold.holding = false;
+      app2.send("pool:stroke-release", { id: cameraHold.strokeId });
+      wake();
+    };
     const returnCamera = () => {
       if (!cameraHold || cameraHold.returnAt !== null) return;
       const held = cameraHold;
+      releaseStroke();
       held.returnAt = clock + riseDuration;
       app2.off("lateUpdate", updateCamera);
       if (held.control) {
@@ -1967,15 +1991,19 @@
         held.control.release();
         held.control = null;
       }
-      me.setCamera?.({ target: held.target, zoom: 0.3, duration: riseDuration });
+      me.setCamera?.({ target: held.target, zoom: 0.3, duration: riseDuration, armsOnly: true });
       refresh2();
     };
     const stop = (release = true, keepPose = false) => {
       const active = control;
       control = null;
       pending = false;
-      if (!keepPose) clearPose();
       clearAimData();
+      if (!keepPose) {
+        if (strokePlayback) completedStrokeId = Math.max(completedStrokeId, strokePlayback.stroke.id);
+        strokePlayback = null;
+        clearPose();
+      }
       if (active) {
         active.camera.write = false;
         active.release();
@@ -2024,20 +2052,43 @@
           cameraHold = {
             control: null,
             returnAt: null,
+            holding: control.space.down,
+            strokeId: latest.seq + 1,
             position: control.camera.position.clone(),
             target: worldPosition(new V(ball2[0], BALL_RADIUS + ball2[2], -ball2[1]))
+          };
+          strokePlayback = {
+            local: true,
+            elapsed: 0,
+            shots: latest.shots,
+            stroke: {
+              id: cameraHold.strokeId,
+              playerId: me.id,
+              ball: ball2.slice(),
+              angle,
+              speed,
+              side,
+              top,
+              held: cameraHold.holding
+            }
           };
           savedCamera = null;
           shotPending = true;
           requestedAt = clock;
           shotRequestSeq = latest.seq;
-          request("shoot", { angle, speed, side, top, animate: true });
-          stop(true, true);
+          const hold = cameraHold.holding;
+          const seq = latest.seq;
+          stop(false, true);
           cameraHold.control = app2.control();
           cameraHold.control.camera.write = true;
           cameraHold.control.camera.zoom = 0;
           cameraHold.control.scrollDelta.capture = true;
+          cameraHold.control.space.capture = true;
+          cameraHold.control.space.onRelease = releaseStroke;
+          cameraHold.control.escape.capture = true;
+          cameraHold.control.escape.onPress = () => stop();
           writeAimCamera(cameraHold.control.camera, cameraHold.position, cameraHold.target);
+          app2.send("pool:shoot", { angle, speed, side, top, animate: true, hold, seq });
           wake();
         }
       };
@@ -2089,7 +2140,7 @@
     });
     watchCues(world2, (holders) => {
       cueHolders = holders;
-      if (!hasCue() && control) stop();
+      if (!hasCue() && (control || cameraHold)) stop();
       refresh2();
       wake();
     });
@@ -2148,7 +2199,10 @@
     };
     update = (dt) => {
       if (!Number.isFinite(dt) || dt <= 0) return;
-      clock += dt;
+      const now = world2.getTime();
+      const visualDelta = Math.max(0, now - frameTime);
+      frameTime = now;
+      clock += visualDelta;
       if (hoverRefreshPending) {
         hoverRefreshPending = false;
         refresh2();
@@ -2156,7 +2210,7 @@
       if (pending && clock - requestedAt > 2) stop(false);
       if (shotPending && clock - requestedAt > 2) {
         shotPending = false;
-        clearPose();
+        stop(false);
         refresh2();
       }
       const nearby = isNearby();
@@ -2191,12 +2245,28 @@
           );
         });
       }
-      const strokeFrame = a?.snapshot.stroke ? a : latest?.stroke ? { at: clock, snapshot: latest } : null;
-      const stroke = strokeFrame?.snapshot.stroke;
-      const strokeElapsed = stroke ? Math.max(0, Math.min(
-        STROKE_END,
-        stroke.elapsed + renderAt - strokeFrame.at
-      )) : 0;
+      const networkStroke = a?.snapshot.stroke || latest?.stroke;
+      if (networkStroke && networkStroke.id > completedStrokeId && strokePlayback?.stroke.id !== networkStroke.id) {
+        strokePlayback = {
+          local: false,
+          shots: latest.shots,
+          elapsed: Math.max(0, networkStroke.elapsed - 0.1),
+          stroke: networkStroke
+        };
+      }
+      let stroke = strokePlayback?.stroke;
+      let strokeElapsed = 0;
+      if (strokePlayback) {
+        strokePlayback.elapsed = Math.min(STROKE_END, strokePlayback.elapsed + Math.min(visualDelta, 0.1));
+        strokeElapsed = strokePlayback.elapsed;
+        const held = strokePlayback.local ? cameraHold?.holding : networkStroke?.id === stroke.id && networkStroke.held;
+        const cancelled = strokePlayback.local ? !shotPending && latest.stroke?.id !== stroke.id : !networkStroke && latest.shots === strokePlayback.shots;
+        if (cancelled || strokeElapsed >= STROKE_END && !held) {
+          completedStrokeId = Math.max(completedStrokeId, stroke.id);
+          strokePlayback = stroke = null;
+        }
+      }
+      const restingStroke = stroke && strokeElapsed >= STROKE_END;
       const soundsActive = sounds.update(clock);
       if (nearby && control && (me.position.distanceTo(app2.position) > 5 || !hasCue())) stop();
       if (control) {
@@ -2327,7 +2397,7 @@ Space: shoot \xB7 Esc: leave \xB7 X: return cue`);
           refresh2();
         }
       }
-      if (!control && !cameraHold && !pending && !shotPending && !stroke && !hoverRefreshPending && !latest?.moving && frames.length <= 1 && soundEvents.length === 0 && !soundsActive) {
+      if (!control && (!cameraHold || restingStroke) && !pending && !shotPending && (!stroke || restingStroke) && !hoverRefreshPending && !latest?.moving && frames.length <= 1 && soundEvents.length === 0 && !soundsActive) {
         app2.off("update", update);
         updateAttached = false;
       }
