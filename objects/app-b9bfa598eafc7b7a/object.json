@@ -11,7 +11,11 @@
     "preload": false,
     "props": {
       "promptBoxRequestId": "RKKib34hIn",
-      "promptBoxTargetEntityId": "lrtr77gRDH"
+      "promptBoxTargetEntityId": "lrtr77gRDH",
+      "idleScreen": {
+        "type": "image",
+        "url": "file:./idle-screen.png"
+      }
     },
     "public": false,
     "script": "file:./script.js",
