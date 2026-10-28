@@ -1,0 +1,28 @@
+{
+  "blueprint": {
+    "author": "Custom",
+    "desc": "Native return link between The Crossing village and Évain.",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Portal to world-2d",
+    "preload": true,
+    "props": {
+      "destination": "https://monstre.duckdns.org:3335",
+      "destinationPortalId": "710d8153-a9f2-43cd-955d-0f3a1b2d59b2",
+      "doubleside": "false",
+      "portalId": "ab51f8d0-41ef-4e77-aff3-ead9740c1d58",
+      "resolution": "1024",
+      "updateRate": "15"
+    },
+    "public": false,
+    "script": null,
+    "unique": false,
+    "url": ""
+  },
+  "key": "app-2c0ded9bf63e268e",
+  "mode": "files",
+  "schemaVersion": 1
+}

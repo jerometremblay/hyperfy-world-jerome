@@ -1,0 +1,25 @@
+{
+  "blueprint": {
+    "author": "OpenAI",
+    "desc": "Wall-mounted hardwood pool-cue rack, four 1.47 m cues, E pickup and X return, multiplayer synchronized. Lunettes d'aide: touche V (vision) quand on tient une queue et qu'on vise (visible seulement par le joueur).",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "script-only",
+    "name": "Rack à queue",
+    "preload": false,
+    "props": {
+      "poolChannel": "classic-8-ft-pool-table",
+      "promptBoxRequestId": "M2Qzasuh09",
+      "promptBoxTargetEntityId": "rpM98Yhyxy"
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": true,
+    "url": null
+  },
+  "key": "app-99eab6d48e881504",
+  "mode": "files",
+  "schemaVersion": 1
+}

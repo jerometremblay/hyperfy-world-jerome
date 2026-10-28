@@ -10,7 +10,7 @@
     "name": "Steampunk Gas Street Light",
     "preload": true,
     "props": {
-      "castLightShadows": true,
+      "castLightShadows": false,
       "flickerSpeed": 1,
       "flickerStrength": 0.12,
       "lightColor": "#ffbf67",

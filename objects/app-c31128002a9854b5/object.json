@@ -1,0 +1,31 @@
+{
+  "blueprint": {
+    "author": "Jerome",
+    "desc": "Standalone rounded, beveled extrusion laptop. E opens/closes the shared lid; its screen displays a packaged GitHub screenshot.",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "MacBook Pro 16 — Space Gray",
+    "preload": true,
+    "props": {},
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": "https://github.com/jerometremblay/hyperfy"
+  },
+  "extraAssets": [
+    {
+      "file": "file:./others/6d371d9a0477787328a16b002d02f7e5a7036da153a3cc791be7594beb4d16d2.png",
+      "type": "other"
+    },
+    {
+      "file": "file:./others/71e0ff650384fc65920f0618c894aec315971cf30311165c998ac5a809c3831b.png",
+      "type": "other"
+    }
+  ],
+  "key": "app-c31128002a9854b5",
+  "mode": "files",
+  "schemaVersion": 1
+}

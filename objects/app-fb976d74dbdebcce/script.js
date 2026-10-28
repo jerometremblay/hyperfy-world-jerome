@@ -371,7 +371,12 @@ if (!world.isPreview) {
   let requestNumber = 0
   let inputX = 0, inputZ = 0, inputTurn = 0, poseSequence = 0
   let velocityY = 0, sendAge = 0
-  let rollAge = 0, turnAge = 0
+  let turnVelocity = 0
+  const velocity = new Vector3()
+  const targetVelocity = new Vector3()
+  const velocityChange = new Vector3()
+  const requestedDisplacement = new Vector3()
+  const blockedMotion = new Vector3()
   let simulating = false
   const down = new Vector3(0, -1, 0)
   const displacement = new Vector3()
@@ -501,12 +506,18 @@ if (!world.isPreview) {
     // Sweep the rear blocker around the chair's floor pivot before accepting
     // a turn. A blocked sweep keeps the previous pose, rather than clipping
     // the seated rider through the desktop.
-    // Integrate a short acceleration ramp, rather than jumping from rest to
-    // full speed in one rendered frame. Releasing input still stops instantly.
-    const turnRamp = inputTurn ? Math.min(delta, Math.max(0, .12 - turnAge)) : 0
-    let turn = inputTurn * Math.PI / 2 *
-      ((turnAge + turnRamp / 2) / .12 * turnRamp + delta - turnRamp)
-    if (inputTurn) turnAge = Math.min(.12, turnAge + delta)
+    // Integrate acceleration and rolling resistance, including the partial
+    // frame in which the target speed is reached. Release coasts to an exact
+    // stop; changing direction brakes the existing velocity before reversing.
+    const targetTurn = inputTurn * Math.PI / 2
+    const turnAcceleration = inputTurn ? 6 : 8
+    const turnTime = Math.abs(targetTurn - turnVelocity) / turnAcceleration
+    const turnRamp = Math.min(delta, turnTime)
+    const nextTurnVelocity = turnVelocity +
+      Math.sign(targetTurn - turnVelocity) * turnAcceleration * turnRamp
+    let turn = (turnVelocity + nextTurnVelocity) / 2 * turnRamp +
+      targetTurn * (delta - turnRamp)
+    turnVelocity = turnRamp === turnTime ? targetTurn : nextTurnVelocity
     if (turn) {
       nextQuaternion.copy(app.quaternion).multiply(turnQuaternion.setFromAxisAngle(up, turn))
       nextOffset.set(0, 0, 0.2375).multiply(app.scale).applyQuaternion(nextQuaternion)
@@ -515,20 +526,33 @@ if (!world.isPreview) {
       controllerTarget.copy(previousController).add(displacement)
       controller.move(displacement, delta)
       if (Math.hypot(controller.position.x - controllerTarget.x,
-          controller.position.z - controllerTarget.z) > 0.001) {
+          controller.position.z - controllerTarget.z) > 0.00001) {
         controller.teleport(previousController)
         turn = 0
+        turnVelocity = 0
       } else {
         app.quaternion.copy(nextQuaternion)
         controllerOffset.copy(nextOffset)
       }
     }
-    displacement.set(inputX, 0, inputZ)
-    if (displacement.lengthSq() > 1) displacement.normalize()
-    const rollRamp = inputX || inputZ ? Math.min(delta, Math.max(0, .12 - rollAge)) : 0
-    const distance = 1.25 * ((rollAge + rollRamp / 2) / .12 * rollRamp + delta - rollRamp)
-    if (inputX || inputZ) rollAge = Math.min(.12, rollAge + delta)
-    displacement.applyQuaternion(app.quaternion).multiplyScalar(distance)
+    targetVelocity.set(inputX, 0, inputZ)
+    if (targetVelocity.lengthSq() > 1) targetVelocity.normalize()
+    targetVelocity.applyQuaternion(app.quaternion).multiplyScalar(1.25)
+    // Velocity stays in world space: swivelling the chair while coasting
+    // cannot rotate its travel direction without a new push.
+    velocityChange.copy(targetVelocity).sub(velocity)
+    const rollTime = velocityChange.length() / (inputX || inputZ ? 5 : 2.5)
+    const rollRamp = Math.min(delta, rollTime)
+    displacement.copy(velocity).multiplyScalar(rollRamp)
+    if (rollTime > 0) {
+      velocityChange.multiplyScalar(rollRamp / rollTime)
+      displacement.addScaledVector(velocityChange, rollRamp / 2)
+      velocity.add(velocityChange)
+    }
+    if (rollRamp === rollTime) {
+      velocity.copy(targetVelocity)
+      displacement.addScaledVector(targetVelocity, delta - rollRamp)
+    }
     // Keep floor-level obstacles outside the caster footprint. This low probe
     // passes beneath desktops while walls and pedestals still stop the base.
     const travel = Math.hypot(displacement.x, displacement.z)
@@ -542,12 +566,25 @@ if (!world.isPreview) {
         const fraction = Math.min(1, Math.max(0, hit.distance - clearance - 0.02) / travel)
         displacement.x *= fraction
         displacement.z *= fraction
+        if (fraction < 1) velocity.set(0, 0, 0)
       }
     }
     velocityY = controller.isGrounded ? -0.5 : Math.max(-8, velocityY - 9.81 * delta)
     displacement.y = velocityY * delta
     casterDisplacement.copy(app.position)
+    previousController.copy(controller.position)
+    requestedDisplacement.copy(displacement)
     controller.move(displacement, delta)
+    // Discard momentum into a collision while retaining motion along it.
+    // Held input can still push; it cannot accumulate a burst behind a wall.
+    blockedMotion.copy(requestedDisplacement).sub(controller.position).add(previousController)
+    blockedMotion.y = 0
+    if (blockedMotion.lengthSq() > .00000001) {
+      blockedMotion.normalize()
+      const blockedSpeed = velocity.dot(blockedMotion)
+      if (blockedSpeed > 0) velocity.addScaledVector(blockedMotion, -blockedSpeed)
+      if (velocity.lengthSq() < .00000001) velocity.set(0, 0, 0)
+    }
     app.position.copy(controller.position).sub(controllerOffset)
     // Actual collision-resolved travel drives wheel motion; blocked input does
     // not keep spinning the wheels.
@@ -555,7 +592,8 @@ if (!world.isPreview) {
       .applyQuaternion(app.quaternion.clone().invert()).divide(app.scale)
     if (controller.isGrounded) advanceCasters(casterDisplacement.x, casterDisplacement.z, turn)
     if (world.isClient) drawCasters()
-    const stopped = !inputX && !inputZ && !inputTurn && controller.isGrounded
+    const stopped = !inputX && !inputZ && !inputTurn &&
+      velocity.lengthSq() === 0 && turnVelocity === 0 && controller.isGrounded
     app.state.casters = getCasterState()
     sendAge += delta
     if (sendAge >= 1 / 15 || stopped) sendPose()
@@ -593,7 +631,7 @@ if (!world.isPreview) {
     if (controller) { world.remove(controller); controller = null }
     collisionShapes.forEach(shape => { shape.physics = 'kinematic' })
     inputX = 0; inputZ = 0; inputTurn = 0
-    rollAge = 0; turnAge = 0
+    velocity.set(0, 0, 0); turnVelocity = 0
     serverSlot = { owner: null, token: null }
     slot = serverSlot
     app.state.pose = null
@@ -623,8 +661,6 @@ if (!world.isPreview) {
     const x = Number(c.keyD.down || c.arrowRight.down) - Number(c.keyA.down || c.arrowLeft.down)
     const z = Number(c.keyS.down || c.arrowDown.down) - Number(c.keyW.down || c.arrowUp.down)
     const turn = Number(c.keyQ.down) - Number(c.keyE.down)
-    if (!x && !z) rollAge = 0
-    if (!turn || turn !== inputTurn) turnAge = 0
     inputX = x; inputZ = z; inputTurn = turn
     const active = !!(x || z || turn)
     if (active && interpolation) {
@@ -632,11 +668,9 @@ if (!world.isPreview) {
       app.off('update', animatePose)
       teleportController(app.position)
     }
-    if (controller) {
-      if (active) setSimulation(true)
-      else if (controller.isGrounded) setSimulation(false)
-    }
-    if (!active) sendPose()
+    // Keep the rider's simulation and pose packets running through the coast.
+    // roll() sends the final settled pose before removing its own callback.
+    if (controller) setSimulation(true)
   }
   function leaveLocal(exit = null, notify = true, teleport = true) {
     const current = localSeat
@@ -649,7 +683,7 @@ if (!world.isPreview) {
     if (controller) { world.remove(controller); controller = null }
     if (!destroyed) collisionShapes.forEach(shape => { shape.physics = 'kinematic' })
     inputX = 0; inputZ = 0; inputTurn = 0
-    rollAge = 0; turnAge = 0
+    velocity.set(0, 0, 0); turnVelocity = 0
     if (notify) {
       awaitingExit = current
       app.send('seat-release', { token: current.token, pose: finalPose })

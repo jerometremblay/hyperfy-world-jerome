@@ -3,11 +3,12 @@
     "author": "OpenAI",
     "desc": "Beveled couch with correct seated pose, raised seat anchor, and client-side per-couch Sit prompt management that restores on effect end/replacement.",
     "disabled": false,
+    "frozen": false,
     "image": null,
     "locked": false,
     "model": "file:./model.glb",
     "name": "Cognac Leather Beveled Sofa - 3 Seat (Correct Sit) (Sit Markers Fixed)",
-    "preload": false,
+    "preload": true,
     "props": {
       "castShadows": true,
       "promptBoxRequestId": "vbfGQmNv0x",
@@ -19,7 +20,6 @@
     "unique": true,
     "url": null
   },
-  "extraAssets": [],
   "key": "apps/cognac-leather-beveled-sofa-3-seat-correct-sit-sit-markers-fixed-01",
   "mode": "files",
   "schemaVersion": 1

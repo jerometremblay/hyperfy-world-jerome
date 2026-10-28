@@ -8,11 +8,11 @@ This repository contains the source-first Git representation of Jerome's Hyperfy
 
 ## Latest live capture
 
-The latest capture from the `online-world` profile contains 47 live app blueprints, 93 saved app placements, and 112 referenced assets. It includes the expanded Larch House with physical ceilings, sliding patio door, 175-degree hinged doors and moving action targets; the individual U-shaped desk and rolling office chair; the darts app and planter; and current fireplace and portal settings. The source scene preserves four placements without runtime mappings and older mapped placements absent from the snapshot. Its placement count can therefore exceed the live world.
+The latest capture from the `online-world` profile contains 50 live blueprints, including the protected environment, 84 saved app placements, and 116 referenced assets. It includes the MacBook's packaged screen and logo images, current furniture and lighting, the updated rolling chair, the idle journal and Pac-Man screens, and current world placements. The source scene contains 98 placements because capture also preserves local-only placements and older mapped placements absent from the snapshot.
 
-The capture includes 56 saved seat-pose records. Fourteen seat anchors could not be resolved and remain recorded with their source identity. Captured scripts and assets were verified against the live world before publication; unrelated local edits were preserved.
+The capture includes 56 saved seat-pose records. Fourteen seat anchors could not be resolved and remain recorded with their source identity. All 45 live script hashes, 49 model hashes, and 84 app placements were verified against the captured snapshot. Existing local source changes, including the darts app and object-performance guidance, were preserved.
 
-Capture reads the running world without changing it. Saved seat poses retain source identity and anchor metadata; destination identity reconciliation is not implemented. Private world settings and transient runtime state are excluded.
+Capture reads the running world without changing its blueprints or placements. The two MacBook image assets missing from live storage were restored from local files with matching content hashes before capture. Saved seat poses retain source identity and anchor metadata; destination identity reconciliation is not implemented. Private world settings and transient runtime state are excluded.
 
 ## Tooling
 

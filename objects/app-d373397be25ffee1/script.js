@@ -1372,6 +1372,7 @@
   // src/cues.js
   var CUE_EVENT = "billard:cues";
   var POSE_EVENT = "billard:cue-pose";
+  var AIM_DATA_EVENT = "billard:aim-data";
   function watchCues(world2, changed) {
     const racks = /* @__PURE__ */ new Map();
     world2.on(CUE_EVENT, (data) => {
@@ -1727,6 +1728,7 @@
         wake();
       };
     }
+    const clearAimData = () => app2.emit(AIM_DATA_EVENT, { playerId: me.id, tableId: app2.instanceId, clear: true });
     const clearPose = () => {
       if (posedPlayer) app2.emit(poseEvent, { playerId: posedPlayer, tableId: app2.instanceId, clear: true });
       posedPlayer = null;
@@ -1736,6 +1738,7 @@
       control = null;
       pending = false;
       clearPose();
+      clearAimData();
       if (active) {
         active.camera.write = false;
         active.release();
@@ -1936,6 +1939,11 @@
           }
         }
         const ball = latest?.scratched ? [placeX, placeY, 0] : latest?.balls[0]?.p;
+        if (ball && latest) app2.emit(AIM_DATA_EVENT, {
+          playerId: me.id, tableId: app2.instanceId, cue: ball, angle, size, radius: BALL_RADIUS,
+          targets: latest.balls.slice(1).filter((b) => b.state !== "InPocket" && b.state !== "Falling").map((b) => b.p),
+          position: app2.position.toArray(), quaternion: app2.quaternion.toArray(), scale: app2.scale.toArray()
+        });
         if (ball) {
           const pose = shotPose(ball, angle, side, top, elevation, speed);
           control.camera.position.copy(worldPosition(pose.cameraPosition));
