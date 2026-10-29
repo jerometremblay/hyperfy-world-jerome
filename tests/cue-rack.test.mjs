@@ -119,7 +119,7 @@ test('server return authorization and startup cleanup remain intact', () => {
   assert.equal(hot.size, 0)
 })
 
-test('client updates only while cues are held, follows hands and aim poses, then returns every cue', () => {
+test('client attaches cues after avatar animation, follows hands and aim poses, then returns every cue', () => {
   const { entity, hot, nodes, controls, detached, events, sent } = fixture(true)
   assert.equal(hot.size, 0)
   entity.emit('cue-holders', ['local', 'remote', null, null])
@@ -127,6 +127,8 @@ test('client updates only while cues are held, follows hands and aim poses, then
   assert.equal(detached.size, 2)
   const held = [...detached]
   entity.update(1 / 60)
+  assert.equal(held[0].position.y, -0.236, 'attachment waits for the completed avatar frame')
+  entity.lateUpdate(1 / 60)
   assert.notEqual(held[0].position.y, -0.236)
   events.emit(events.eventNames().find(name => name.startsWith('billard:cue-pose')), {
     playerId: 'remote',
@@ -134,7 +136,7 @@ test('client updates only while cues are held, follows hands and aim poses, then
     position: [3, 4, 5],
     quaternion: [0, 0, 0, 1],
   })
-  entity.update(1 / 60)
+  entity.lateUpdate(1 / 60)
   assert.deepEqual(held[1].position.toArray(), [3, 4, 5])
   entity.emit('cue-holders', ['local', 'remote', null, null])
   assert.equal(entity.hotEvents, 1)
