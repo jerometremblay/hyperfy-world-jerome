@@ -181,7 +181,7 @@ function updateHeldCues() {
       // The destination wrist preserves the exact hand-to-cue fit when entry ends.
       const handDelta = player.getBoneTransform?.('rightHand', { targetPose: true })?.clone().invert()
       const hand = player.getBoneTransform?.('rightHand')
-      if (handDelta && hand) {
+      if (pose.followGrip !== false && handDelta && hand) {
         handDelta.premultiply(hand)
         cues[i].position.applyMatrix4(handDelta)
         cues[i].quaternion.premultiply(new Quaternion().setFromRotationMatrix(handDelta))
