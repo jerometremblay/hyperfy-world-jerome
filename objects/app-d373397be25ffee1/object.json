@@ -71,6 +71,7 @@
         "url": "file:./textures/026465c0675df5d8e12e698f0d772c6da0789a63b2ae0fa0d9cb2e0e0ce62458.png"
       },
       "playChannel": "classic-8-ft-pool-table",
+      "rollingResistance": 1.25,
       "showSurface": false,
       "soundCollision": {
         "type": "audio",

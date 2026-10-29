@@ -1,0 +1,28 @@
+{
+  "blueprint": {
+    "author": null,
+    "desc": "Jukebox rétro qui joue les mp3 d'une playlist .m3u. Précédent, début, suivant, pause, volume.",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "script-only",
+    "name": "Jukebox rétro",
+    "preload": false,
+    "props": {
+      "maxDistance": 50,
+      "musicUrl": "https://rouynhyperfy.duckdns.org/musique",
+      "musicUrlServer": "http://10.0.10.131:8097/musique",
+      "playlist": "playlist.m3u",
+      "refDistance": 9,
+      "spatial": true
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": null
+  },
+  "key": "app-55615eb55061ee45",
+  "mode": "files",
+  "schemaVersion": 1
+}
