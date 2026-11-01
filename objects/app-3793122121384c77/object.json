@@ -1,0 +1,26 @@
+{
+  "blueprint": {
+    "author": null,
+    "desc": "",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "script-only",
+    "name": "Hyperfy Speaker",
+    "preload": true,
+    "props": {
+      "maxDistance": 15,
+      "refDistance": 3,
+      "spatial": true,
+      "volume": 0.4
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": null
+  },
+  "key": "app-3793122121384c77",
+  "mode": "files",
+  "schemaVersion": 1
+}

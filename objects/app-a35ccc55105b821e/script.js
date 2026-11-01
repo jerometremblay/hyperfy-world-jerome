@@ -271,7 +271,19 @@ for (const x of [-8.65, 8.65]) for (const z of [-7.14, -4.25, -1.15, 3.0, 7.12])
 for (const x of [-8.65, -4.75, 4.75, 8.65]) {
   box([0.38, 2.94, 0.38], [x, 1.59, 1.62], C.timber, [0, 0, 0], {}, 'mezzanine-post')
   for (const direction of [-1, 1]) {
-    if (Math.abs(x + direction * 0.8) < 8.8) beamBetween([x, 2.16, 1.62], [x + direction * 0.8, 2.92, 1.62], 0.20, C.trim, 'mezzanine-knee')
+    if (Math.abs(x + direction * 0.8) < 8.8) {
+      // 1 mm face inset and butt-joint clearance at the post and beam.
+      const slope = 0.76 / 0.8
+      const halfBand = 0.378 / 2 * Math.hypot(1, slope)
+      const start = 0.38 / 2 + 0.001
+      const top = 2.99 - 0.38 / 2 - 0.001
+      extrude([
+        [x + direction * start, 2.16 + slope * start - halfBand],
+        [x + direction * start, 2.16 + slope * start + halfBand],
+        [x + direction * (top - 2.16 - halfBand) / slope, top],
+        [x + direction * (top - 2.16 + halfBand) / slope, top],
+      ], 0.378, 1.62, C.trim, 0, 'mezzanine-knee')
+    }
   }
 }
 for (const x of [-8.73, 8.73]) box([0.38, 0.40, 15.6], [x, 5.88, 0], C.timber, [0, 0, 0], {}, 'wall-plate')
@@ -327,9 +339,9 @@ function patioPanel(group, id, direction, width, height, movable = true) {
       { metalness: 0.55 })
   }
 }
-function registerDoor(id, hingeX, hingeY, hingeZ, direction, width, height, openAngle, face = 'room', slideDistance = 0) {
+function registerDoor(id, hingeX, hingeY, hingeZ, direction, width, height, openAngle, face = 'room', slideDistance = 0, hingeDepth = face === 'entrance' ? -0.080 : 0.065) {
   // The hinge pin touches the leaf's opening face at its edge.
-  const hingeOffsetZ = slideDistance ? 0 : (face === 'entrance' ? -0.080 : 0.065)
+  const hingeOffsetZ = slideDistance ? 0 : hingeDepth
   const pivot = app.create('group', { position: [hingeX, hingeY, hingeZ + hingeOffsetZ] })
   app.add(pivot)
   let group = pivot
@@ -375,12 +387,12 @@ function registerDoor(id, hingeX, hingeY, hingeZ, direction, width, height, open
       castShadow: SHADOW_CASTING, receiveShadow: SHADOW_RECEIVING,
     })
     pivot.add(pin)
-    const faceZ = face === 'entrance' ? -0.075 : 0.062
+    const faceZ = face === 'entrance' ? -0.075 : Math.sign(hingeOffsetZ) * 0.062
     doorPrim(group, [0.075, 0.13, 0.014], [direction * 0.0375, h, faceZ],
       C.iron, id + '-hinge-leaf', { metalness: 0.55 })
     // Fixed half attaches the pin to the existing jamb.
     doorPrim(app, [0.060, 0.13, 0.05],
-      [hingeX - direction * 0.030, hingeY + h, hingeZ + (face === 'entrance' ? -0.060 : 0.040)],
+      [hingeX - direction * 0.030, hingeY + h, hingeZ + (face === 'entrance' ? -0.060 : Math.sign(hingeOffsetZ) * 0.040)],
       C.iron, id + '-hinge-frame', { metalness: 0.55 })
   }
   if (world.isClient) {
@@ -1015,6 +1027,12 @@ function setDoorGeometry(door, angle) {
   }
 }
 
+// Match the bedroom doors, with separate leaves in front of the native portals.
+// Outer hinges swing toward the pool; 90 degrees clears the adjacent house wall.
+// Inset leaves into the casing; front-face hinges swing them toward the pool.
+registerDoor('billiards-portal-left', 5.32, 0.15, 1.35, 1, 0.96, 2.12, Math.PI / 2, 'room', 0, -0.065)
+registerDoor('billiards-portal-right', 8.08, 0.15, 1.35, -1, 0.96, 2.12, -Math.PI / 2, 'room', 0, -0.065)
+
 for (const door of Object.values(doorRegistry)) {
   const centreX = door.hingeX + door.direction * door.width / 2
   door.collider = collisionBox([door.width - 0.008, door.height - 0.015, door.face === 'entrance' ? 0.132 : 0.105],
@@ -1222,3 +1240,37 @@ app.on('transform', changed => {
     collider.physics = 'static'
   }
 })
+
+
+// Portal doorways: Y up, +X right, -Z faces the pool table.
+// One continuous timber wall, with blind surface doorways on its pool side.
+// The native portals sit ahead of the logs; no separate backing plane is needed.
+section = 'billiards-portal-wall'
+const portalWall = {
+  left: 4.75, right: 8.83, bottom: D.floor, top: 3.08,
+  z: 1.62, portalZ: 1.34, width: 0.98, height: 2.18,
+  centres: [5.8, 7.6],
+}
+wallLogsWithOpening('x', portalWall.z, portalWall.left, portalWall.right,
+  portalWall.bottom, portalWall.top, [],
+  { radius: 0.115, pitch: 0.215, tone: 2 })
+collisionBox([portalWall.right - portalWall.left, portalWall.top - portalWall.bottom, 0.23],
+  [(portalWall.left + portalWall.right) / 2,
+    (portalWall.bottom + portalWall.top) / 2, portalWall.z],
+  [0, 0, 0], 'billiards-portal-wall')
+for (const [index, u] of portalWall.centres.entries()) {
+  for (const side of [-1, 1]) {
+    wallBox('x', 1.46, u + side * (portalWall.width / 2 + 0.08),
+      portalWall.bottom + portalWall.height / 2, 0.16, portalWall.height,
+      0.32, C.timber, 'portal-door-' + index + '-jamb')
+    wallBox('x', 1.292, u + side * (portalWall.width / 2 + 0.065),
+      portalWall.bottom + portalWall.height / 2, 0.13, portalWall.height,
+      0.036, C.trim, 'portal-door-' + index + '-casing')
+  }
+  wallBox('x', 1.46, u, portalWall.bottom + portalWall.height + 0.09,
+    portalWall.width + 0.32, 0.18, 0.32, C.timber,
+    'portal-door-' + index + '-lintel')
+  wallBox('x', 1.292, u, portalWall.bottom + portalWall.height + 0.065,
+    portalWall.width + 0.26, 0.13, 0.036, C.trim,
+    'portal-door-' + index + '-head-casing')
+}

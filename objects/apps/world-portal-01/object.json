@@ -13,14 +13,14 @@
       "arrivalImage_f7dada59-f925-4fcd-9fb9-4a6253d86890": {
         "name": "arrival-preview.jpg",
         "type": "image",
-        "url": "file:./images/56bfb532d5d34000841bb21c137662ffdd28fb58e9fd72198180dc2b59c2d709.jpg"
+        "url": "file:./images/f92fae2a3e8de3a2fec5482bd7ac0b7177530d994a79a643aab0ef68c261aacc.jpg"
       },
       "destination": "",
       "destinationPortalId": "4b73c1c1-98ab-40b2-92db-cae91208c7cc",
       "doubleside": "false",
       "portalId": "f7dada59-f925-4fcd-9fb9-4a6253d86890",
       "resolution": "1024",
-      "updateRate": "15"
+      "updateRate": "0"
     },
     "public": false,
     "script": null,

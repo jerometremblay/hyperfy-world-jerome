@@ -15,7 +15,9 @@
         "bedroom-1": true,
         "bedroom-2": true,
         "bedroom-3": true,
-        "entrance-left": false,
+        "billiards-portal-left": false,
+        "billiards-portal-right": false,
+        "entrance-left": true,
         "entrance-right": true,
         "patio-left": true
       },
