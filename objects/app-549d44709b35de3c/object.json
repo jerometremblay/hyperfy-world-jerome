@@ -1,0 +1,37 @@
+{
+  "blueprint": {
+    "author": "Hyperfy",
+    "desc": null,
+    "disabled": false,
+    "frozen": false,
+    "image": {
+      "name": "Text.png",
+      "type": "texture",
+      "url": "file:./textures/image.png"
+    },
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Text",
+    "preload": false,
+    "props": {
+      "align": "center",
+      "bg": "black",
+      "color": "white",
+      "doubleside": true,
+      "height": 200,
+      "lit": false,
+      "padding": 20,
+      "shadows": true,
+      "size": 24,
+      "text": "Enter text...",
+      "width": 200
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": null
+  },
+  "key": "app-549d44709b35de3c",
+  "mode": "files",
+  "schemaVersion": 1
+}

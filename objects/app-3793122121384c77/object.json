@@ -8,12 +8,12 @@
     "locked": false,
     "model": "script-only",
     "name": "Hyperfy Speaker",
-    "preload": true,
+    "preload": false,
     "props": {
-      "maxDistance": 15,
-      "refDistance": 3,
+      "maxDistance": 30,
+      "refDistance": 10,
       "spatial": true,
-      "volume": 0.4
+      "volume": 0.1
     },
     "public": false,
     "script": "file:./script.js",

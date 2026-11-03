@@ -1,0 +1,24 @@
+{
+  "blueprint": {
+    "author": null,
+    "desc": "",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "script-only",
+    "name": "Prompt Box",
+    "preload": false,
+    "props": {
+      "prompt": "A small high stool to sit while waiting to play pool. make it sittable.",
+      "promptBox": true
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": true,
+    "url": null
+  },
+  "key": "app-9422f7fabd49901e",
+  "mode": "files",
+  "schemaVersion": 1
+}

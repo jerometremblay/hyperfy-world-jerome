@@ -1,0 +1,24 @@
+{
+  "blueprint": {
+    "author": null,
+    "desc": "",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "script-only",
+    "name": "Prompt Box",
+    "preload": false,
+    "props": {
+      "prompt": "",
+      "promptBox": true
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": true,
+    "url": null
+  },
+  "key": "app-45da0a6de148c113",
+  "mode": "files",
+  "schemaVersion": 1
+}

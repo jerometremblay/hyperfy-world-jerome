@@ -1006,6 +1006,31 @@ collisionBox([roofCollisionLength, 0.22, 16.70], [roofCollisionRun / 2, roofColl
 // app.state.doors; clients receive broadcast updates, and late joiners obtain
 // the current values in their initial app.state snapshot.
 section = 'doors'
+// Explicitly opt these two doors into the native front-preview API.
+// All other doors and portal sides keep their existing behavior.
+const doorPortalIds = {
+  'billiards-portal-left': 'f7dada59-f925-4fcd-9fb9-4a6253d86890',
+  'billiards-portal-right': '7b846fcc-2366-4782-8259-4390855b234e',
+}
+function syncDoorPortalPreview(door) {
+  if (!world.isClient || !doorPortalIds[door.id]) return
+  const enabled = door.target !== 0 || Math.abs(door.angle || 0) >= 0.0001
+  if (door.portalPreview === enabled) return
+  door.portalPreview = enabled
+  app.emit('larch-house-portal-preview', { portalId: doorPortalIds[door.id], enabled })
+}
+if (world.isClient) {
+  // A handshake handles either app load order, late joining and portal rebuilds.
+  world.on('larch-house-portal-preview-request', message => {
+    for (const [id, portalId] of Object.entries(doorPortalIds)) {
+      if (message?.portalId !== portalId) continue
+      const door = doorRegistry[id]
+      if (!door) return
+      door.portalPreview = undefined
+      syncDoorPortalPreview(door)
+    }
+  })
+}
 function setDoorGeometry(door, angle) {
   if (door.slideDistance) {
     door.slide = angle
@@ -1017,6 +1042,7 @@ function setDoorGeometry(door, angle) {
     return
   }
   door.angle = angle
+  syncDoorPortalPreview(door)
   if (world.isClient) door.group.rotation.y = angle
   if (door.collider) {
     const x = door.direction * door.width / 2
@@ -1028,10 +1054,10 @@ function setDoorGeometry(door, angle) {
 }
 
 // Match the bedroom doors, with separate leaves in front of the native portals.
-// Outer hinges swing toward the pool; 90 degrees clears the adjacent house wall.
+// Outer hinges swing toward the pool; the right leaf stops short of the wall and window sill.
 // Inset leaves into the casing; front-face hinges swing them toward the pool.
-registerDoor('billiards-portal-left', 5.32, 0.15, 1.35, 1, 0.96, 2.12, Math.PI / 2, 'room', 0, -0.065)
-registerDoor('billiards-portal-right', 8.08, 0.15, 1.35, -1, 0.96, 2.12, -Math.PI / 2, 'room', 0, -0.065)
+registerDoor('billiards-portal-left', 5.32, 0.15, 1.35, 1, 0.96, 2.12, hingedDoorOpenAngle, 'room', 0, -0.065)
+registerDoor('billiards-portal-right', 8.08, 0.15, 1.35, -1, 0.96, 2.12, -137.3 * Math.PI / 180, 'room', 0, -0.065)
 
 for (const door of Object.values(doorRegistry)) {
   const centreX = door.hingeX + door.direction * door.width / 2
@@ -1082,6 +1108,7 @@ function applyAuthoritativeDoorState(data) {
   const door = doorRegistry[data.id]
   if (!door) return
   door.target = data.open ? (door.slideDistance || door.openAngle) : 0
+  syncDoorPortalPreview(door)
   for (const action of door.actions) action.label = door.slideDistance ? (data.open ? 'Slide closed' : 'Slide open') : (data.open ? 'Close door' : 'Open door')
   if (Math.abs(door.target - (door.slideDistance ? door.slide : door.angle)) >= 0.0001) startDoorUpdates()
 }

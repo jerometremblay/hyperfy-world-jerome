@@ -1,0 +1,31 @@
+{
+  "blueprint": {
+    "author": null,
+    "desc": "A Gaussian Splat app for displaying 3D Gaussian Splatting files",
+    "disabled": false,
+    "frozen": false,
+    "image": {
+      "name": "gs-icon.png",
+      "type": "texture",
+      "url": "file:./textures/image.png"
+    },
+    "locked": false,
+    "model": "script-only",
+    "name": "Gaussian Splat",
+    "preload": false,
+    "props": {
+      "autoRotate": true,
+      "color": "#ffffff",
+      "opacity": 1,
+      "sortMode": "auto",
+      "splatFile": null
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": null
+  },
+  "key": "app-9e3bf8bd9aa27ff8",
+  "mode": "files",
+  "schemaVersion": 1
+}

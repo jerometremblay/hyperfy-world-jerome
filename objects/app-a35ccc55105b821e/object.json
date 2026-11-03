@@ -15,11 +15,11 @@
         "bedroom-1": true,
         "bedroom-2": true,
         "bedroom-3": true,
-        "billiards-portal-left": false,
-        "billiards-portal-right": false,
-        "entrance-left": true,
+        "billiards-portal-left": true,
+        "billiards-portal-right": true,
+        "entrance-left": false,
         "entrance-right": true,
-        "patio-left": true
+        "patio-left": false
       },
       "initialLighting": {
         "house-exterior": true,

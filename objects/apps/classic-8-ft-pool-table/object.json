@@ -8,10 +8,10 @@
     "locked": false,
     "model": "file:./model.glb",
     "name": "Tailuge 8 ft Pool Table",
-    "preload": false,
+    "preload": true,
     "props": {
       "castShadows": true,
-      "clothColor": "#d77939",
+      "clothColor": "#165d34",
       "poolChannel": "classic-8-ft-pool-table",
       "promptBoxRequestId": "vbfGQmNv0x",
       "promptBoxTargetEntityId": "PMPL83pUPI",

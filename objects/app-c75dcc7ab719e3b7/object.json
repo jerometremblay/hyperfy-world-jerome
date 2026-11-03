@@ -1,0 +1,21 @@
+{
+  "blueprint": {
+    "author": null,
+    "desc": "A small padded stool for the pool room.",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "script-only",
+    "name": "Pool Room Stool",
+    "preload": false,
+    "props": {},
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": null
+  },
+  "key": "app-c75dcc7ab719e3b7",
+  "mode": "files",
+  "schemaVersion": 1
+}

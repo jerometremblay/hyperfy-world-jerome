@@ -2,7 +2,7 @@
   "blueprint": {
     "author": null,
     "desc": "Jukebox rétro qui joue les mp3 d'une playlist .m3u. Précédent, début, suivant, pause, volume.",
-    "disabled": false,
+    "disabled": true,
     "frozen": false,
     "image": null,
     "locked": false,

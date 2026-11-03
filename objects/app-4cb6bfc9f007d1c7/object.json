@@ -1,0 +1,38 @@
+{
+  "blueprint": {
+    "author": "Hyperfy",
+    "desc": null,
+    "disabled": false,
+    "frozen": false,
+    "image": {
+      "name": "Image.png",
+      "type": "texture",
+      "url": "file:./textures/image.png"
+    },
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Image",
+    "preload": false,
+    "props": {
+      "fit": "cover",
+      "height": 2,
+      "image": null,
+      "lit": false,
+      "placeholder": {
+        "name": "Image.png",
+        "type": "image",
+        "url": "file:./textures/image.png"
+      },
+      "shadows": true,
+      "transparent": false,
+      "width": 0
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": false,
+    "url": null
+  },
+  "key": "app-4cb6bfc9f007d1c7",
+  "mode": "files",
+  "schemaVersion": 1
+}
