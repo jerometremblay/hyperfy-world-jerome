@@ -1,0 +1,23 @@
+{
+  "blueprint": {
+    "author": null,
+    "desc": "Independent static extraction of the imported Farmhouse set. Unlinked from Polyspoon updates.",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Farmhouse Table (Unlinked)",
+    "preload": false,
+    "props": {
+      "chairStyle": "spindle"
+    },
+    "public": false,
+    "script": null,
+    "unique": true,
+    "url": ""
+  },
+  "key": "app-b4da3217e29e1445",
+  "mode": "files",
+  "schemaVersion": 1
+}

@@ -40,7 +40,7 @@
       "lightZ": 0.02,
       "promptBoxRequestId": "vbfGQmNv0x",
       "promptBoxTargetEntityId": "uw2zCZ2v2M",
-      "soundVolume": 27
+      "soundVolume": 47
     },
     "public": false,
     "script": "file:./script.js",

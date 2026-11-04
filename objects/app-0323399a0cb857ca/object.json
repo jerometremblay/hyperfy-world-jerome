@@ -1,0 +1,26 @@
+{
+  "blueprint": {
+    "author": null,
+    "desc": "Independent static extraction of the imported Farmhouse set. Unlinked from Polyspoon updates.",
+    "disabled": false,
+    "frozen": false,
+    "image": null,
+    "locked": false,
+    "model": "file:./model.glb",
+    "name": "Farmhouse Chair 2 (Unlinked)",
+    "preload": false,
+    "props": {
+      "sitEmote": {
+        "type": "emote",
+        "url": "file:./emotes/d0a4cec5dcdd1dbbc75454f1375b79a4ffdccf1c8acaaf000fa89f119b03d7d3.glb"
+      }
+    },
+    "public": false,
+    "script": "file:./script.js",
+    "unique": true,
+    "url": ""
+  },
+  "key": "app-0323399a0cb857ca",
+  "mode": "files",
+  "schemaVersion": 1
+}
